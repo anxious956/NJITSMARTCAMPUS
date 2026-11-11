@@ -69,6 +69,8 @@ How Verizon's network is used is in [03-architecture-data-security.md](03-archit
 
 Every piece exists today. Verizon already sells **5G Video Insights**, which turns ordinary cameras into AI cameras and includes a "parking occupancy" app. Plate readers are in use at other universities' decks (VCU, NC A&T and TCNJ run plate-based virtual permits), and open-space detection from camera video is a well-studied vision problem. What is new is combining them at the network edge on 5G and using the result to *assign* drivers, not just bill them.
 
+**The backend runs on AWS.** Permit matching, the live map, the database and the app run on standard AWS services (IoT Core, Lambda, DynamoDB, Cognito, Amplify). Verizon's 5G Edge works with AWS Wavelength, so the same AWS code can run inside Verizon's network next to campus — that is how the answer reaches the gate in time. A student team can build the pilot with these services; the full list is in [03-architecture-data-security.md](03-architecture-data-security.md#software).
+
 **Pilot — one deck, one semester.**
 
 | Item | Quantity for a one-deck pilot | Rough unit cost (our estimate — replace with vendor quotes) |
