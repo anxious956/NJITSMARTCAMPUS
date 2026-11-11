@@ -47,13 +47,14 @@ The demo in [demo/index.html](../demo/index.html) is already finished: phone app
 
 **Must do**
 
-- [ ] Set the real lot sizes at the top of the script block: Parking Deck (Summit St) **1,685**, Science & Tech Garage **922** — from NJIT's live page; the pitch brief says 981, so confirm with Parking Services. Keep Lot 7 (the visitor lot) as it is.
+- [x] Set the real lot sizes at the top of the script block: Parking Deck (Summit St) **1,685**, Science & Tech Garage **922** — from NJIT's live page; the pitch brief says 981, so confirm with Parking Services. Keep Lot 7 (the visitor lot) as it is.
+- [ ] Optional: story mode (`?story` on the end of the address). Each press of `→` (or a clicker) moves to the next moment in this script: Octopark, at the gate, your level and space, built on Verizon + AWS, privacy. The part being talked about comes to the front, a car arrives by itself at the gate and privacy steps, and a subtitle bar names the step. Useful when the demo plays beside the presenter at half size.
 - [ ] Rehearse with `?manual` on the end of the address so cars arrive only on a key press. Time the `Space` and `V` presses against the spoken lines above.
 - [ ] Record a clean 30-second, 1080p screen capture of the demo by itself, as spare footage for the editor.
 
 **Only if all of the above is done**
 
-- [ ] One small callback to the opening, such as a line or badge reading "Counted by cameras, not gates." One line — no new panel.
+- [x] One small callback to the opening, such as a line or badge reading "Counted by cameras, not gates." One line — no new panel.
 
 ## Filming the presenter with the demo behind
 

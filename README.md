@@ -141,10 +141,12 @@ Script, shot list and the plan for filming day: [docs/04-video-script.md](docs/0
 | `A` | Turns automatic arrivals on or off |
 | `H` | Shows or hides a list of these keys (hidden by default, so it never appears on camera unless you press it) |
 | `L` | Switches between three looks: signage (default), app and console |
+| `S` | Story mode: the five demo moments of the video script, one at a time. The part being talked about comes to the front and zooms in, with a subtitle bar at the bottom |
+| `→` / `←` | Next / previous story step. A presentation clicker (PageDown / PageUp) works too. `Esc` leaves story mode |
 
 The full Octopark logo is in `demo/octopark-logo-full.png`. The demo header uses `demo/logo.png`, a square crop of just the octopus mark, because the wordmark would be too small to read at that size.
 
-Add `?look=app` or `?look=console` to the address to start in one of the other looks. They are modelled on three kinds of real parking product: garage guidance signage (INDECT, Park Assist), consumer parking apps (SpotHero, ParkMobile) and operator software.
+Add `?story` to the address to open straight into story mode. Add `?look=app` or `?look=console` to the address to start in one of the other looks. They are modelled on three kinds of real parking product: garage guidance signage (INDECT, Park Assist), consumer parking apps (SpotHero, ParkMobile) and operator software.
 
 Add `?manual` to the end of the address to start with automatic arrivals off, so cars come only when you press a key.
 

@@ -29,7 +29,7 @@
   svg.i { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 
   /* The whole demo is drawn on a fixed 1920 x 1080 stage and scaled to fit the window. */
-  #stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: center;
+  #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0;
     display: flex; flex-direction: column; overflow: hidden; background: var(--paper); }
   .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
   .label { font-size: 16px; font-weight: 800; color: var(--ink-2); }
@@ -131,6 +131,31 @@
   .tabs div { display: flex; flex-direction: column; align-items: center; gap: 3px; }
   .tabs .on { color: var(--red); }
 
+  /* Digital permit screen (shown for an overnight guest) */
+  .view { display: flex; flex-direction: column; }
+  #permitView, .screen.permit-on #parkView { display: none; }
+  .screen.permit-on #permitView { display: flex; animation: viewin .35s ease-out; }
+  @keyframes viewin { from { opacity: 0; transform: translateY(10px); } }
+  .pass { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; }
+  .pass-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .pass-brand { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .5px; }
+  .pass-brand img { width: 24px; height: 24px; border-radius: 6px; }
+  .pass-status { font-style: normal; font-size: 13px; font-weight: 800; color: var(--green); background: var(--green-bg); border-radius: 999px; padding: 4px 10px 2px; }
+  .pass small { display: block; font-size: 12.5px; font-weight: 800; color: var(--ink-3); text-transform: uppercase; letter-spacing: .5px; }
+  .pass > b { display: block; font-size: 25px; font-weight: 900; letter-spacing: -.4px; margin: 2px 0 12px; }
+  .pass-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+  .pass-grid span { font-size: 16.5px; font-weight: 800; }
+  .plate-pass { text-align: center; padding: 16px; }
+  .plate-big { display: inline-block; background: #F6F3E6; border: 3px solid #14161A; border-radius: 10px; padding: 6px 22px 3px; color: #14161A; }
+  .plate-big small { font-size: 11px; letter-spacing: 2px; color: #474C55; }
+  .plate-big b { display: block; font: 700 38px/1.1 var(--mono); letter-spacing: 2px; }
+  .plate-pass p { margin: 10px 0 0; font-size: 14.5px; color: var(--ink-2); line-height: 1.35; }
+  .btn { display: flex; align-items: center; justify-content: center; gap: 8px; height: 54px; border-radius: 12px; font-weight: 800; font-size: 17px; margin-top: 8px; padding-top: 2px; }
+  .btn svg { width: 20px; height: 20px; margin-top: -2px; }
+  .btn.primary { background: var(--navy); color: #fff; }
+  .btn.ghost { border: 1.5px solid var(--line-2); color: var(--ink); }
+  .btnlink { text-align: center; margin-top: 14px; font-size: 15px; font-weight: 800; color: var(--brand-blue); }
+
   /* ---------- map ---------- */
   .mapcol { display: flex; flex-direction: column; gap: 22px; min-height: 0; }
   .map { flex: 1; min-height: 0; padding: 20px 24px 16px; display: flex; flex-direction: column; }
@@ -171,17 +196,35 @@
   .levels .on { background: var(--ink); color: #fff; border-color: var(--ink); }
 
   /* ---------- pipeline ---------- */
-  .pipe { flex: none; height: 150px; padding: 16px 24px 14px; display: flex; flex-direction: column; }
+  .pipe { flex: none; height: 182px; padding: 16px 24px 14px; display: flex; flex-direction: column; }
   .pipe .top { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
   .pillars { display: flex; gap: 8px; }
+  .builton { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+  /* Verizon and AWS logos (official files from Wikimedia Commons; white-text copies for dark backgrounds). */
+  .brandlogo { width: auto; display: block; } .brandlogo.vz-logo { height: 19px; } .brandlogo.aws-logo { height: 26px; margin-top: 4px; }
+  .withlogo { display: inline-flex; align-items: center; gap: .28em; }
+  .inlogo { width: auto; display: inline-block; }
+  .inlogo.vz-logo { height: .78em; vertical-align: -.04em; } .inlogo.aws-logo { height: 1.05em; margin-top: .2em; vertical-align: -.36em; }
+  .caption img.vz-logo, #storybar img.vz-logo, .look-console img.vz-logo { content: url(verizon-logo-white.svg); }
+  .caption img.aws-logo, #storybar img.aws-logo, .look-console img.aws-logo { content: url(aws-logo-white.svg); }
+  .look-console .screen img.aws-logo { content: url(aws-logo.svg); }
+  #storybar #sbStep img.vz-logo { content: url(verizon-logo.svg); } #storybar #sbStep img.aws-logo { content: url(aws-logo.svg); }
   .pillars span { font-size: 13.5px; font-weight: 800; white-space: nowrap; color: var(--ink-2); border: 1.5px solid var(--line-2); border-radius: 6px; padding: 5px 10px 3px; }
   .pillars .main { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .pillars span { transition: background-color .25s, border-color .25s, color .25s; }
+  .pillars span.lit { background: var(--you); border-color: var(--you-line); color: var(--you-ink); }
   .flow { flex: 1; display: flex; align-items: center; margin-top: 6px; }
   .node { flex: none; width: 132px; display: flex; flex-direction: column; align-items: center; text-align: center; }
   .node .tile { width: 50px; height: 50px; border-radius: 8px; display: grid; place-items: center; margin-bottom: 7px;
     border: 2px solid var(--ink); color: var(--ink); background: var(--surface); transition: background-color .15s, color .15s, border-color .15s; }
   .node b { font-size: 17px; font-weight: 900; white-space: nowrap; }
-  .node span { font-size: 14px; color: var(--ink-3); white-space: nowrap; }
+  .node span { font-size: 13.5px; white-space: nowrap; line-height: 1.35; }
+  .node .hw { color: var(--ink-2); } .node .sw { color: var(--orange); font-weight: 800; }
+  .flowwrap { flex: 1; display: flex; margin-top: 6px; }
+  .flowwrap .flow { margin-top: 0; }
+  .rowhead { flex: none; width: 76px; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 1px; }
+  .rowhead span { font-size: 12.5px; font-weight: 800; line-height: 1.45; text-transform: uppercase; letter-spacing: .6px; color: var(--ink-3); }
+  .rowhead span:last-child { color: var(--orange); }
   .node.on .tile { background: var(--red); border-color: var(--red); color: #fff; }
   .wire { flex: 1; position: relative; height: 40px; min-width: 30px; align-self: flex-start; margin-top: 5px; }
   .wire::before { content: ""; position: absolute; left: -12px; right: -12px; top: 21px; height: 2px; background: var(--ink); }
@@ -335,6 +378,25 @@
   .look-console .screen .label { text-transform: none; letter-spacing: 0; font-size: 15px; }
   .look-console .phone { box-shadow: 0 0 0 2px #3A3C41, 0 20px 60px rgba(0,0,0,.5); }
 
+  /* Story mode (press S, or add ?story): one step at a time. The part being talked about stays bright. */
+  .caption .steptag { display: none; flex: none; background: var(--you); color: var(--you-ink); font: 800 16px/1 var(--sans);
+    padding: 7px 11px 5px; border-radius: 5px; white-space: nowrap; }
+  body.story #stage { transition: transform 1s cubic-bezier(.6, 0, .2, 1); }
+  #storybar { display: none; position: fixed; left: 0; right: 0; bottom: 2.5vh; margin: 0 auto; width: fit-content; z-index: 100; max-width: 94vw;
+    align-items: center; gap: .7em; background: var(--navy); color: #fff; font: 700 clamp(15px, 2vw, 34px)/1.25 var(--sans);
+    padding: .55em .9em .45em; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,.25); }
+  body.story #storybar { display: flex; }
+  #sbStep { flex: none; background: var(--you); color: var(--you-ink); border-radius: 7px; padding: .25em .55em .15em; font-weight: 800; }
+  #sbText { min-width: 0; }
+  #scrim { position: absolute; inset: 0; z-index: 40; background: rgba(12, 33, 65, .62); opacity: 0; pointer-events: none; transition: opacity .5s; }
+  body.story:not(.story-all) #scrim { opacity: 1; }
+  /* when zoomed in, the area outside the stage matches the overlay */
+  body.story:not(.story-all) { background: color-mix(in srgb, var(--paper) 38%, #0C2141); transition: background-color .5s; }
+  body.story:not(.story-all) [data-part].focus { position: relative; z-index: 50; border-radius: 8px;
+    box-shadow: 0 0 0 10px var(--surface), 0 28px 80px rgba(0, 0, 0, .5); }
+  body.story:not(.story-all) [data-part=steps].focus, body.story:not(.story-all) [data-part=log].focus { background: var(--surface); }
+  body.story:not(.story-all) [data-part=phone].focus { box-shadow: none; filter: drop-shadow(0 28px 50px rgba(0, 0, 0, .55)); }
+
   /* Presenter mode (press P): leaves the bottom-left corner empty for a webcam bubble. */
   body.presenter .phone { height: 650px; }
   body.presenter .forecast, body.presenter .permit, body.presenter .lot:nth-child(n+3) { display: none; }
@@ -351,8 +413,8 @@
       <div class="logo" id="logo"><img src="logo.png" alt="Octopark logo" onerror="this.parentNode.textContent='O'"></div>
       <div><h1 aria-label="Octopark">OCTO<span class="pbox">P</span>ARK</h1><p>Live parking for NJIT</p></div>
     </div>
-    <div class="caption" id="caption"><span class="sq" aria-hidden="true"></span><span id="captionText"></span></div>
-    <div class="stats">
+    <div class="caption" id="caption"><span class="steptag" id="stepTag"></span><span class="sq" aria-hidden="true"></span><span id="captionText"></span></div>
+    <div class="stats" data-part="stats">
       <div class="stat"><b id="campusOpen">0</b><span>open on campus</span></div>
       <div class="stat"><b id="campusPct">0%</b><span>full</span></div>
       <div class="stat"><b id="clockTop">8:12</b><span>AM</span></div>
@@ -362,9 +424,10 @@
 
   <main>
     <!-- student app -->
-    <section class="phonecol" aria-label="Student app">
+    <section class="phonecol" aria-label="Student app" data-part="phone">
       <div class="phone"><div class="screen">
         <div class="status"><span id="clock">8:12</span><span>5G UW</span></div>
+        <div class="view" id="parkView">
         <div class="apphead"><div><small>Good morning</small><b>Find parking</b></div><div class="avatar">A</div></div>
         <div class="hero" id="hero" role="status" aria-atomic="true"><small id="heroLabel"></small><b id="heroBig"></b><span id="heroSub"></span>
           <div class="cta"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"/></svg><span id="heroCta"></span></div></div>
@@ -379,10 +442,31 @@
           <div class="pic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.4 1.7-2 3-2s2.4.6 3 2M15 10h3M15 13h3"/></svg></div>
           <div><b>Fall term • Commuter</b><span>Your plate is your permit</span></div><em>Active</em>
         </div>
+        </div>
+        <div class="view" id="permitView">
+          <div class="apphead"><div><small>NJIT Parking Services</small><b>Digital permit</b></div><div class="avatar">G</div></div>
+          <div class="pass">
+            <div class="pass-top"><span class="pass-brand"><img src="logo.png" alt="">Octopark • NJIT</span><em class="pass-status">Active</em></div>
+            <small>Permit type</small><b id="passType">Overnight guest pass</b>
+            <div class="pass-grid">
+              <div><small>Facility</small><span>Science &amp; Tech Garage</span></div>
+              <div><small>Assigned space</small><span id="passSpace"></span></div>
+              <div><small>Host</small><span>Resident student</span></div>
+              <div><small>Valid until</small><span>Tomorrow, 12:00 PM</span></div>
+            </div>
+          </div>
+          <div class="pass plate-pass">
+            <div class="plate-big"><small>NEW JERSEY</small><b id="passPlate"></b></div>
+            <p>Your plate is your pass. The gate camera reads it: no hang tag, no barcode.</p>
+          </div>
+          <div class="btn primary"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"/></svg><span id="passNav"></span></div>
+          <div class="btn ghost"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 14h2"/></svg>Add to phone wallet</div>
+          <div class="btnlink">Extend stay</div>
+        </div>
         <nav class="tabs" aria-label="App tabs">
-          <div class="on"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Park</div>
+          <div class="on" id="tabPark"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Park</div>
           <div><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Lots</div>
-          <div><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16l1.5-5a2 2 0 0 1 2-1.5h7a2 2 0 0 1 2 1.5L19 16"/><rect x="3" y="14" width="18" height="5" rx="2"/></svg>My car</div>
+          <div id="tabPermit"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.4 1.7-2 3-2s2.4.6 3 2M15 10h3M15 13h3"/></svg>Permit</div>
           <div><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7 2.5 7h-17S6 15 6 9z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Alerts</div>
         </nav>
       </div></div>
@@ -390,10 +474,10 @@
 
     <!-- live map + pipeline -->
     <section class="mapcol">
-      <div class="panel map">
+      <div class="panel map" data-part="map">
         <div class="maphead">
           <div>
-            <div class="label">Live space map</div>
+            <div class="label">Live space map • counted by cameras, not gates</div>
             <h2 id="mapLot"></h2>
           </div>
           <div class="yours" id="yours"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="yoursText"></span></div>
@@ -407,26 +491,27 @@
           <div class="levels"><em>Level</em><span>1</span><span>2</span><span>3</span><span class="on">4</span><span>5</span><span>6</span><span>7</span></div>
         </div>
       </div>
-      <div class="panel pipe">
-        <div class="top"><div class="label">Built on Verizon</div><div class="pillars" aria-label="Verizon challenge pillars"><span class="main">AI-Driven Automation &amp; Efficiency</span><span>Cost &amp; Sustainability</span><span>Next-Gen Products &amp; Services</span></div></div>
+      <div class="panel pipe" data-part="pipe">
+        <div class="top"><div class="label builton">Built on <img class="brandlogo vz-logo" src="verizon-logo.svg" alt="Verizon"> + <img class="brandlogo aws-logo" src="aws-logo.svg" alt="AWS"></div><div class="pillars" aria-label="Verizon challenge pillars"><span class="main" id="pAI">AI-Driven Automation &amp; Efficiency</span><span id="pCost">Cost &amp; Sustainability</span><span id="pNext">Next-Gen Products &amp; Services</span></div></div>
+        <div class="flowwrap"><div class="rowhead" aria-hidden="true"><span>Hardware</span><span>Software</span></div>
         <div class="flow" id="pipe">
-          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h11l4 3v5H3z"/><circle cx="8.5" cy="12" r="2"/><path d="M6 16v4"/></svg></div><b>Cameras</b><span>5G Video Insights</span></div>
+          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h11l4 3v5H3z"/><circle cx="8.5" cy="12" r="2"/><path d="M6 16v4"/></svg></div><b>Cameras</b><span class="hw">Plate + space cams</span><span class="sw">5G Video Insights</span></div>
           <div class="wire video"><em>private 5G</em><i></i></div>
-          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-7"/><circle cx="12" cy="11" r="2"/><path d="M7.5 15a6 6 0 0 1 0-8M16.5 7a6 6 0 0 1 0 8M4.5 18a10 10 0 0 1 0-14M19.5 4a10 10 0 0 1 0 14"/></svg></div><b>Verizon 5G</b><span>Ultra Wideband</span></div>
+          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-7"/><circle cx="12" cy="11" r="2"/><path d="M7.5 15a6 6 0 0 1 0-8M16.5 7a6 6 0 0 1 0 8M4.5 18a10 10 0 0 1 0-14M19.5 4a10 10 0 0 1 0 14"/></svg></div><b class="withlogo"><img class="inlogo vz-logo" src="verizon-logo.svg" alt="Verizon"> 5G</b><span class="hw">5G router</span><span class="sw">Ultra Wideband</span></div>
           <div class="wire video"><em>video</em><i></i></div>
-          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></div><b>Edge AI</b><span>5G Edge + AWS</span></div>
+          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></div><b>Edge AI</b><span class="hw">NVIDIA Jetson Orin</span><span class="sw withlogo"><img class="inlogo aws-logo" src="aws-logo.svg" alt="AWS"> IoT Greengrass</span></div>
           <div class="wire"><em>data</em><i></i></div>
-          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4.5 4.5 0 0 1-.5-9 6 6 0 0 1 11.5 1.5A3.8 3.8 0 0 1 17.5 18z"/></svg></div><b>Cloud</b><span>match, assign</span></div>
+          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4.5 4.5 0 0 1-.5-9 6 6 0 0 1 11.5 1.5A3.8 3.8 0 0 1 17.5 18z"/></svg></div><b class="withlogo"><img class="inlogo aws-logo" src="aws-logo.svg" alt="AWS"> backend</b><span class="hw">None on campus</span><span class="sw">Lambda • DynamoDB</span></div>
           <div class="wire"><em>data</em><i></i></div>
-          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div><b>App + sign</b><span>your spot</span></div>
-        </div>
+          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div><b>App + sign</b><span class="hw">LED entry sign</span><span class="sw withlogo"><img class="inlogo aws-logo" src="aws-logo.svg" alt="AWS"> Amplify</span></div>
+        </div></div>
       </div>
     </section>
 
     <!-- gate -->
     <section class="panel gate" aria-label="Gate camera">
       <div class="label">Gate 1 camera • Parking Services</div>
-      <div class="cam" id="cam">
+      <div class="cam" id="cam" data-part="cam">
         <svg viewBox="0 0 406 236" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
           <rect width="406" height="236" fill="#23272E"/>
           <rect x="0" y="0" width="406" height="40" fill="#1A1D22"/>
@@ -466,15 +551,15 @@
         <div class="scan" id="scan"></div>
         <div class="officer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M12 8v5M12 16h.01"/></svg>Gate officer alerted</div>
       </div>
-      <div class="led" id="led" aria-label="Entry sign"><b id="ledtxt"></b></div>
-      <ol class="steps" id="steps">
+      <div class="led" id="led" aria-label="Entry sign" data-part="led"><b id="ledtxt"></b></div>
+      <ol class="steps" id="steps" data-part="steps">
         <li><i>1<svg class="i ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><svg class="i no" viewBox="0 0 24 24"><path d="M12 6v7M12 17.5h.01"/></svg></i><span>Plate read at the edge</span><em id="s0" class="mono"></em></li>
         <li><i>2<svg class="i ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><svg class="i no" viewBox="0 0 24 24"><path d="M12 6v7M12 17.5h.01"/></svg></i><span>Converted to a token</span><em id="s1" class="mono"></em></li>
         <li><i>3<svg class="i ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><svg class="i no" viewBox="0 0 24 24"><path d="M12 6v7M12 17.5h.01"/></svg></i><span>Checked against NJIT permits</span><em id="s2"></em></li>
         <li><i>4<svg class="i ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><svg class="i no" viewBox="0 0 24 24"><path d="M12 6v7M12 17.5h.01"/></svg></i><span>Space assigned</span><em id="s3"></em></li>
       </ol>
-      <div class="logwrap"><div class="label">Recent arrivals</div><div class="log" id="log"></div></div>
-      <div class="privacy">
+      <div class="logwrap" data-part="log"><div class="label">Recent arrivals</div><div class="log" id="log"></div></div>
+      <div class="privacy" data-part="privacy">
         <span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 22 12a14 14 0 0 1-2.6 3.4M6.6 6.6A14 14 0 0 0 2 12s3.5 7 10 7a9.6 9.6 0 0 0 5.4-1.6"/></svg>No video stored</span>
         <span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Plates tokenized</span>
         <span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Deleted on exit</span>
@@ -482,6 +567,7 @@
     </section>
   </main>
 
+  <div id="scrim"></div>
   <div class="help panel" id="help" role="dialog" aria-label="Keyboard controls">
     <h3>Keyboard controls</h3>
     <dl>
@@ -491,10 +577,13 @@
       <dt>P</dt><dd>Presenter mode (room for a webcam)</dd>
       <dt>A</dt><dd>Automatic arrivals on / off</dd>
       <dt>L</dt><dd>Switch look: signage / app / console</dd>
+      <dt>S</dt><dd>Story mode: one step at a time</dd>
+      <dt>→ ←</dt><dd>Next / previous step (a clicker works too)</dd>
       <dt>H</dt><dd>Show / hide this panel</dd>
     </dl>
   </div>
 </div>
+<div id="storybar" aria-hidden="true"><span id="sbStep"></span><span id="sbText"></span></div>
 <div class="sr-only" role="status" aria-live="polite" id="sr"></div>
 
 <script>
@@ -523,8 +612,26 @@ const el = (n, a = {}, p) => { const e = document.createElementNS(NS, n); for (c
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // fit the 1920x1080 stage to any window
-function fit() { const s = Math.min(innerWidth / 1920, innerHeight / 1080); $("stage").style.transform = `translate(-50%,-50%) scale(${s})`; }
-addEventListener("resize", fit); fit();
+let focusParts = "all";
+function fit() {
+  const vw = innerWidth, vh = innerHeight, base = Math.min(vw / 1920, vh / 1080), st = $("stage");
+  let z = base, tx = (vw - 1920 * base) / 2, ty = (vh - 1080 * base) / 2;
+  if (document.body.classList.contains("story") && focusParts !== "all") {
+    // Zoom so the parts being talked about fill the frame, above the subtitle bar.
+    const sr = st.getBoundingClientRect(), cur = sr.width / 1920;
+    const els = [...document.querySelectorAll("[data-part]")].filter(e => focusParts.includes(e.dataset.part));
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    els.forEach(e => { const r = e.getBoundingClientRect();
+      x0 = Math.min(x0, (r.left - sr.left) / cur); y0 = Math.min(y0, (r.top - sr.top) / cur);
+      x1 = Math.max(x1, (r.right - sr.left) / cur); y1 = Math.max(y1, (r.bottom - sr.top) / cur); });
+    const pad = 28; x0 -= pad; y0 -= pad; x1 += pad; y1 += pad;
+    const bar = $("storybar").getBoundingClientRect().height + vh * 0.05, avail = vh - bar;
+    z = Math.min(vw / (x1 - x0), avail / (y1 - y0), base * 2.2);
+    tx = vw / 2 - (x0 + x1) / 2 * z; ty = avail / 2 - (y0 + y1) / 2 * z;
+  }
+  st.style.transform = `translate(${tx}px, ${ty}px) scale(${z})`;
+}
+addEventListener("resize", fit);
 
 const LETTERS = "ABCDEFGHJKLMNPRSTUVWXYZ", HEX = "0123456789abcdef";
 const fakePlate = () => pick(LETTERS) + (10 + rnd(90)) + "-" + pick(LETTERS) + pick(LETTERS) + pick(LETTERS);
@@ -542,10 +649,15 @@ setInterval(() => {
 
 // ---------- headline caption: says in plain words what is happening right now ----------
 let capTimer = 0;
+// Shows the Verizon and AWS logos where those names appear in captions.
+const esc = x => x.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const brandify = text => esc(text)
+  .replace(/\bVerizon\b/g, '<img class="inlogo vz-logo" src="verizon-logo.svg" alt="Verizon">')
+  .replace(/\bAWS\b/g, '<img class="inlogo aws-logo" src="aws-logo.svg" alt="AWS">');
 function caption(text, kind = "", holdMs = 0) {
   clearTimeout(capTimer);
   const t = $("captionText"); t.style.opacity = 0;
-  setTimeout(() => { t.textContent = text; $("caption").className = "caption" + (kind ? " " + kind : ""); t.style.opacity = 1; }, 120);
+  setTimeout(() => { t.innerHTML = brandify(text); $("sbText").innerHTML = brandify(text); $("caption").className = "caption" + (kind ? " " + kind : ""); t.style.opacity = 1; }, 120);
   if (holdMs) capTimer = setTimeout(captionIdle, holdMs);
 }
 const captionIdle = () => caption(`Live • cameras watching ${LOTS.length} lots across campus`);
@@ -678,11 +790,19 @@ function log(text, kind = "") {
   $("log").prepend(d); while ($("log").children.length > 4) $("log").lastChild.remove();
 }
 const arm = up => $("armbar").classList.toggle("up", up);
+function permitView(on, s, plate) {
+  document.querySelector(".screen").classList.toggle("permit-on", on);
+  $("tabPermit").classList.toggle("on", on); $("tabPark").classList.toggle("on", !on);
+  if (on) { $("passSpace").textContent = `Level ${LEVEL} • ${s.id}`; $("passPlate").textContent = plate; $("passNav").textContent = `Navigate to space ${s.id}`; }
+}
+// Each Verizon pillar lights up at the moment the demo shows it.
+const pillarTimers = {};
+function pillar(id, ms = 2600) { const e = $(id); e.classList.add("lit"); clearTimeout(pillarTimers[id]); pillarTimers[id] = setTimeout(() => e.classList.remove("lit"), ms); }
 let busy = false, mine = null;
 async function carArrives(kind = "permit") {   // "permit" | "guest" | "none"
   if (busy) return; busy = true;
   const plate = fakePlate(), token = fakeToken(), car = $("gcar"), col = pick(["#4b5263", "#6b3a41", "#2f5a5c", "#5d6273", "#3f4256", "#8a8f99"]);
-  stepEls.forEach((li, i) => { li.className = ""; $("s" + i).textContent = ""; });
+  stepEls.forEach((li, i) => { li.className = ""; $("s" + i).textContent = ""; }); permitView(false);
   if (mine) { mine.g.classList.remove("mine", "guest"); mine = null; }
   $("yours").classList.remove("show"); $("cam").classList.remove("alert"); arm(false); hero("idle");
   $("platetxt").textContent = plate; $("gbody").setAttribute("fill", col);
@@ -695,9 +815,9 @@ async function carArrives(kind = "permit") {   // "permit" | "guest" | "none"
   caption("Reading the license plate", "busy");
   step(0, "active"); await sleep(800);
   $("det").classList.add("show"); $("s0").textContent = plate; step(0, "done");
-  pulsePipe(); step(1, "active"); caption("Plate turned into a private token on Verizon 5G Edge", "busy"); await sleep(650);
+  pulsePipe(); step(1, "active"); caption("Plate turned into a private token on Verizon 5G Edge with AWS", "busy"); await sleep(650);
   $("s1").textContent = token; $("s0").innerHTML = `<s>${plate}</s> not stored`; step(1, "done");
-  step(2, "active"); caption("Checking NJIT permits", "busy"); await sleep(600);
+  step(2, "active"); caption("Checking NJIT permits", "busy"); pillar("pAI", 3200); await sleep(600);
 
   if (kind !== "none") {
     const guest = kind === "guest";
@@ -710,7 +830,7 @@ async function carArrives(kind = "permit") {   // "permit" | "guest" | "none"
     $("yours").classList.toggle("guest", guest); $("yours").classList.add("show");
     caption(guest ? `Guest permit approved • Level ${LEVEL}, space ${s.id} • host notified` : `Permit recognized • go to Level ${LEVEL}, space ${s.id}`, guest ? "guest" : "ok");
     announce(guest ? `Guest arrived. Assigned Level ${LEVEL}, space ${s.id}.` : `Permit recognized. Go to Level ${LEVEL}, space ${s.id}.`);
-    hero(guest ? "guest" : "go", s); lot.open = Math.max(1, lot.open - 1); drawLots(); $("mapOpen").textContent = freeStalls().length;
+    hero(guest ? "guest" : "go", s); if (guest) permitView(true, s, plate); pillar("pNext", 3000); lot.open = Math.max(1, lot.open - 1); drawLots(); $("mapOpen").textContent = freeStalls().length;
     const y = s.row.lane, turn = s.cx - 48;
     route.setAttribute("d", `M4 ${y} H${turn} Q${s.cx} ${y} ${s.cx} ${s.cy}`); route.classList.add("show");
     arm(true); await sleep(900); car.className = "gcar in out";
@@ -719,6 +839,7 @@ async function carArrives(kind = "permit") {   // "permit" | "guest" | "none"
     if (!guest) { hero("done", s); caption(`Parked in ${s.id} at ${hhmm()} • no circling`, "done", 4500); }
     else caption(`Guest parked in ${s.id} • permit valid tonight`, "done", 4500);
     log(`${guest ? "Guest permit" : "Term permit"} → Level ${LEVEL} • ${s.id}`, guest ? "g" : "");
+    pillar("pCost", 3000);
     await sleep(600); arm(false);
   } else {
     $("s2").textContent = "No permit or guest pass"; step(2, "warn"); step(3, "active"); await sleep(500);
@@ -744,12 +865,39 @@ if (location.search.includes("presenter")) document.body.classList.add("presente
 if (location.search.includes("manual")) AUTO_EVERY_MS = 0;
 drawLots(); hero("idle"); drawMap(); led(`${lot.sign}  ${lot.open} OPEN`); captionIdle();
 let auto = !!AUTO_EVERY_MS, n = 0;
+
+// ---------- story mode: one step at a time, in the order of the video script ----------
+const whenFree = async (kind, step) => { while (busy) await sleep(250); if (story === step) carArrives(kind); };
+let story = -1, pipeLoop = 0;
+const STEPS = [   // in the order of docs/04-video-script.md
+  { t: "Octopark", parts: "all", cap: "Live parking for NJIT: every space, every deck" },                                   // 0:35
+  { t: "At the gate", parts: ["cam", "led", "steps"], run: () => whenFree("permit", 1) },                                   // 0:42
+  { t: "Your level and your space", parts: ["phone", "map"] },
+  { t: "Built on Verizon + AWS", parts: ["pipe"], cap: "Verizon 5G carries the video • 5G Edge runs AWS • the backend runs on AWS",  // 1:05
+    run: () => { pulsePipe(); pipeLoop = setInterval(pulsePipe, 2800); } },
+  { t: "Privacy built in", parts: ["cam", "steps", "privacy"], run: () => whenFree("none", 4) },                             // 1:25
+];
+function goStep(i) {
+  i = Math.max(0, Math.min(STEPS.length - 1, i));
+  story = i; auto = false; document.body.classList.add("story"); clearInterval(pipeLoop);
+  const st = STEPS[i];
+  document.querySelectorAll("[data-part]").forEach(e => e.classList.toggle("focus", st.parts === "all" || st.parts.includes(e.dataset.part)));
+  $("stepTag").textContent = `${i + 1} / ${STEPS.length}  ${st.t}`; $("sbStep").innerHTML = brandify(`${i + 1} / ${STEPS.length}  ${st.t}`);
+  focusParts = st.parts; document.body.classList.toggle("story-all", st.parts === "all"); fit();
+  if (st.cap) caption(typeof st.cap === "function" ? st.cap() : st.cap);
+  if (st.run) st.run();
+}
+function endStory() { story = -1; clearInterval(pipeLoop); focusParts = "all"; document.body.classList.remove("story", "story-all"); fit(); captionIdle(); }
 document.addEventListener("keydown", e => {
   const k = e.key.toLowerCase();
   if (e.code === "Space") { e.preventDefault(); carArrives("permit"); }
   if (k === "v") carArrives("none");
   if (k === "g") carArrives("guest");
   if (k === "p") document.body.classList.toggle("presenter");
+  if (k === "s") story < 0 ? goStep(0) : endStory();
+  if (["arrowright", "pagedown", "n"].includes(k)) { e.preventDefault(); goStep(story + 1); }
+  if (["arrowleft", "pageup", "b"].includes(k) && story >= 0) { e.preventDefault(); goStep(story - 1); }
+  if (k === "escape" && story >= 0) endStory();
   if (k === "a") auto = !auto;
   if (k === "l") setLook(look + 1);
   if (k === "h" || k === "?") $("help").classList.toggle("show");
@@ -757,7 +905,8 @@ document.addEventListener("keydown", e => {
 });
 // the arrivals list starts with a few earlier cars so it is never empty on camera
 log("Term permit → Level 2 • C4"); log("Guest permit → Level 5 • A9", "g"); log("Term permit → Level 4 • D11");
-setTimeout(() => carArrives("permit"), 1800);
+fit();
+if (new URLSearchParams(location.search).has("story")) goStep(0); else setTimeout(() => carArrives("permit"), 1800);
 setInterval(() => { if (auto) carArrives(["permit", "permit", "guest", "permit", "none"][n++ % 5]); }, AUTO_EVERY_MS || 13000);
 </script>
 </body>
