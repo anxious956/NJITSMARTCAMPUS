@@ -2,22 +2,58 @@
 
 **Hard limit: 2:00.** This script is timed to **1:55**, leaving five seconds of margin. The spoken part is about 200 words — roughly 1:25 at a calm pace — and the rest is pictures and music. If the first read-through runs long, cut the lines marked *(optional)*; do not speed up the voice.
 
-**The format:** a short filmed opening on campus, then **a real person talking to camera with the live demo running behind them**, then a short filmed ending.
+**The format:** a filmed opening where a driver checks NJIT's own parking page and it shows something impossible, then a **freeze frame** where a teammate walks in and gives the pitch with the live demo running behind them, then the frame **unfreezes** and the same driver parks with Octopark.
 
 The competition requires a **challenge statement** and a **value proposition**. Both appear as on-screen titles so a judge cannot miss them.
+
+## What the pitch emphasizes
+
+In this order, and in roughly these proportions:
+
+1. **The driver** — about half the time. "Your phone tells you your level and space before you pick a ramp." This is the hook judges remember, and it scores on Impact because every commuter benefits.
+2. **Verizon and AWS** — about a quarter. The project must fit a Verizon pillar (AI-Driven Automation & Efficiency), and the judges include Verizon. Show 5G, 5G Edge and the AWS backend doing the work.
+3. **Privacy** — one confident line. It answers "isn't this surveillance?" before anyone asks. Leading with security or plate tracking invites that question instead.
+4. **Public Safety** — one beat (`V`). A bonus, not the headline.
+
+**Blame the method, not NJIT.** The judges work at NJIT. The opening shows that *counting at the gate drifts*, not that NJIT is incompetent. The research behind it is in [07-existing-njit-parking-page.md](07-existing-njit-parking-page.md).
 
 ## Script
 
 | Time | Picture | Spoken | On screen |
 | --- | --- | --- | --- |
-| 0:00–0:12 | **Filmed.** From the passenger seat: up a deck ramp, every space full. Dashboard clock 8:24. Brake lights. Clock 8:29. | *(Four seconds of engine and turn signal, no voice.)* Voiceover: "Class starts at eight-thirty. You got to campus at eight-ten." | `8:24` → `8:29` |
-| 0:12–0:27 | **Filmed.** Quick cuts: cars circling, the driver's face, a student jogging to a building. | Voiceover: "NJIT is a commuter campus with more permits than parking spaces. Nobody knows which deck has room until they're already inside it. So we circle." | **THE CHALLENGE** — More permits than spaces. No way to know where the open spot is. *(add your survey number)* |
-| 0:27–0:35 | **Presenter, demo behind.** Presenter steps into frame; the demo is already running. | Presenter: "What if campus already knew where your spot was? This is Octopark." | **Octopark** |
-| 0:35–1:00 | **Presenter, demo behind.** Press `Space` on "At the gate" — a car rolls up, the plate is scanned, the phone shows the level. Presenter gestures to it. | Presenter: "Cameras watch the lots, and an AI computer in each deck marks every space open or taken. At the gate, a plate reader matches your car to your NJIT permit — and before you pick a ramp, your phone tells you exactly where to go." | **Hardware:** overview cameras · plate reader · edge AI computer · 5G router · entry sign |
-| 1:00–1:22 | **Presenter, demo behind.** The pipeline at the bottom of the demo lights up left to right each time a car arrives. | Presenter: "It runs on Verizon. 5G carries the video without digging up a single lot. Edge computing makes the decision in the time it takes to reach the gate. And a private network keeps campus cameras off the public internet." | **AI-Driven Automation & Efficiency** — 5G Ultra Wideband · 5G Edge with AWS · Private 5G |
-| 1:22–1:38 | **Presenter, demo behind.** Press `V` on "Public Safety" — a car with no permit or pass arrives and the gate officer is alerted on the right-hand panel. | Presenter: "Privacy is built in. Video never leaves the edge. Plates become codes. Your data is deleted when you drive out. *(optional:)* And Public Safety sees which vehicles are on campus — not where you've been." | Parking only · No faces · Deleted on exit |
-| 1:38–1:50 | **Filmed.** The driver parks, glances at the phone, walks into class relaxed. Clock: 8:14. | Voiceover: "For students, minutes back every day. For NJIT, safer lots and fewer cars idling. For Verizon, a product every commuter campus needs." | **THE VALUE** — Straight to an open spot. A safer, cleaner, cheaper campus. |
+| 0:00–0:10 | **Filmed.** From the passenger seat: up a deck ramp, every space full. Dashboard clock 8:24. | *(Engine and turn signal, no voice.)* | `8:24` |
+| 0:10–0:18 | **Filmed, parked.** The driver opens NJIT's parking page on their phone. Cut to the screen recording of the page; zoom in and circle **Available 255** and **Total 155**. Back to the driver's face. | Driver: "...what?" | Circle on `255` and `155` |
+| 0:18 | **Freeze frame** with a record-scratch sound. The presenter walks into frame in front of the frozen shot. | — | — |
+| 0:18–0:35 | **Presenter**, frozen frame behind or beside. | Presenter: "That's NJIT's real parking page. It counts cars at the gate, so one missed car makes every number after it wrong. And with more permits than spaces, nobody knows where the open spot is until they're already inside." | **THE CHALLENGE** — More permits than spaces. No way to know where the open spot is. *(add your survey number)* |
+| 0:35–0:42 | **Presenter, demo behind.** The demo comes up already running. | Presenter: "What if campus actually knew where your spot was? This is Octopark." | **Octopark** |
+| 0:42–1:05 | **Presenter, demo behind.** Press `Space` — a car rolls up, the plate is read, the phone and the gate sign show the level and space. Presenter gestures to it. | Presenter: "Cameras look at every space, not just the gate. An AI computer in each deck marks every space open or taken. At the gate, a plate reader matches your car to your NJIT permit — and before you pick a ramp, your phone tells you your level and your space." | **Hardware:** overview cameras · plate reader · edge AI computer · 5G router · entry sign |
+| 1:05–1:25 | **Presenter, demo behind.** The "How it works" strip at the bottom of the demo lights up left to right. | Presenter: "It runs on Verizon and AWS. 5G carries the video with no cables to dig. Verizon's 5G Edge runs AWS right inside the network, so the decision is made before you reach the gate. And the backend — permits, the live map, the app — runs on AWS." | **AI-Driven Automation & Efficiency** — Verizon 5G · 5G Edge · Backend on AWS |
+| 1:25–1:38 | **Presenter, demo behind.** Press `V` — a car with no permit or pass arrives and the gate officer is alerted on the right-hand panel. | Presenter: "Privacy is built in. Video never leaves the deck, plates become codes, and they're deleted when you drive out. A car with no permit? The gate officer knows right away." | Parking only · No faces · Deleted on exit |
+| 1:38–1:50 | **Filmed — the frame unfreezes.** The same driver opens Octopark, drives straight to the space, parks, walks into class relaxed. Clock: 8:14. | Voiceover: "Students get minutes back. NJIT gets parking numbers it can trust. Verizon gets a product for every campus." | **THE VALUE** — Straight to an open spot. Numbers campus can trust. |
 | 1:50–1:55 | Logo and team names. | Presenter or voiceover: "Octopark. Stop circling." | Team name · NJIT · 2026 Verizon Smart Campus Challenge |
+
+### Notes on the opening
+
+- **Record NJIT's parking page now.** On November 11 at about 12:30 a.m. it showed the ECC Deck with 255 available out of 155. Anyone could reset the counter at any time. Screen-record it on a phone while it is still wrong. If it is fixed by filming day, film the driver's reaction anyway and cut to the recording. The screenshot in [img/njit-parking-page-2026-11-11.jpg](img/njit-parking-page-2026-11-11.jpg) is the last-resort backup.
+- **The driver is parked when they look at the phone.** Never show a driver using a phone while moving — it undercuts a safety pitch, and judges notice.
+- **The numbers must be readable.** A phone screen in a car shot is tiny. Zoom in during editing and circle the two numbers, or the joke does not land.
+- **Keep the reaction clean.** A face and "...what?" lands better than swearing on audio in front of NJIT faculty and Verizon.
+- **Freeze frame without a green screen:** export the frozen frame as a still, put it full screen on a TV or projector, and film the presenter walking in front of it. Or do it in the edit: freeze, then cut to the presenter in front of the demo.
+- **Don't claim numbers for other campuses.** We only have evidence for NJIT. "Campuses count parking this way" is fine; a statistic is not.
+
+## Demo tasks before filming
+
+The demo in [demo/index.html](../demo/index.html) is already finished: phone app, live space map, gate camera, the "How it works" strip and the privacy badges. **Do not add new screens or panels** — anything extra on screen competes with the presenter. Deadline: **noon on filming day**, so there is time to rehearse.
+
+**Must do**
+
+- [ ] Set the real lot sizes at the top of the script block: Parking Deck (Summit St) **1,685**, Science & Tech Garage **922** — from NJIT's live page; the pitch brief says 981, so confirm with Parking Services. Keep Lot 7 (the visitor lot) as it is.
+- [ ] Rehearse with `?manual` on the end of the address so cars arrive only on a key press. Time the `Space` and `V` presses against the spoken lines above.
+- [ ] Record a clean 30-second, 1080p screen capture of the demo by itself, as spare footage for the editor.
+
+**Only if all of the above is done**
+
+- [ ] One small callback to the opening, such as a line or badge reading "Counted by cameras, not gates." One line — no new panel.
 
 ## Filming the presenter with the demo behind
 
@@ -47,9 +83,9 @@ Either way:
 
 | Role | Where they appear | What they do |
 | --- | --- | --- |
-| **The driver** (a teammate) | 0:00–0:27 and 1:38–1:50 | Acts, no lines. Frustrated at the start, relaxed at the end. The before-and-after is the story. |
-| **The presenter** (most confident speaker) | 0:27–1:38 | Talks to camera with the demo behind. Two presenters can split it: one for the solution, one for Verizon and privacy. |
-| **The narrator** | 0:00–0:27 and 1:38–1:55 | Voiceover only. Can be the presenter. |
+| **The driver** (a teammate) | 0:00–0:18 and 1:38–1:50 | One line ("...what?"). Frustrated at the start, relaxed at the end. The before-and-after is the story. |
+| **The presenter** (most confident speaker) | 0:18–1:38 | Walks into the freeze frame and talks to camera, then with the demo behind. Two presenters can split it: one for the problem and solution, one for Verizon, AWS and privacy. |
+| **The narrator** | 1:38–1:55 | Voiceover only. Can be the presenter. |
 | **Demo operator** | Off camera | Presses `Space` and `V` on cue. Open the demo with `?manual` on the end of the address so cars arrive only on a key press. |
 
 - **Never film while actually driving.** The driver's shots are taken parked, or the passenger films out of the windshield.
@@ -60,22 +96,24 @@ Either way:
 
 Everything can be filmed on a phone in about an hour.
 
-1. Deck ramp drive from the passenger seat, 20 seconds, horizontal. Go mid-morning when it is full.
-2. Dashboard clock close-up — or film once and change the time in editing.
-3. Full deck and rows of cars, three 5-second shots.
-4. Driver's frustrated face, parked.
-5. Student jogging to class.
+1. **Screen recording of NJIT's parking page showing more available than total** — do this first, tonight if possible.
+2. Deck ramp drive from the passenger seat, 20 seconds, horizontal. Go mid-morning when it is full.
+3. Dashboard clock close-up — or film once and change the time in editing.
+4. Driver, parked, opens the NJIT page and reacts. Film the face and, separately, the phone screen.
+5. **Presenter walking into the freeze frame** — three takes.
 6. **Presenter with the demo behind — four sections, three takes each.**
-7. Driver parks, checks phone, walks in — one continuous take.
+7. Driver opens Octopark, parks, walks in — one continuous take. Use the same car, clothes and spot in the deck as shot 4 so the unfreeze reads as the same moment.
 8. Clean screen recording of the demo by itself, 30 seconds, as a spare to cut to.
 
 ## Production plan for the last day
 
 | When | What | Who |
 | --- | --- | --- |
+| Tonight | Screen-record NJIT's parking page while it still shows the wrong numbers (shot 1) | 1 person |
 | Morning | Run the 3-question survey in class group chats; confirm the upload link with the organizers | 1 person |
-| Morning | Film shots 1–5 and 7 on campus while the decks are full | 2 people |
-| Midday | Film the presenter with the demo behind; record the voiceover in a quiet room | 2–3 people |
+| Morning, by noon | Demo tasks above: real lot sizes, rehearsal with `?manual`, spare screen capture | 1 person |
+| Morning | Film shots 2–4 and 7 on campus while the decks are full | 2 people |
+| Midday | Film the presenter walking into the freeze frame and with the demo behind; record the voiceover in a quiet room | 2–3 people |
 | Afternoon | Edit: lay the speech first, cut pictures to it, add titles, then music | 1–2 people |
 | By 8 p.m. | Export, watch on a phone and a laptop, check it is under 2:00 | Everyone |
 | By 10 p.m. | Upload. Do not wait for 11:59. | 1 person |
@@ -84,7 +122,7 @@ Everything can be filmed on a phone in about an hour.
 
 **Music:** use a track that is free to use — the YouTube Audio Library or the editor's built-in library. Keep it low under the voice.
 
-**Three-question survey** (gives the on-screen number at 0:12):
+**Three-question survey** (gives the on-screen number at 0:18):
 
 1. Do you drive to NJIT?
 2. On a typical day, how many minutes do you spend finding a parking space?
