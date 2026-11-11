@@ -139,6 +139,7 @@ Script, shot list and the plan for filming day: [docs/04-video-script.md](docs/0
 | `V` | A car with no permit or pass arrives; the gate officer is alerted |
 | `P` | Presenter mode: clears the bottom-left corner for a webcam bubble |
 | `A` | Turns automatic arrivals on or off |
+| `H` | Shows or hides a list of these keys (hidden by default, so it never appears on camera unless you press it) |
 
 Add `?manual` to the end of the address to start with automatic arrivals off, so cars come only when you press a key.
 
