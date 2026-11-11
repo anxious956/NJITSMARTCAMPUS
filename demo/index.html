@@ -403,6 +403,19 @@
   body.story:not(.story-all) [data-part=steps].focus, body.story:not(.story-all) [data-part=log].focus { background: var(--surface); }
   body.story:not(.story-all) [data-part=phone].focus { box-shadow: none; filter: drop-shadow(0 28px 50px rgba(0, 0, 0, .55)); }
 
+  /* Phone mode (?phone): just the student app, full-screen, to open on a real phone for the 1:38 shot.
+     The real phone has its own status bar, so the drawn frame, notch and status bar are hidden. */
+  body.phone-only, body.phone-only #stage { background: #F2F2F5; }
+  body.phone-only #stage { position: fixed; inset: 0; width: 100%; height: 100%; transform: none !important; }
+  body.phone-only header, body.phone-only .mapcol, body.phone-only .gate, body.phone-only #storybar, body.phone-only #scrim { display: none; }
+  body.phone-only main { display: block; padding: 0; height: 100%; }
+  body.phone-only .phone { height: 100%; padding: 0; border-radius: 0; background: none; box-shadow: none; }
+  body.phone-only .screen { border-radius: 0; padding: max(14px, env(safe-area-inset-top)) 16px 0; }
+  body.phone-only .screen::before, body.phone-only .status { display: none; }
+  body.phone-only .tabs { height: auto; min-height: 70px; padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+  @media (max-height: 880px) { body.phone-only .forecast { display: none; } }
+  @media (max-height: 760px) { body.phone-only .permit { display: none; } }
+
   /* Presenter mode (press P): leaves the bottom-left corner empty for a webcam bubble. */
   body.presenter .phone { height: 650px; }
   body.presenter .forecast, body.presenter .permit, body.presenter .lot:nth-child(n+3) { display: none; }
@@ -621,6 +634,7 @@ const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 let focusParts = "all";
 function fit() {
   const vw = innerWidth, vh = innerHeight, base = Math.min(vw / 1920, vh / 1080), st = $("stage");
+  if (document.body.classList.contains("phone-only")) return;
   let z = base, tx = (vw - 1920 * base) / 2, ty = (vh - 1080 * base) / 2;
   if (document.body.classList.contains("story") && focusParts !== "all") {
     // Zoom so the parts being talked about fill the frame, above the subtitle bar.
@@ -869,6 +883,10 @@ const setLook = i => { look = i % LOOKS.length; LOOKS.forEach(l => document.body
 setLook(look);
 if (location.search.includes("presenter")) document.body.classList.add("presenter");
 if (location.search.includes("manual")) AUTO_EVERY_MS = 0;
+// Phone mode for the 1:38 shot: ?phone (add &spot=B7 to pick the space). Opens on "guiding you in"; a tap shows "You're parked".
+const PHONE = new URLSearchParams(location.search).has("phone");
+const PHONE_SPOT = { id: (new URLSearchParams(location.search).get("spot") || "D4").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 4) };
+if (PHONE) { document.body.classList.add("phone-only"); AUTO_EVERY_MS = 0; }
 drawLots(); hero("idle"); drawMap(); led(`${lot.sign}  ${lot.open} OPEN`); captionIdle();
 let auto = !!AUTO_EVERY_MS, n = 0;
 
@@ -912,7 +930,10 @@ document.addEventListener("keydown", e => {
 // the arrivals list starts with a few earlier cars so it is never empty on camera
 log("Term permit → Level 2 • C4"); log("Guest permit → Level 5 • A9", "g"); log("Term permit → Level 4 • D11");
 fit();
-if (new URLSearchParams(location.search).has("story")) goStep(0); else setTimeout(() => carArrives("permit"), 1800);
+if (PHONE) {
+  hero("go", PHONE_SPOT);
+  document.querySelector(".screen").addEventListener("click", () => hero(heroState === "go" ? "done" : "go", PHONE_SPOT));
+} else if (new URLSearchParams(location.search).has("story")) goStep(0); else setTimeout(() => carArrives("permit"), 1800);
 setInterval(() => { if (auto) carArrives(["permit", "permit", "guest", "permit", "none"][n++ % 5]); }, AUTO_EVERY_MS || 13000);
 </script>
 </body>
