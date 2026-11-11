@@ -33,7 +33,7 @@ Issued October 21, 2022, replacing the 2010 rules. Read directly from the direct
 - **What may be scanned:** only plates "exposed to public view," which includes a place the public has access to such as a parking lot.
 - **Retention:** records and plate data "shall be retained for three years," then purged unless tied to an active investigation. The 2022 update cut this from five years.
 - **Statewide sharing:** every police plate reader must make its data available to a statewide interface within 45 days of deployment.
-- **Storage:** stored securely, access limited to authorised users, and the data "shall be the property of the agency and not any ALPR vendor."
+- **Storage:** stored securely, access limited to authorized users, and the data "shall be the property of the agency and not any ALPR vendor."
 - **Access logs:** an automated record of every access — who, when, and the justification.
 - **Audit and training:** an annual audit by January 31; users must be trained and designated before they get access.
 - **Private operators:** "Private entities may provide ALPR data to New Jersey agencies but cannot receive law enforcement-owned ALPR data." Commercially obtained plate data must not be mixed with police data.
@@ -47,7 +47,7 @@ Introduced October 15, 2026; not law. It would require police to delete plate da
 
 ### New Jersey Data Privacy Act
 
-In effect since January 2025. It gives residents rights over their personal data and requires notice, data minimisation and a risk assessment for sensitive processing. Whether it covers a public university is **unclear**: legal summaries disagree, and state agencies are generally exempt. We treat its principles as the standard to meet either way. **Ask General Counsel.**
+In effect since January 2025. It gives residents rights over their personal data and requires notice, data minimization and a risk assessment for sensitive processing. Whether it covers a public university is **unclear**: legal summaries disagree, and state agencies are generally exempt. We treat its principles as the standard to meet either way. **Ask General Counsel.**
 
 ### Other New Jersey rules
 
@@ -59,18 +59,18 @@ In effect since January 2025. It gives residents rights over their personal data
 
 - **FERPA (20 U.S.C. § 1232g; 34 CFR Part 99).** A record that links a plate to an identifiable student and is kept by the university is likely an education record. It cannot be disclosed outside NJIT without consent or a listed exception. Records created by a campus law-enforcement unit for a law-enforcement purpose are treated differently (34 CFR 99.8) — another reason to keep the parking system and the police system separate.
 - **Driver's Privacy Protection Act (18 U.S.C. § 2721).** Restricts getting an owner's identity from motor-vehicle records. Our system **never looks a plate up at the Motor Vehicle Commission.** It only matches against plates that drivers registered with NJIT themselves. An unknown plate stays an unknown plate.
-- **Camera supply-chain ban (Section 889 of the 2019 defence act; 2 CFR 200.216).** Recipients of federal grants may not buy or use video-surveillance equipment from Hikvision, Dahua, Hytera, Huawei or ZTE. NJIT receives federal research funding, so every camera in the system has to be from a compliant maker. Several of the cheapest cameras on the market are on the banned list — this affects the budget.
+- **Camera supply-chain ban (Section 889 of the 2019 defense act; 2 CFR 200.216).** Recipients of federal grants may not buy or use video-surveillance equipment from Hikvision, Dahua, Hytera, Huawei or ZTE. NJIT receives federal research funding, so every camera in the system has to be from a compliant maker. Several of the cheapest cameras on the market are on the banned list — this affects the budget.
 - **Fourth Amendment.** A plate in public view has no privacy protection on its own, but courts have grown wary of long-term location tracking built from many data points (*Carpenter v. United States*, 2018). Short retention keeps us far from that line.
 - **Americans with Disabilities Act.** Accessible spaces must stay available. The system can show open accessible spaces and flag misuse — a benefit to feature.
 
 ## What NJIT would need to write
 
 1. **A published parking-camera policy:** purpose, what is collected, retention, who has access, how to complain.
-2. **Signs** at every entrance: "Licence plates are read for parking management."
+2. **Signs** at every entrance: "License plates are read for parking management."
 3. **Notice and agreement at permit registration** — the driver registers the plate and is told how it is used.
 4. **A written agreement between Parking Services and Public Safety** on exactly which alerts are passed on and when.
 5. **Vendor contract terms:** NJIT owns the data; the vendor may not sell or reuse it; deletion on contract end.
-6. **An option for people who object** — for example a visitor lot without plate reading, or pay-by-space.
+6. **An option for people who object** — for example keeping a hang tag and being let in by the gate officer, as happens today.
 
 ## Our privacy rules in plain words
 
@@ -81,7 +81,7 @@ These are the commitments to state in the pitch.
 | Parking only | Not used for immigration, protest monitoring, or tracking any individual's movements |
 | No faces | Space cameras see cars, not people; any faces in frame are blurred at the edge before anything is stored |
 | No state lookups | Plates are matched only against NJIT's own permit list |
-| Plates are tokenised | The raw plate is replaced by a keyed code at the camera site; the database never holds readable plates |
+| Plates are tokenized | The raw plate is replaced by a keyed code at the camera site; the database never holds readable plates |
 | Short retention | Permit-holder reads deleted when the car leaves; unmatched reads after 30 days at most; occupancy counts kept because they contain no personal data |
 | Humans decide | No automatic ticket or police dispatch from a camera read alone |
 | Everything is logged | Every lookup records who, when and why; audited yearly |

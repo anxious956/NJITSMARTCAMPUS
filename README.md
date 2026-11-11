@@ -15,9 +15,22 @@ NJIT is a commuter campus. There are more parking permits than parking spaces, a
 Campus should already know where the open spots are and tell you before you choose a ramp.
 
 1. **Cameras watch the lots.** Software looks at the video and marks every space as open or taken.
-2. **A camera at the gate reads your licence plate** and checks it against the plate you registered with NJIT when you bought your permit.
+2. **A camera at the gate reads your license plate** and checks it against the plate you registered with NJIT when you bought your permit.
 3. **The system assigns you a lot.** Your phone and a sign at the gate say, for example, "Level 3 — 42 open."
-4. **Campus stays aware.** A car with no permit is treated as a visitor and sent to visitor parking. Parking Services sees it; Public Safety is alerted only in cases a written policy allows.
+4. **Guests are recognized too.** When a guest has an approved pass — a host-arranged visit or a one-night guest permit — their plate is on the list, so the gate knows them and sends them to a level where they are allowed to park.
+5. **Campus stays aware.** A car with no permit and no pass is not given a space, and the gate officer is alerted. Parking Services sees it; Public Safety is alerted only in cases a written policy allows.
+
+## How NJIT parking works today, and what changes
+
+| Today | With HighlanderSpot |
+| --- | --- |
+| Students pay for a parking permit by term and show a hang tag | The plate is the permit — nothing to hang, nothing to forget |
+| You drive in and hunt for a space | You are told the level and space before you choose a ramp |
+| Faculty and staff book guest parking online; guests of resident students get a one-night permit from Public Safety | Same approvals, but the guest's plate is added to the pass, so the gate recognizes the car |
+| A guest stops at the garage gate and asks a Public Safety officer over the speaker to be let in | Approved guests are recognized automatically; the officer only handles the exceptions |
+| Overnight parking (1–5 a.m. on weekdays) is allowed only on certain levels, checked by patrol | Overnight cars are sent to an allowed level, and a car parked where it should not be is flagged |
+
+There is no pay-by-phone parking in NJIT lots. The meters on the streets around campus belong to the city and are not part of this system.
 
 ## How it works, step by step
 
@@ -51,10 +64,10 @@ The **software** — the AI models, the database and the app — would most like
 | Term | What it means here |
 | --- | --- |
 | **5G Ultra Wideband** | Verizon's fastest wireless network. Fast enough to carry many camera feeds at once. |
-| **Edge computing** | Doing the computing near where the data is made (on or next to campus) instead of in a faraway data centre. It gives faster answers and keeps video local. |
+| **Edge computing** | Doing the computing near where the data is made (on or next to campus) instead of in a faraway data center. It gives faster answers and keeps video local. |
 | **Private 5G** | A 5G network only campus devices can join. The cameras are never on the public internet. |
 | **IoT** | "Internet of things" — small connected devices such as cameras, signs and sensors. |
-| **Plate reader (ALPR / LPR)** | A camera plus software that reads the letters on a licence plate. |
+| **Plate reader (ALPR / LPR)** | A camera plus software that reads the letters on a license plate. |
 | **Token** | A scrambled code that stands in for your plate. The database stores the code, never the readable plate. |
 | **Retention** | How long data is kept before it is deleted. |
 | **AWS** | Amazon Web Services — rented cloud computers and databases. Where our software would run. |
@@ -72,6 +85,7 @@ The **software** — the AI models, the database and the app — would most like
 
 ## How Verizon is used
 
+- **5G Video Insights** is a Verizon product that makes ordinary cameras AI-enabled. It already includes a "parking occupancy" app, vehicle counting and automatic blurring, and it processes video on site. We would use it to see which spaces are open, and add the part Verizon does not have: matching the plate to a permit and assigning a space.
 - **5G** connects the cameras without cables.
 - **5G Edge** runs the AI close to campus so the answer arrives before the car reaches the gate.
 - **Private 5G** keeps camera traffic off the public internet.
@@ -116,9 +130,22 @@ Script, shot list and the plan for filming day: [docs/04-video-script.md](docs/0
 
 1. Download or clone this repo and open `demo/index.html` in Chrome. No install needed.
 2. Press `F11` for full screen.
-3. Keys: `Space` sends a car with a permit through the gate, `V` sends a car with no permit, `P` clears a corner for a webcam bubble.
+3. Keys:
 
-The demo uses made-up plates and numbers. Lot names and sizes are placeholders at the top of the script block in the file — edit them to match campus.
+| Key | What happens |
+| --- | --- |
+| `Space` | A student with a term permit arrives and is guided to a space |
+| `G` | A guest with an approved one-night permit arrives; the host's phone is notified |
+| `V` | A car with no permit or pass arrives; the gate officer is alerted |
+| `P` | Presenter mode: clears the bottom-left corner for a webcam bubble |
+| `A` | Turns automatic arrivals on or off |
+| `H` | Shows or hides a list of these keys (hidden by default, so it never appears on camera unless you press it) |
+
+Add `?manual` to the end of the address to start with automatic arrivals off, so cars come only when you press a key.
+
+The demo uses made-up plates and numbers. The lot names are NJIT's; the sizes are placeholders, set at the top of the script block in the file.
+
+![The demo: student app, live space map and gate camera](demo/preview.png)
 
 ## What is in this repo
 
@@ -128,11 +155,13 @@ The demo uses made-up plates and numbers. Lot names and sizes are placeholders a
 | [docs/02-rules-and-regulations.md](docs/02-rules-and-regulations.md) | Federal, New Jersey and NJIT rules for plate readers and campus cameras |
 | [docs/03-architecture-data-security.md](docs/03-architecture-data-security.md) | System design, how Verizon is used, what data is collected and how it is secured |
 | [docs/04-video-script.md](docs/04-video-script.md) | The two-minute script, shot list and production plan |
+| [docs/05-data-storage-and-security.md](docs/05-data-storage-and-security.md) | What is stored and for how long, and what that does and does not give campus security |
+| [docs/06-new-jersey-law.md](docs/06-new-jersey-law.md) | How the storage and sharing design fits New Jersey law |
 | [demo/index.html](demo/index.html) | The animated concept demo for the video |
 
 ## Before we submit
 
-- [ ] Find out where the video is uploaded. The competition page says "Online" but gives no link — check the registration email or ask the organisers at Ying Wu College of Computing.
+- [ ] Find out where the video is uploaded. The competition page says "Online" but gives no link — check the registration email or ask the organizers at Ying Wu College of Computing.
 - [ ] Replace the numbers marked **verify** in the pitch brief with current ones from Parking Services, or with our own survey of classmates.
 - [ ] Video is 2:00 or under, and states the challenge and the value proposition.
 - [ ] If an AI tool made any voice or image in the video, credit it at the end.

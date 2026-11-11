@@ -22,13 +22,26 @@ Supporting data to put on screen:
 
 The own-survey number is the strongest one to have: the rubric's top score for content asks for "data, research, or real-world validation."
 
+### How parking works at NJIT today
+
+From NJIT's Parking Services pages and what we know as students:
+
+- **Students pay by term** for a parking permit and display a hang tag. There is no pay-by-phone parking in NJIT lots; the street meters around campus are the city's.
+- **Guests need a host.** Faculty and staff book free visitor parking through an online system that does not take same-day requests. Guest parking is in Lot 7 (17 visitor spaces), the parking deck at 154 Summit Street, and the Science & Technology Parking Garage at 46 Wilsey Street.
+- **At the garage gate, a guest has to ask a Public Safety officer for help** over a two-way speaker.
+- **Overnight parking** (1–5 a.m., Monday to Friday) is limited to permit holders who live on campus and to certain levels — for example, no overnight parking on levels 1–3 of the Science & Technology garage. Guests of resident students get a one-night permit through Public Safety, and exceptions go through a form with a response expected within 72 hours.
+
+Each of these is a manual check today — a hang tag, an officer at a speaker, a patrol at night — and each is something a plate-aware system can do automatically.
+
 ## 3. Solution
 
 1. **See the spaces.** Cameras that cover the lots run a vision model that marks each space open or taken. No sensor has to be drilled into every space.
 2. **Know the car.** A plate-reading camera at each entry reads the plate and matches it against NJIT's own permit list.
 3. **Assign the lot.** The system picks the lot and level with room that suits the permit, and tells the driver on the app and on a sign at the gate before they commit to a full deck.
-4. **Keep campus aware.** A vehicle with no permit, or in a lot it is not allowed in, raises a flag for Parking Services. Public Safety gets alerts under a written policy (see the regulations doc).
-5. **Predict.** After a few weeks of data the app can say "Summit Street deck usually fills by 9:40 on Tuesdays."
+4. **Recognize guests.** An approved guest pass carries the guest's plate, so the gate recognizes the car without an officer having to answer the speaker, and the host gets a notification.
+5. **Apply the overnight rules.** Cars allowed to stay overnight are sent to a level where that is permitted; a car left where it should not be is flagged.
+6. **Keep campus aware.** A vehicle with no permit or pass, or in a lot it is not allowed in, raises a flag for Parking Services. Public Safety gets alerts under a written policy (see the regulations doc).
+7. **Predict.** After a few weeks of data the app can say "The Summit Street parking deck usually fills by 9:40 on Tuesdays."
 
 ## 4. Value proposition
 
@@ -37,8 +50,8 @@ The own-survey number is the strongest one to have: the rubric's top score for c
 | Who | What they get |
 | --- | --- |
 | Students, faculty, staff | Minutes back every day; a known spot before they arrive |
-| Parking Services | Enforcement without walking the lots; real occupancy data for pricing and planning; hangtags can go away |
-| Public Safety | Live awareness of vehicles on campus; faster response to an unknown vehicle |
+| Parking Services | Enforcement without walking the lots; real occupancy data for planning; hang tags can go away |
+| Public Safety | Officers no longer answer the gate speaker for every approved guest; live awareness of vehicles on campus; overnight rules checked automatically |
 | NJIT | Fewer cars idling in decks (emissions), and data to decide whether a new deck is really needed |
 | Verizon | A repeatable campus product: 5G + edge AI + IoT sold to every commuter university, hospital and stadium |
 
@@ -47,14 +60,14 @@ The own-survey number is the strongest one to have: the rubric's top score for c
 Pick one as the headline — projects must align with one of the three pillars.
 
 - **Headline: AI-Driven Automation & Efficiency.** Vision AI at the network edge replaces manual lot checks and hangtag enforcement.
-- Supporting: *Cost & Sustainability Transformation* — wireless backhaul means no trenching fibre to every lot, and less circling means less fuel burned.
+- Supporting: *Cost & Sustainability Transformation* — wireless backhaul means no trenching fiber to every lot, and less circling means less fuel burned.
 - Supporting: *Next-Gen Products & Services* — the student app is the customer experience.
 
 How Verizon's network is used is in [03-architecture-data-security.md](03-architecture-data-security.md#how-verizon-is-used).
 
 ## 6. Feasibility, budget and rollout
 
-Every piece exists today: plate readers are in use at other universities' decks (VCU, NC A&T and TCNJ run plate-based virtual permits), and open-space detection from camera video is a well-studied vision problem. What is new is combining them at the network edge on 5G and using the result to *assign* drivers, not just bill them.
+Every piece exists today. Verizon already sells **5G Video Insights**, which turns ordinary cameras into AI cameras and includes a "parking occupancy" app. Plate readers are in use at other universities' decks (VCU, NC A&T and TCNJ run plate-based virtual permits), and open-space detection from camera video is a well-studied vision problem. What is new is combining them at the network edge on 5G and using the result to *assign* drivers, not just bill them.
 
 **Pilot — one deck, one semester.**
 
@@ -75,7 +88,7 @@ These ranges are our own planning assumptions, not quotes. The comparison worth 
 
 | Risk | Answer |
 | --- | --- |
-| "This is surveillance" | Parking-only purpose, plates tokenised at the edge, short retention, public policy and signs — see the regulations doc |
+| "This is surveillance" | Parking-only purpose, plates tokenized at the edge, short retention, public policy and signs — see the regulations doc |
 | Plate misreads (dirt, snow, temporary tags) | App check-in as fallback; a misread never causes an automatic ticket without a human check |
 | Cameras cannot see every space | Count cars in and out per level as a second signal |
 | Cost | Start with one deck; reuse existing camera mounts and power |
@@ -103,5 +116,8 @@ These ranges are our own planning assumptions, not quotes. The comparison worth 
 - [INRIX: Searching for parking costs Americans $73 billion a year](https://inrix.com/press-releases/parking-pain-us/)
 - [NJIT Vector: 3,698 student permits issued, 2,968 parking spaces available](https://njitvector.com/?p=5193)
 - [NJIT Campus Planning: Science & Technology Park parking facility](https://www.njit.edu/campusplanning/node/9)
+- [NJIT Parking: Visitor parking](https://www.njit.edu/parking/node/5)
+- [NJIT Parking: Overnight parking](https://www.njit.edu/parking/node/6)
+- [Verizon ThingSpace: 5G Video Insights](https://thingspace.verizon.com/solutions/platforms/5g-video-insights.html)
 - [VCU: License plate recognition](https://parking.vcu.edu/parking/lpr/)
 - [NC A&T: LPR virtual permits](https://ncat.edu/campus-life/campus-enterprises/parking-and-transportation/parking-permits/lpr-virtual-permits.php)
