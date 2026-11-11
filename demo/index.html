@@ -6,7 +6,7 @@
 <title>Octopark — concept demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800;900&family=Overpass+Mono:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800;900&family=Overpass+Mono:wght@600;700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
 <style>
   /* Flat, light, signage look: white surfaces, black ink, solid colours, no glows or gradients.
      Overpass is based on US highway signage lettering. Sized for a 1920x1080 recording. */
@@ -15,6 +15,7 @@
     --ink: #14161A; --ink-2: #474C55; --ink-3: #676C75;
     --line: #DCD9D2; --line-2: #B9B5AC;
     --red: #D22630; --green: #157A3A; --green-bg: #DCF0E2; --orange: #A8530B;
+    --navy: #0C2141; --brand-blue: #1559A0;
     --yellow: #FFC20E; --blue: #1D5BD0; --alert: #C21B1B; --alert-bg: #FBE4E2;
     --sans: Overpass, "Helvetica Neue", Arial, sans-serif;
     --mono: "Overpass Mono", ui-monospace, Consolas, monospace;
@@ -35,17 +36,20 @@
   header { height: 92px; flex: none; display: flex; align-items: center; gap: 22px; padding: 0 36px;
     background: var(--surface); border-bottom: 1px solid var(--line); margin-bottom: 22px; }
   .brand { display: flex; align-items: center; gap: 14px; flex: none; }
-  /* Logo: drop the team's logo in as demo/logo.png (a white logo shows up on this dark tile).
-     Until that file exists, a plain "O" is shown instead. */
-  .logo { width: 52px; height: 52px; border-radius: 10px; background: var(--ink); display: grid; place-items: center; overflow: hidden;
-    color: #fff; font: 900 34px/1 var(--sans); padding-top: 4px; }
-  .logo img { width: 80%; height: 80%; object-fit: contain; margin-top: -4px; }
-  h1 { margin: 0; font-size: 30px; font-weight: 900; letter-spacing: -.5px; line-height: 1; }
+  /* Logo: demo/logo.png is the octopus mark cropped square from demo/octopark-logo-full.png.
+     If the file is missing, a plain "O" is shown instead. */
+  .logo { width: 62px; height: 62px; border-radius: 12px; background: var(--navy); display: grid; place-items: center; overflow: hidden;
+    color: #fff; font: 900 36px/1 var(--sans); }
+  .logo img { width: 100%; height: 100%; display: block; }
+  /* Wordmark set to match the logo: heavy capitals with the P in a parking-sign box. */
+  h1 { margin: 0; font: 800 29px/1 Montserrat, var(--sans); letter-spacing: .5px; color: var(--navy); display: flex; align-items: center; }
+  h1 .pbox { display: inline-grid; place-items: center; width: 27px; height: 31px; margin: 0 2px; border-radius: 5px; background: var(--brand-blue); color: #fff;
+    box-shadow: inset 0 0 0 2px #fff, 0 0 0 1.5px var(--navy); font-size: 25px; }
   .brand p { margin: 4px 0 0; color: var(--ink-3); font-size: 15px; }
 
   /* Headline caption, styled like a station information board. */
   .caption { flex: 1; min-width: 0; height: 58px; display: flex; align-items: center; gap: 14px; padding: 0 20px;
-    background: var(--ink); color: #fff; border-radius: 8px; font-size: 22px; font-weight: 700; }
+    background: var(--navy); color: #fff; border-radius: 8px; font-size: 22px; font-weight: 700; }
   .caption .sq { width: 16px; height: 16px; flex: none; border-radius: 3px; background: #2FBF62; transition: background-color .2s; }
   .caption.busy .sq { background: #fff; animation: blink .8s steps(2) infinite; }
   .caption.ok .sq { background: var(--yellow); } .caption.done .sq { background: #2FBF62; }
@@ -267,7 +271,7 @@
   <header>
     <div class="brand">
       <div class="logo" id="logo"><img src="logo.png" alt="Octopark logo" onerror="this.parentNode.textContent='O'"></div>
-      <div><h1>Octopark</h1><p>Live parking for NJIT</p></div>
+      <div><h1 aria-label="Octopark">OCTO<span class="pbox">P</span>ARK</h1><p>Live parking for NJIT</p></div>
     </div>
     <div class="caption" id="caption"><span class="sq" aria-hidden="true"></span><span id="captionText"></span></div>
     <div class="stats">

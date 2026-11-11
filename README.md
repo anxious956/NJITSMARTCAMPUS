@@ -141,7 +141,7 @@ Script, shot list and the plan for filming day: [docs/04-video-script.md](docs/0
 | `A` | Turns automatic arrivals on or off |
 | `H` | Shows or hides a list of these keys (hidden by default, so it never appears on camera unless you press it) |
 
-To show the team logo in the top-left corner, save it as `demo/logo.png`. It sits on a black tile, so a white logo on a transparent background works best. Until that file exists, the corner shows a plain "O".
+The full Octopark logo is in `demo/octopark-logo-full.png`. The demo header uses `demo/logo.png`, a square crop of just the octopus mark, because the wordmark would be too small to read at that size.
 
 Add `?manual` to the end of the address to start with automatic arrivals off, so cars come only when you press a key.
 
