@@ -893,13 +893,15 @@ let auto = !!AUTO_EVERY_MS, n = 0;
 // ---------- story mode: one step at a time, in the order of the video script ----------
 const whenFree = async (kind, step) => { while (busy) await sleep(250); if (story === step) carArrives(kind); };
 let story = -1, pipeLoop = 0;
-const STEPS = [   // in the order of docs/04-video-script.md
-  { t: "Octopark", parts: "all", cap: "Live parking for NJIT: every space, every deck" },                                   // 0:35
-  { t: "At the gate", parts: ["cam", "led", "steps"], run: () => whenFree("permit", 1) },                                   // 0:42
-  { t: "Your level and your space", parts: ["phone", "map"] },
-  { t: "Built on Verizon + AWS", parts: ["pipe"], cap: "Verizon 5G • 5G Edge • Backend on AWS",  // 1:05
+const STEPS = [   // in the order of docs/04-video-script.md, each step on the line it illustrates
+  { t: "Octopark", parts: "all", cap: "Live parking for NJIT: every space, every deck" },                                   // 0:35 "This is Octopark."
+  { t: "Every space, seen by cameras", parts: ["map"], cap: "Cameras mark every space open or taken" },                    // 0:42 "Cameras look at every space..."
+  { t: "At the gate", parts: ["cam", "led", "steps"], run: () => whenFree("permit", 2) },                                   // 0:49 "At the gate, a plate reader..."
+  { t: "Your level and your space", parts: ["phone", "map"] },                                                              // 0:54 "...your phone tells you your level and your space."
+  { t: "Built on Verizon + AWS", parts: ["pipe"], cap: "Verizon 5G • 5G Edge • Backend on AWS",                            // 1:05 "It runs on Verizon and AWS."
     run: () => { pulsePipe(); pillar("pAI", 2700); pipeLoop = setInterval(() => { pulsePipe(); pillar("pAI", 2700); }, 2800); } },
-  { t: "Privacy built in", parts: ["cam", "steps", "privacy"], run: () => whenFree("none", 4) },                             // 1:25
+  { t: "Privacy built in", parts: ["cam", "steps", "privacy"], cap: "Video never leaves the deck • plates become codes • deleted on exit",   // 1:25 "Privacy is built in."
+    run: () => setTimeout(() => whenFree("none", 5), 3500) },                                                               // the no-permit car lands on "A car with no permit?"
 ];
 function goStep(i) {
   i = Math.max(0, Math.min(STEPS.length - 1, i));

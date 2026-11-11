@@ -141,7 +141,7 @@ Script, shot list and the plan for filming day: [docs/04-video-script.md](docs/0
 | `A` | Turns automatic arrivals on or off |
 | `H` | Shows or hides a list of these keys (hidden by default, so it never appears on camera unless you press it) |
 | `L` | Switches between three looks: signage (default), app and console |
-| `S` | Story mode: the five demo moments of the video script, one at a time. The part being talked about comes to the front and zooms in, with a subtitle bar at the bottom |
+| `S` | Story mode: the six demo moments of the video script, one at a time. The part being talked about comes to the front and zooms in, with a subtitle bar at the bottom |
 | `→` / `←` | Next / previous story step. A presentation clicker (PageDown / PageUp) works too. `Esc` leaves story mode |
 
 The full Octopark logo is in `demo/octopark-logo-full.png`. The demo header uses `demo/logo.png`, a square crop of just the octopus mark, because the wordmark would be too small to read at that size.
