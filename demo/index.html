@@ -6,7 +6,7 @@
 <title>Octopark — concept demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800;900&family=Overpass+Mono:wght@600;700&family=Montserrat:wght@800&family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Sans:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800;900&family=Overpass+Mono:wght@600;700&family=Montserrat:wght@800&family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Sans:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Figtree:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   /* Flat, light, signage look: white surfaces, black ink, solid colours, no glows or gradients.
      Overpass is based on US highway signage lettering. Sized for a 1920x1080 recording. */
@@ -406,6 +406,57 @@
   .look-console .screen .label { text-transform: none; letter-spacing: 0; font-size: 15px; }
   .look-console .phone { box-shadow: 0 0 0 2px #3A3C41, 0 20px 60px rgba(0,0,0,.5); }
 
+
+  /* ======================= THE STUDENT APP'S OWN LOOK =======================
+     The phone is a consumer app, not the parking office's screen, so it has its own style in every look:
+     the logo's navy and blue, a cool iOS-like background, borderless cards with soft shadows, Figtree.
+     "Your space" stays yellow on the map so it matches the big map and the gate sign. */
+  .phone .screen {
+    --app-blue: #1A63C9; --app-blue-2: #1452A8;
+    --surface: #FFFFFF; --sunk: #F3F5F9; --ink: #0C2141; --ink-2: #44516A; --ink-3: #66738A; --line: #E3E8EF; --line-2: #C9D2DE;
+    --green: #0F8A4F; --green-bg: #E2F4EA; --orange: #B85C08; --red: #D92D3A; --alert: #D92D3A;
+    --floor: #EEF2F7; --stall-line: #B6C1D0; --chev: #C4CDD9; --you: #FFC20E; --you-line: #0C2141;
+    --sans: Figtree, "DM Sans", system-ui, sans-serif;
+    background: #F3F5F9; color: var(--ink); font-family: var(--sans); font-weight: 600;
+  }
+  .phone .apphead small { font-size: 15px; font-weight: 600; color: var(--ink-3); }
+  .phone .apphead b { font-size: 31px; font-weight: 800; letter-spacing: -.9px; }
+  .phone .avatar { background: var(--ink); font-weight: 700; padding-top: 0; }
+  .phone .minimap { background: var(--floor); }
+  .phone .mm-chip { font-weight: 700; border-radius: 12px; box-shadow: 0 4px 16px rgba(12, 33, 65, .16); padding: 7px 12px; }
+  .phone .mm-open { color: var(--green); }
+  .phone .hero { border: 0; border-radius: 24px; padding: 18px 20px 18px; box-shadow: 0 -6px 30px rgba(12, 33, 65, .14); }
+  .phone .hero small { font-size: 14px; font-weight: 700; color: var(--app-blue); }
+  .phone .hero small::before { border-radius: 50%; }
+  .phone .hero b { font-weight: 800; letter-spacing: -1px; }
+  .phone .hero > span { font-weight: 600; }
+  .phone .cta { background: var(--app-blue); color: #fff; border-radius: 14px; padding: 12px 18px 11px 16px; font-weight: 700; }
+  .phone .hero.go { background: linear-gradient(155deg, #2272DF, #1452A8); color: #fff; }
+  .phone .hero.go small, .phone .hero.go > span { color: rgba(255, 255, 255, .86); }
+  .phone .hero.go .cta { background: #fff; color: var(--app-blue-2); }
+  .phone .hero.go .route-steps li { color: #fff; font-weight: 700; }
+  .phone .hero.go .route-steps li::before { border-color: rgba(255, 255, 255, .7); }
+  .phone .hero.go .route-steps li:last-child::before { background: var(--you); border-color: var(--you); color: #0C2141; }
+  .phone .hero.done { background: linear-gradient(155deg, #16A35E, #0D7843); }
+  .phone .hero.done small, .phone .hero.done > span, .phone .hero.guest small, .phone .hero.guest > span { color: rgba(255, 255, 255, .88); }
+  .phone .hero.done .cta { color: #0D7843; }
+  .phone .hero.guest { background: linear-gradient(155deg, #7A55E6, #4F30B0); }
+  .phone .sect .label { font-size: 17px; font-weight: 800; color: var(--ink); }
+  .phone .lotchip, .phone .group { border: 0; border-radius: 18px; box-shadow: 0 2px 12px rgba(12, 33, 65, .07); }
+  .phone .lotchip small { font-weight: 700; }
+  .phone .lotchip b { font-weight: 800; }
+  .phone .lotchip span { font-weight: 700; display: flex; align-items: center; gap: 5px; }
+  .phone .lotchip span::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+  .phone .lotchip .bar, .phone .lotchip .bar i { border-radius: 99px; }
+  .phone .bars i { background: #DCE3EC; border-radius: 6px; }
+  .phone .bars i.now { background: var(--app-blue); box-shadow: none; } .phone .bars i.full { background: #F0727A; opacity: 1; }
+  .phone .forecast .top em { color: var(--red); font-weight: 700; }
+  .phone .tabs { background: rgba(255, 255, 255, .94); border-top-color: var(--line); color: #8A94A6; font-weight: 600; }
+  .phone .tabs .on { color: var(--app-blue); }
+  .phone .pass { border: 0; border-radius: 20px; box-shadow: 0 2px 12px rgba(12, 33, 65, .07); }
+  .phone .btn.primary { background: var(--app-blue); border-radius: 14px; }
+  .phone .btn.ghost { border-radius: 14px; background: #fff; border-color: var(--line); }
+
   /* Story mode (press S, or add ?story): one step at a time. The part being talked about stays bright. */
   .caption .steptag { display: none; flex: none; background: var(--you); color: var(--you-ink); font: 800 16px/1 var(--sans);
     padding: 7px 11px 5px; border-radius: 5px; white-space: nowrap; }
@@ -431,6 +482,7 @@
   body.phone-only #stage { position: fixed; inset: 0; width: 100%; height: 100%; transform: none !important; }
   body.phone-only header, body.phone-only .mapcol, body.phone-only .gate, body.phone-only #storybar, body.phone-only #scrim { display: none; }
   body.phone-only main { display: block; padding: 0; height: 100%; }
+  body.phone-only .phonecol { height: 100%; }
   body.phone-only .phone { height: 100%; padding: 0; border-radius: 0; background: none; box-shadow: none; }
   body.phone-only .screen { border-radius: 0; padding: max(14px, env(safe-area-inset-top)) 16px 0; }
   body.phone-only .screen::before, body.phone-only .status { display: none; }
@@ -722,7 +774,7 @@ function drawLots() {
 }
 let heroState = "idle", mmBox = [0, 0, 1000, 680], mmAnim = 0;
 function miniFocus(id) {        // zoom the app's mini map onto a space, or back out to the whole level
-  const st = id && stalls.find(x => x.id === id), to = st ? [st.cx - 230, st.cy - 150, 460, 310] : [0, 0, 1000, 680], from = mmBox.slice(), t0 = performance.now();
+  const st = id && stalls.find(x => x.id === id), to = st ? [st.cx - 230, st.cy - 185, 460, 310] : [0, 0, 1000, 680], from = mmBox.slice(), t0 = performance.now();
   cancelAnimationFrame(mmAnim);
   (function f(t) { const k = REDUCED ? 1 : Math.min(1, (t - t0) / 700), e = k * k * (3 - 2 * k);
     mmBox = from.map((v, i) => v + (to[i] - v) * e); $("minimap").setAttribute("viewBox", mmBox.join(" "));
