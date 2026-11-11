@@ -168,13 +168,16 @@ The demo uses made-up plates and live counts. The lots and their sizes come from
 
 ## Before we submit
 
-- [ ] Find out where the video is uploaded. The competition page says "Online" but gives no link — check the registration email or ask the organizers at Ying Wu College of Computing.
+- [ ] Find out where the video is uploaded. The competition page says teams "will upload their video submission" online but gives no link or file format. Check the registration email or ask Dina Anello at Ying Wu College of Computing (contact on the competition page).
 - [ ] Replace the numbers marked **verify** in the pitch brief with current ones from Parking Services, or with our own survey of classmates.
 - [ ] Video is 2:00 or under, and states the challenge and the value proposition.
-- [ ] If an AI tool made any voice or image in the video, credit it at the end.
+- [ ] AI use is allowed, but the competition page says to "be prepared to discuss how it was used" and to consider noting where it helped. Add a short credit at the end for any AI voice, AI images, the logo if AI helped make it, and the demo (built with help from an AI coding assistant), and be ready to explain it.
 
 ## Competition facts
 
-- Teams of 3–6. Judged on impact, feasibility, creativity, content and presentation.
-- Round 2 is a poster showcase on February 11, 2027. Round 3 is a presentation on March 2, 2027. Three winning teams get $3,000 each and present at Verizon headquarters on March 30, 2027.
-- Details: [NJIT Smart Campus page](https://computing.njit.edu/node/601).
+- Teams of 3–6. Judged on impact, feasibility, creativity, content and presentation. The page gives no weights, only a Low / Medium / High guide; "High" content is "backed by data, research, or real-world validation".
+- Projects must align with one of Verizon's three pillars, named exactly: **AI-Driven Automation & Efficiency** (our headline), **Cost & Sustainability Transformation**, and **Next-Gen Products & Services to Enhance Customer Experience**.
+- The page encourages "innovative use of Verizon's 5G" and lists, among others, Multi-access Edge Computing, Private 5G with MEC, AWS Wavelength on Verizon 5G Edge, network slicing and C-V2X. None is required.
+- Round 1 accepts any creative format, for example "PowerPoint with voiceover" or a presenter talking to camera. Prototypes "are not required and will not affect the judging evaluation."
+- Round 2 is a poster showcase on February 11, 2027. Round 3 is a presentation on March 2, 2027. Teams that reach Round 3 get $500. Three winning teams get $3,000 each and present at Verizon headquarters on March 30, 2027. The page is inconsistent on Round 3 length (5 or 10 minutes).
+- Details: [NJIT Smart Campus page](https://computing.njit.edu/smart-campus).
