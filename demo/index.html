@@ -6,7 +6,7 @@
 <title>Octopark — concept demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800;900&family=Overpass+Mono:wght@600;700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800;900&family=Overpass+Mono:wght@600;700&family=Montserrat:wght@800&family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700;9..40,800&family=IBM+Plex+Sans:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   /* Flat, light, signage look: white surfaces, black ink, solid colours, no glows or gradients.
      Overpass is based on US highway signage lettering. Sized for a 1920x1080 recording. */
@@ -17,6 +17,8 @@
     --red: #D22630; --green: #157A3A; --green-bg: #DCF0E2; --orange: #A8530B;
     --navy: #0C2141; --brand-blue: #1559A0;
     --yellow: #FFC20E; --blue: #1D5BD0; --alert: #C21B1B; --alert-bg: #FBE4E2;
+    --you: #FFC20E; --you-ink: #14161A; --you-line: #14161A; --guest: #1D5BD0;
+    --floor: #F6F5F2; --stall-line: #8E8A81; --chev: #A9A59C; --radius: 10px;
     --sans: Overpass, "Helvetica Neue", Arial, sans-serif;
     --mono: "Overpass Mono", ui-monospace, Consolas, monospace;
   }
@@ -29,7 +31,7 @@
   /* The whole demo is drawn on a fixed 1920 x 1080 stage and scaled to fit the window. */
   #stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: center;
     display: flex; flex-direction: column; overflow: hidden; background: var(--paper); }
-  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
   .label { font-size: 16px; font-weight: 800; color: var(--ink-2); }
 
   /* ---------- header ---------- */
@@ -86,12 +88,12 @@
   .cta { margin-top: auto; align-self: flex-start; display: flex; align-items: center; gap: 8px; background: var(--ink); color: #fff;
     font-weight: 800; font-size: 16px; border-radius: 8px; padding: 10px 16px 8px 14px; }
   .cta svg { width: 18px; height: 18px; margin-top: -2px; }
-  .hero.go { background: var(--yellow); border-color: var(--yellow); }
-  .hero.go small, .hero.go > span { color: var(--ink); }
+  .hero.go { background: var(--you); border-color: var(--you); color: var(--you-ink); }
+  .hero.go small, .hero.go > span { color: var(--you-ink); } .hero.go .cta { background: var(--you-ink); color: var(--you); }
   .hero.done { background: var(--green); border-color: var(--green); color: #fff; }
   .hero.done small, .hero.done > span { color: #fff; } .hero.done .cta { background: #fff; color: var(--green); }
-  .hero.guest { background: var(--blue); border-color: var(--blue); color: #fff; }
-  .hero.guest small, .hero.guest > span { color: #fff; } .hero.guest .cta { background: #fff; color: var(--blue); }
+  .hero.guest { background: var(--guest); border-color: var(--guest); color: #fff; }
+  .hero.guest small, .hero.guest > span { color: #fff; } .hero.guest .cta { background: #fff; color: var(--guest); }
 
   .sect { margin: 18px 6px 8px; display: flex; justify-content: space-between; align-items: baseline; }
   .sect .label { color: var(--ink-3); font-size: 15px; }
@@ -135,10 +137,10 @@
   .maphead { display: flex; align-items: center; gap: 18px; }
   .maphead > div:first-child { min-width: 0; }
   .maphead h2 { margin: 2px 0 0; font-size: 34px; font-weight: 900; letter-spacing: -.8px; white-space: nowrap; line-height: 1.05; }
-  .yours { margin-left: auto; display: flex; align-items: center; gap: 8px; background: var(--yellow); color: var(--ink); font-weight: 900;
+  .yours { margin-left: auto; display: flex; align-items: center; gap: 8px; background: var(--you); color: var(--you-ink); font-weight: 900;
     border-radius: 6px; padding: 10px 16px 8px; font-size: 20px; white-space: nowrap; opacity: 0; transform: translateY(6px); transition: opacity .25s, transform .25s; }
   .yours.show { opacity: 1; transform: none; }
-  .yours.guest { background: var(--blue); color: #fff; }
+  .yours.guest { background: var(--guest); color: #fff; }
   .yours svg { width: 20px; height: 20px; margin-top: -3px; }
   .count { text-align: right; line-height: 1; margin-left: auto; }
   .yours + .count { margin-left: 6px; }
@@ -149,13 +151,14 @@
   .stall.free .openmark { opacity: 1; }
   .stall .car { transition: opacity .5s; }
   .stall.free .car, .stall.target .car { opacity: 0; }
-  .stall.target .openmark { opacity: 1; fill: var(--yellow); stroke: var(--ink); stroke-width: 3; animation: flash 1s steps(2) infinite; }
-  .stall.mine .body { fill: var(--yellow); stroke: var(--ink); stroke-width: 2; }
-  .stall.mine.guest .body { fill: var(--blue); }
+  .stall.target .openmark { opacity: 1; fill: var(--you); stroke: var(--you-line); stroke-width: 3; animation: flash 1s steps(2) infinite; }
+  .stall.mine .body, #mover .body { fill: var(--you); stroke: var(--you-line); stroke-width: 2; }
+  .stall.mine.guest .body, #mover.guest .body { fill: var(--guest); }
+  #lotsvg .floor { fill: var(--floor); stroke: var(--line); } #lotsvg .ln { stroke: var(--stall-line); } #lotsvg .chev { stroke: var(--chev); } #lotsvg .lbl { fill: var(--ink-3); }
   .stall text { fill: var(--ink-3); font: 700 13px var(--sans); text-anchor: middle; }
   .stall.free text { fill: var(--green); font-weight: 900; }
   .stall.target text, .stall.mine text { fill: var(--ink); font-weight: 900; }
-  @keyframes flash { 50% { fill: #FFE48A; } }
+  @keyframes flash { 50% { fill-opacity: .5; } }
   #route { fill: none; stroke: var(--ink); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1 11; opacity: 0;
     transition: opacity .3s; animation: march .5s linear infinite; }
   #route.show { opacity: 1; }
@@ -240,7 +243,7 @@
   .log div { display: grid; grid-template-columns: 10px 46px 1fr; gap: 10px; align-items: center; font-size: 15.5px;
     padding: 8px 0 6px; border-bottom: 1px solid var(--line); animation: slide .3s; color: var(--ink-3); }
   .log u { width: 10px; height: 10px; border-radius: 2px; background: var(--green); margin-top: -2px; }
-  .log .g u { background: var(--blue); } .log .v u { background: var(--alert); }
+  .log .g u { background: var(--guest); } .log .v u { background: var(--alert); }
   .log b { color: var(--ink); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   @keyframes slide { from { opacity: 0; } }
   .privacy { display: flex; flex: none; margin-top: 10px; background: var(--sunk); border-radius: 8px; }
@@ -256,6 +259,77 @@
   .help dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 9px 14px; font-size: 15px; color: var(--ink-2); }
   .help dt { font: 700 13px var(--mono); border: 1.5px solid var(--ink); border-bottom-width: 3px; border-radius: 6px; padding: 3px 8px 1px; text-align: center; }
   .help dd { margin: 0; align-self: center; }
+
+
+  /* ======================= LOOKS (press L, or add ?look=app / ?look=console) =======================
+     signage (default): garage guidance hardware and wayfinding signs (INDECT, Park Assist, airport signage).
+     app: consumer parking apps (SpotHero, ParkMobile, Apple Maps): roomy, rounded, one brand colour.
+     console: operator software for Parking Services or a security desk: dark, dense, plain. */
+
+  body.look-app {
+    --paper: #EEF2F7; --surface: #FFFFFF; --sunk: #F3F6FA;
+    --ink: #0C2141; --ink-2: #3B4A64; --ink-3: #5B6880; --line: #E1E7EF; --line-2: #C3CDDB;
+    --green: #0E7B53; --green-bg: #DDF3EA; --alert: #C8261F; --alert-bg: #FCE8E6;
+    --you: #1559A0; --you-ink: #FFFFFF; --you-line: #0C2141; --guest: #6B45D6;
+    --floor: #F3F6FA; --stall-line: #B7C2D2; --chev: #B7C2D2; --radius: 20px;
+    --sans: "DM Sans", "Helvetica Neue", Arial, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  .look-app body, body.look-app { font-weight: 600; }
+  .look-app header { border-bottom: 0; box-shadow: 0 1px 0 var(--line); }
+  .look-app .panel { border-color: transparent; box-shadow: 0 1px 2px rgba(12,33,65,.06), 0 6px 20px rgba(12,33,65,.06); }
+  .look-app .caption { border-radius: 16px; }
+  .look-app .stat b, .look-app .maphead h2, .look-app .apphead b, .look-app .hero b { letter-spacing: -1px; }
+  .look-app .yours { border-radius: 12px; }
+  .look-app .levels { border: 0; background: var(--sunk); border-radius: 12px; padding: 3px; }
+  .look-app .levels span { border: 0; border-radius: 9px; }
+  .look-app .levels .on { background: var(--you); }
+  .look-app .node .tile { border: 0; border-radius: 16px; background: #E6EEF8; color: var(--brand-blue); }
+  .look-app .node.on .tile { background: var(--brand-blue); color: #fff; }
+  .look-app .wire::before { background: var(--line-2); }
+  .look-app .wire.video::before { background: repeating-linear-gradient(90deg, var(--line-2) 0 10px, transparent 10px 14px); }
+  .look-app .wire i { border-radius: 50%; background: var(--brand-blue); }
+  .look-app .cam, .look-app .led { border-radius: 14px; }
+  .look-app .steps { border-top: 0; } .look-app .steps li { border-bottom-color: var(--sunk); }
+  .look-app .privacy { border-radius: 14px; } .look-app .privacy span { border-left-color: #fff; }
+  .look-app .hero { border-radius: 22px; } .look-app .group { border-radius: 18px; }
+  .look-app .cta { border-radius: 999px; } .look-app .tabs .on { color: var(--brand-blue); }
+  .look-app .avatar { background: var(--brand-blue); }
+  .look-app #lotsvg .floor { stroke: none; }
+  .look-app .caption.ok .sq { background: #6CB2FF; }
+  .look-app .stall .car { filter: grayscale(1) brightness(1.04); }
+  .look-app .stall.mine .car { filter: none; }
+
+  body.look-console {
+    --paper: #121418; --surface: #1B1E24; --sunk: #23272F;
+    --ink: #E9ECF1; --ink-2: #B9C0CC; --ink-3: #8F98A7; --line: #2C313A; --line-2: #444C59;
+    --green: #3CC174; --green-bg: rgba(60,193,116,.16); --orange: #F0A040; --red: #E5484D; --alert: #FF6257; --alert-bg: rgba(255,98,87,.13);
+    --you: #FFC20E; --you-ink: #14161A; --you-line: #FFC20E; --guest: #5B8CFF;
+    --floor: #16191E; --stall-line: #4A525F; --chev: #3A414C; --radius: 4px;
+    --sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  .look-console header { margin-bottom: 18px; }
+  .look-console h1 { color: var(--ink); }
+  .look-console .caption { background: #0B0C0F; border: 1px solid var(--line); border-radius: 4px; font-family: var(--mono); font-size: 20px; }
+  .look-console .stat b { font-family: var(--mono); font-weight: 600; letter-spacing: -1px; }
+  .look-console .count b { font-family: var(--mono); font-weight: 600; letter-spacing: -3px; }
+  .look-console .concept, .look-console .yours, .look-console .levels { border-radius: 3px; }
+  .look-console .levels { border-color: var(--line-2); } .look-console .levels .on { background: var(--ink); color: #121418; }
+  .look-console .label { text-transform: uppercase; letter-spacing: 1.2px; font-size: 14px; }
+  .look-console .node .tile { border-radius: 4px; border-color: var(--line-2); color: var(--ink-2); }
+  .look-console .wire::before { background: var(--line-2); }
+  .look-console .wire.video::before { background: repeating-linear-gradient(90deg, var(--line-2) 0 10px, transparent 10px 14px); }
+  .look-console .stall .car { filter: brightness(.38); }
+  .look-console .stall.mine .car { filter: none; }
+  .look-console .stall.free .openmark { fill: rgba(60,193,116,.12); }
+  .look-console .steps li.done i { color: #0B2A16; }
+  /* The phone is the student's app, a separate product, so it keeps the light look. */
+  .look-console .screen {
+    --surface: #FFFFFF; --sunk: #F6F5F2; --ink: #14161A; --ink-2: #474C55; --ink-3: #676C75; --line: #DCD9D2; --line-2: #B9B5AC;
+    --green: #157A3A; --green-bg: #DCF0E2; --orange: #A8530B; --red: #D22630; --alert: #C21B1B; --you-line: #14161A;
+    --sans: Overpass, "Helvetica Neue", Arial, sans-serif; color: var(--ink); font-family: var(--sans);
+  }
+  .look-console .screen .label { text-transform: none; letter-spacing: 0; font-size: 15px; }
+  .look-console .phone { box-shadow: 0 0 0 2px #3A3C41, 0 20px 60px rgba(0,0,0,.5); }
 
   /* Presenter mode (press P): leaves the bottom-left corner empty for a webcam bubble. */
   body.presenter .phone { height: 650px; }
@@ -325,7 +399,7 @@
         <div class="legend">
           <span><i style="background:var(--green-bg);box-shadow:inset 0 0 0 2px var(--green)"></i>Open</span>
           <span><i style="background:#C9C5BC"></i>Taken</span>
-          <span><i style="background:var(--yellow);box-shadow:inset 0 0 0 2px var(--ink)"></i>Your spot</span>
+          <span><i style="background:var(--you);box-shadow:inset 0 0 0 2px var(--you-line)"></i>Your spot</span>
           <div class="levels"><em>Level</em><span>2</span><span>3</span><span class="on">4</span><span>5</span><span>6</span></div>
         </div>
       </div>
@@ -412,6 +486,7 @@
       <dt>V</dt><dd>Car with no permit or pass arrives</dd>
       <dt>P</dt><dd>Presenter mode (room for a webcam)</dd>
       <dt>A</dt><dd>Automatic arrivals on / off</dd>
+      <dt>L</dt><dd>Switch look: signage / app / console</dd>
       <dt>H</dt><dd>Show / hide this panel</dd>
     </dl>
   </div>
@@ -519,18 +594,18 @@ function carGlyph(parent, color) {
   el("rect", { x: -13, y: 17, width: 26, height: 10, rx: 3.5, fill: "#14161A", opacity: .22 }, g);
   return g;
 }
-el("rect", { x: 1, y: 1, width: 998, height: H - 2, rx: 8, fill: "#F6F5F2", stroke: "#DCD9D2", "stroke-width": 2 }, svg);
+el("rect", { class: "floor", x: 1, y: 1, width: 998, height: H - 2, rx: 8, "stroke-width": 2 }, svg);
 [182, 498].forEach(y => {
-  for (let x = 110; x < 940; x += 118) el("path", { d: `M${x - 7} ${y - 9} L${x + 4} ${y} L${x - 7} ${y + 9}`, fill: "none", stroke: "#A9A59C", "stroke-width": 3.5, "stroke-linecap": "round", "stroke-linejoin": "round" }, svg);
+  for (let x = 110; x < 940; x += 118) el("path", { class: "chev", d: `M${x - 7} ${y - 9} L${x + 4} ${y} L${x - 7} ${y + 9}`, fill: "none", "stroke-width": 3.5, "stroke-linecap": "round", "stroke-linejoin": "round" }, svg);
 });
-const lbl = (x, y, t, extra = {}) => { el("text", { x, y, fill: "#676C75", "font-size": 14, "font-weight": 900, "text-anchor": "middle", "letter-spacing": 1, "font-family": "Overpass, Arial, sans-serif", ...extra }, svg).textContent = t; };
+const lbl = (x, y, t, extra = {}) => { el("text", { class: "lbl", x, y, "font-size": 14, "font-weight": 900, "text-anchor": "middle", "letter-spacing": 1, "font-family": "Overpass, Arial, sans-serif", ...extra }, svg).textContent = t; };
 lbl(34, 160, "IN"); lbl(34, 476, "IN");   // above the lane so the route line never covers it
 lbl(970, 340, `RAMP TO L${LEVEL - 1} / L${LEVEL + 1}`, { transform: "rotate(90 970 340)" });
 const stalls = [];
 ROWS.forEach(r => {
   const back = r.dir < 0 ? r.y : r.y + SH;
-  el("path", { d: `M${X0} ${back} H${X0 + N * SW}`, stroke: "#8E8A81", "stroke-width": 2.5 }, svg);
-  for (let i = 0; i <= N; i++) el("path", { d: `M${X0 + i * SW} ${r.y} V${r.y + SH}`, stroke: "#8E8A81", "stroke-width": 2 }, svg);
+  el("path", { class: "ln", d: `M${X0} ${back} H${X0 + N * SW}`, "stroke-width": 2.5 }, svg);
+  for (let i = 0; i <= N; i++) el("path", { class: "ln", d: `M${X0 + i * SW} ${r.y} V${r.y + SH}`, "stroke-width": 2 }, svg);
   for (let i = 0; i < N; i++) {
     const x = X0 + i * SW, cx = x + SW / 2, cy = r.y + SH / 2 + r.dir * 7.5, id = r.id + (i + 1);
     const g = el("g", { class: "stall" + (Math.random() < 0.24 ? " free" : "") }, svg);
@@ -541,9 +616,8 @@ ROWS.forEach(r => {
   }
 });
 const route = el("path", { id: "route" }, svg);
-const mover = el("g", { style: "display:none" }, svg);
-const moverBody = carGlyph(mover, "#FFC20E").querySelector(".body");
-moverBody.setAttribute("stroke", "#14161A"); moverBody.setAttribute("stroke-width", 2);
+const mover = el("g", { id: "mover", style: "display:none" }, svg);
+carGlyph(mover, "#FFC20E");
 const freeStalls = () => stalls.filter(s => s.g.classList.contains("free"));
 function drawMap() { $("mapOpen").textContent = freeStalls().length; if (heroState === "idle") hero("idle"); }
 
@@ -552,9 +626,9 @@ function animate(dur, fn) {
   if (REDUCED) { fn(1); return Promise.resolve(); }
   return new Promise(res => { const t0 = performance.now(); (function f(t) { const k = Math.min(1, Math.max(0, (t - t0) / dur)); fn(k); k < 1 ? requestAnimationFrame(f) : res(); })(t0); });
 }
-async function driveTo(s, color) {
+async function driveTo(s, guest) {
   const y = s.row.lane, turn = s.cx - 48, place = (x, yy, a) => mover.setAttribute("transform", `translate(${x} ${yy}) rotate(${a})`);
-  moverBody.setAttribute("fill", color);
+  mover.classList.toggle("guest", guest);
   mover.style.display = ""; place(-60, y, 90);
   await animate(700 + (turn + 60) * 1.7, k => place(-60 + (turn + 60) * ease(k), y, 90));
   await animate(900, k => {
@@ -633,7 +707,7 @@ async function carArrives(kind = "permit") {   // "permit" | "guest" | "none"
     const y = s.row.lane, turn = s.cx - 48;
     route.setAttribute("d", `M4 ${y} H${turn} Q${s.cx} ${y} ${s.cx} ${s.cy}`); route.classList.add("show");
     arm(true); await sleep(900); car.className = "gcar in out";
-    await driveTo(s, guest ? "#1D5BD0" : "#FFC20E");
+    await driveTo(s, guest);
     s.g.classList.remove("target"); s.g.classList.add("mine"); s.g.classList.toggle("guest", guest); mine = s; route.classList.remove("show");
     if (!guest) { hero("done", s); caption(`Parked in ${s.id} at ${hhmm()} • no circling`, "done", 4500); }
     else caption(`Guest parked in ${s.id} • permit valid tonight`, "done", 4500);
@@ -655,6 +729,10 @@ async function carArrives(kind = "permit") {   // "permit" | "guest" | "none"
 
 // ---------- start ----------
 $("mapLot").textContent = lot.name; $("mapSub").textContent = `open on Level ${LEVEL}`; $("fcName").textContent = LOTS[0].name.split(" • ")[0];
+const LOOKS = ["signage", "app", "console"];
+let look = Math.max(0, LOOKS.indexOf(new URLSearchParams(location.search).get("look")));
+const setLook = i => { look = i % LOOKS.length; LOOKS.forEach(l => document.body.classList.remove("look-" + l)); document.body.classList.add("look-" + LOOKS[look]); };
+setLook(look);
 if (location.search.includes("presenter")) document.body.classList.add("presenter");
 if (location.search.includes("manual")) AUTO_EVERY_MS = 0;
 drawLots(); hero("idle"); drawMap(); led(`${lot.sign}  ${lot.open} OPEN`); captionIdle();
@@ -666,6 +744,7 @@ document.addEventListener("keydown", e => {
   if (k === "g") carArrives("guest");
   if (k === "p") document.body.classList.toggle("presenter");
   if (k === "a") auto = !auto;
+  if (k === "l") setLook(look + 1);
   if (k === "h" || k === "?") $("help").classList.toggle("show");
   if (k === "escape") $("help").classList.remove("show");
 });
