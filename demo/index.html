@@ -199,12 +199,15 @@
   .pipe { flex: none; height: 182px; padding: 16px 24px 14px; display: flex; flex-direction: column; }
   .pipe .top { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
   .pillars { display: flex; gap: 8px; }
-  .builton { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+  .builton { white-space: nowrap; }
   /* Verizon and AWS logos (official files from Wikimedia Commons; white-text copies for dark backgrounds). */
-  .brandlogo { width: auto; display: block; } .brandlogo.vz-logo { height: 19px; } .brandlogo.aws-logo { height: 26px; margin-top: 4px; }
-  .withlogo { display: inline-flex; align-items: center; gap: .28em; }
-  .inlogo { width: auto; display: inline-block; }
-  .inlogo.vz-logo { height: .78em; vertical-align: -.04em; } .inlogo.aws-logo { height: 1.05em; margin-top: .2em; vertical-align: -.36em; }
+  /* Both logos sit on the text baseline with the same letter height (measured from the files):
+     Verizon's letters end 89% down the image; AWS's letters end 52% down, with the arrow below. */
+  .brandlogo, .inlogo { width: auto; display: inline-block; }
+  .vz-logo { height: .8em; vertical-align: -.09em; }
+  .aws-logo { height: 1.22em; vertical-align: -.19em; margin-bottom: -.4em; }   /* the arrow hangs below without making the line taller */
+  .builton img { font-size: 1.3em; margin-left: .12em; margin-right: .12em; }
+  .withlogo { white-space: nowrap; }
   .caption img.vz-logo, #storybar img.vz-logo, .look-console img.vz-logo { content: url(verizon-logo-white.svg); }
   .caption img.aws-logo, #storybar img.aws-logo, .look-console img.aws-logo { content: url(aws-logo-white.svg); }
   .look-console .screen img.aws-logo { content: url(aws-logo.svg); }
@@ -217,7 +220,7 @@
   .node { flex: none; width: 132px; display: flex; flex-direction: column; align-items: center; text-align: center; }
   .node .tile { width: 50px; height: 50px; border-radius: 8px; display: grid; place-items: center; margin-bottom: 7px;
     border: 2px solid var(--ink); color: var(--ink); background: var(--surface); transition: background-color .15s, color .15s, border-color .15s; }
-  .node b { font-size: 17px; font-weight: 900; white-space: nowrap; }
+  .node b { font-size: 17px; font-weight: 900; white-space: nowrap; margin-bottom: 4px; }
   .node span { font-size: 13.5px; white-space: nowrap; line-height: 1.35; }
   .node .hw { color: var(--ink-2); } .node .sw { color: var(--orange); font-weight: 800; }
   .flowwrap { flex: 1; display: flex; margin-top: 6px; }
@@ -873,7 +876,7 @@ const STEPS = [   // in the order of docs/04-video-script.md
   { t: "Octopark", parts: "all", cap: "Live parking for NJIT: every space, every deck" },                                   // 0:35
   { t: "At the gate", parts: ["cam", "led", "steps"], run: () => whenFree("permit", 1) },                                   // 0:42
   { t: "Your level and your space", parts: ["phone", "map"] },
-  { t: "Built on Verizon + AWS", parts: ["pipe"], cap: "Verizon 5G carries the video • 5G Edge runs AWS • the backend runs on AWS",  // 1:05
+  { t: "Built on Verizon + AWS", parts: ["pipe"], cap: "Video over Verizon 5G • decided on 5G Edge • backend on AWS",  // 1:05
     run: () => { pulsePipe(); pipeLoop = setInterval(pulsePipe, 2800); } },
   { t: "Privacy built in", parts: ["cam", "steps", "privacy"], run: () => whenFree("none", 4) },                             // 1:25
 ];
