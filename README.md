@@ -148,7 +148,7 @@ Add `?look=app` or `?look=console` to the address to start in one of the other l
 
 Add `?manual` to the end of the address to start with automatic arrivals off, so cars come only when you press a key.
 
-The demo uses made-up plates and numbers. The lot names are NJIT's; the sizes are placeholders, set at the top of the script block in the file.
+The demo uses made-up plates and live counts. The lots and their sizes come from NJIT's own live parking page (see [docs/07](docs/07-existing-njit-parking-page.md)), and are set at the top of the script block in the file.
 
 ![The demo: student app, live space map and gate camera](demo/preview.png)
 

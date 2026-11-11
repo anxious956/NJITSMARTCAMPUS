@@ -172,8 +172,10 @@
 
   /* ---------- pipeline ---------- */
   .pipe { flex: none; height: 150px; padding: 16px 24px 14px; display: flex; flex-direction: column; }
-  .pipe .top { display: flex; justify-content: space-between; align-items: baseline; }
-  .pipe .top span { color: var(--ink-3); font-size: 14px; }
+  .pipe .top { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .pillars { display: flex; gap: 8px; }
+  .pillars span { font-size: 13.5px; font-weight: 800; white-space: nowrap; color: var(--ink-2); border: 1.5px solid var(--line-2); border-radius: 6px; padding: 5px 10px 3px; }
+  .pillars .main { background: var(--navy); border-color: var(--navy); color: #fff; }
   .flow { flex: 1; display: flex; align-items: center; margin-top: 6px; }
   .node { flex: none; width: 132px; display: flex; flex-direction: column; align-items: center; text-align: center; }
   .node .tile { width: 50px; height: 50px; border-radius: 8px; display: grid; place-items: center; margin-bottom: 7px;
@@ -184,7 +186,7 @@
   .wire { flex: 1; position: relative; height: 40px; min-width: 30px; align-self: flex-start; margin-top: 5px; }
   .wire::before { content: ""; position: absolute; left: -12px; right: -12px; top: 21px; height: 2px; background: var(--ink); }
   .wire.video::before { height: 6px; top: 19px; background: repeating-linear-gradient(90deg, var(--ink) 0 10px, transparent 10px 14px); }
-  .wire em { position: absolute; left: 0; right: 0; top: -2px; text-align: center; font-style: normal; font-size: 13px; font-weight: 800; color: var(--ink-3); }
+  .wire em { position: absolute; left: -20px; right: -20px; top: -2px; text-align: center; white-space: nowrap; font-style: normal; font-size: 13px; font-weight: 800; color: var(--ink-3); }
   .wire i { position: absolute; top: 15px; left: 0; width: 14px; height: 14px; margin-left: -7px; border-radius: 2px; background: var(--red); opacity: 0; }
   .wire.on i { animation: dot .32s linear; }
   @keyframes dot { 0% { left: 0; opacity: 1; } 100% { left: 100%; opacity: 1; } }
@@ -292,7 +294,7 @@
   .look-app .steps { border-top: 0; } .look-app .steps li { border-bottom-color: var(--sunk); }
   .look-app .privacy { border-radius: 14px; } .look-app .privacy span { border-left-color: #fff; }
   .look-app .hero { border-radius: 22px; } .look-app .group { border-radius: 18px; }
-  .look-app .cta { border-radius: 999px; } .look-app .tabs .on { color: var(--brand-blue); }
+  .look-app .cta, .look-app .pillars span { border-radius: 999px; } .look-app .tabs .on { color: var(--brand-blue); }
   .look-app .avatar { background: var(--brand-blue); }
   .look-app #lotsvg .floor { stroke: none; }
   .look-app .caption.ok .sq { background: #6CB2FF; }
@@ -318,6 +320,8 @@
   .look-console .node .tile { border-radius: 4px; border-color: var(--line-2); color: var(--ink-2); }
   .look-console .wire::before { background: var(--line-2); }
   .look-console .wire.video::before { background: repeating-linear-gradient(90deg, var(--line-2) 0 10px, transparent 10px 14px); }
+  .look-console .pillars span { border-radius: 3px; }
+  .look-console .pillars .main { background: var(--ink); border-color: var(--ink); color: #121418; }
   .look-console .stall .car { filter: brightness(.38); }
   .look-console .stall.mine .car { filter: none; }
   .look-console .stall.free .openmark { fill: rgba(60,193,116,.12); }
@@ -367,8 +371,8 @@
         <div class="sect"><div class="label">All lots</div><span>Updated live</span></div>
         <div class="group" id="lots"></div>
         <div class="group forecast">
-          <div class="top"><span>Forecast • <b id="fcName"></b></span><em>Full by ~9:40</em></div>
-          <div class="bars"><i style="height:22%"></i><i class="now" style="height:58%"></i><i style="height:88%"></i><i class="full" style="height:100%"></i><i class="full" style="height:100%"></i><i style="height:82%"></i><i style="height:64%"></i></div>
+          <div class="top"><span>Forecast • <b id="fcName"></b></span><em>Full by ~10:10</em></div>
+          <div class="bars"><i style="height:16%"></i><i class="now" style="height:48%"></i><i style="height:82%"></i><i class="full" style="height:100%"></i><i class="full" style="height:100%"></i><i class="full" style="height:96%"></i><i style="height:86%"></i></div>
           <div class="hours"><span>7</span><span class="now">8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>1</span></div>
         </div>
         <div class="group permit">
@@ -400,17 +404,17 @@
           <span><i style="background:var(--green-bg);box-shadow:inset 0 0 0 2px var(--green)"></i>Open</span>
           <span><i style="background:#C9C5BC"></i>Taken</span>
           <span><i style="background:var(--you);box-shadow:inset 0 0 0 2px var(--you-line)"></i>Your spot</span>
-          <div class="levels"><em>Level</em><span>2</span><span>3</span><span class="on">4</span><span>5</span><span>6</span></div>
+          <div class="levels"><em>Level</em><span>1</span><span>2</span><span>3</span><span class="on">4</span><span>5</span><span>6</span><span>7</span></div>
         </div>
       </div>
       <div class="panel pipe">
-        <div class="top"><div class="label">How it works</div><span>Lights up as each car arrives</span></div>
+        <div class="top"><div class="label">Built on Verizon</div><div class="pillars" aria-label="Verizon challenge pillars"><span class="main">AI-Driven Automation &amp; Efficiency</span><span>Cost &amp; Sustainability</span><span>Next-Gen Products &amp; Services</span></div></div>
         <div class="flow" id="pipe">
-          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h11l4 3v5H3z"/><circle cx="8.5" cy="12" r="2"/><path d="M6 16v4"/></svg></div><b>Cameras</b><span>plates, spaces</span></div>
+          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h11l4 3v5H3z"/><circle cx="8.5" cy="12" r="2"/><path d="M6 16v4"/></svg></div><b>Cameras</b><span>5G Video Insights</span></div>
+          <div class="wire video"><em>private 5G</em><i></i></div>
+          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-7"/><circle cx="12" cy="11" r="2"/><path d="M7.5 15a6 6 0 0 1 0-8M16.5 7a6 6 0 0 1 0 8M4.5 18a10 10 0 0 1 0-14M19.5 4a10 10 0 0 1 0 14"/></svg></div><b>Verizon 5G</b><span>Ultra Wideband</span></div>
           <div class="wire video"><em>video</em><i></i></div>
-          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-7"/><circle cx="12" cy="11" r="2"/><path d="M7.5 15a6 6 0 0 1 0-8M16.5 7a6 6 0 0 1 0 8M4.5 18a10 10 0 0 1 0-14M19.5 4a10 10 0 0 1 0 14"/></svg></div><b>Verizon 5G</b><span>no cables</span></div>
-          <div class="wire video"><em>video</em><i></i></div>
-          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></div><b>Edge AI</b><span>video ends here</span></div>
+          <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></div><b>Edge AI</b><span>5G Edge + AWS</span></div>
           <div class="wire"><em>data</em><i></i></div>
           <div class="node"><div class="tile"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4.5 4.5 0 0 1-.5-9 6 6 0 0 1 11.5 1.5A3.8 3.8 0 0 1 17.5 18z"/></svg></div><b>Cloud</b><span>match, assign</span></div>
           <div class="wire"><em>data</em><i></i></div>
@@ -494,14 +498,17 @@
 <div class="sr-only" role="status" aria-live="polite" id="sr"></div>
 
 <script>
-// ---- Edit these to match campus. Names and capacities are placeholders. ----
+// ---- Edit these to match campus. ----
+// Lots and capacities are from NJIT's own live parking page (mobile.njit.edu/parking, checked Nov 11 2026);
+// see docs/07-existing-njit-parking-page.md. NJIT Campus Planning gives the Science & Tech garage 981 spaces
+// instead of 922: confirm with Parking Services. The "open" numbers are simulated.
 const LOTS = [
-  { name: "Parking Deck • Summit St", sign: "PARKING DECK", cap: 1100, open: 64 },
-  { name: "Science & Tech Garage",    sign: "STPG",         cap: 981,  open: 212 },
-  { name: "Lot 7",                    sign: "LOT 7",        cap: 140,  open: 5 },
+  { name: "Parking Deck • Summit St", sign: "PARKING DECK", cap: 1685, open: 141 },
+  { name: "Science & Tech Garage",    sign: "STPG",         cap: 922,  open: 212 },
+  { name: "Lot 16 • New St",          sign: "LOT 16",       cap: 182,  open: 5 },
 ];
 const FEATURED = 1;            // which lot the live map shows and cars are assigned to
-const LEVEL = 4;                // the garage allows overnight parking only above level 3
+const LEVEL = 4;                // the garage has 7 parking floors; overnight parking is not allowed on levels 1-3
 let AUTO_EVERY_MS = 13000;     // a car arrives by itself this often; 0 = keys only
 // Keys: Space = student with a term permit • G = guest with an approved one-night permit
 //       V = car with no permit or pass • P = presenter mode • A = auto on/off • H = key help
@@ -688,7 +695,7 @@ async function carArrives(kind = "permit") {   // "permit" | "guest" | "none"
   caption("Reading the license plate", "busy");
   step(0, "active"); await sleep(800);
   $("det").classList.add("show"); $("s0").textContent = plate; step(0, "done");
-  pulsePipe(); step(1, "active"); caption("Plate turned into a private token", "busy"); await sleep(650);
+  pulsePipe(); step(1, "active"); caption("Plate turned into a private token on Verizon 5G Edge", "busy"); await sleep(650);
   $("s1").textContent = token; $("s0").innerHTML = `<s>${plate}</s> not stored`; step(1, "done");
   step(2, "active"); caption("Checking NJIT permits", "busy"); await sleep(600);
 
@@ -728,7 +735,7 @@ async function carArrives(kind = "permit") {   // "permit" | "guest" | "none"
 }
 
 // ---------- start ----------
-$("mapLot").textContent = lot.name; $("mapSub").textContent = `open on Level ${LEVEL}`; $("fcName").textContent = LOTS[0].name.split(" • ")[0];
+$("mapLot").textContent = lot.name; $("mapSub").textContent = `open on Level ${LEVEL}`; $("fcName").textContent = LOTS[2].name.split(" • ")[0];
 const LOOKS = ["signage", "app", "console"];
 let look = Math.max(0, LOOKS.indexOf(new URLSearchParams(location.search).get("look")));
 const setLook = i => { look = i % LOOKS.length; LOOKS.forEach(l => document.body.classList.remove("look-" + l)); document.body.classList.add("look-" + LOOKS[look]); };
