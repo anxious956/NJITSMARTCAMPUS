@@ -1,6 +1,6 @@
-# HighlanderSpot — smart parking for NJIT
+# Octopark — smart parking for NJIT
 
-Our entry for the **2026 Verizon Smart Campus Innovation Challenge**. "HighlanderSpot" is a working name.
+Our entry for the **2026 Verizon Smart Campus Innovation Challenge**.
 
 This page explains the whole project in plain language. Read it once and you can explain the idea to a judge.
 
@@ -22,7 +22,7 @@ Campus should already know where the open spots are and tell you before you choo
 
 ## How NJIT parking works today, and what changes
 
-| Today | With HighlanderSpot |
+| Today | With Octopark |
 | --- | --- |
 | Students pay for a parking permit by term and show a hang tag | The plate is the permit — nothing to hang, nothing to forget |
 | You drive in and hunt for a space | You are told the level and space before you choose a ramp |
@@ -140,12 +140,31 @@ Script, shot list and the plan for filming day: [docs/04-video-script.md](docs/0
 | `P` | Presenter mode: clears the bottom-left corner for a webcam bubble |
 | `A` | Turns automatic arrivals on or off |
 | `H` | Shows or hides a list of these keys (hidden by default, so it never appears on camera unless you press it) |
+| `L` | Switches between three looks: signage (default), app and console |
+| `S` | Story mode: the six demo moments of the video script, one at a time. The part being talked about comes to the front and zooms in, with a subtitle bar at the bottom |
+| `→` / `←` | Next / previous story step. A presentation clicker (PageDown / PageUp) works too. `Esc` leaves story mode |
+
+The full Octopark logo is in `demo/octopark-logo-full.png`. The demo header uses `demo/logo.png`, a square crop of just the octopus mark, because the wordmark would be too small to read at that size.
+
+Add `?story` to the address to open straight into story mode. Add `?look=app` or `?look=console` to the address to start in one of the other looks. They are modelled on three kinds of real parking product: garage guidance signage (INDECT, Park Assist), consumer parking apps (SpotHero, ParkMobile) and operator software.
 
 Add `?manual` to the end of the address to start with automatic arrivals off, so cars come only when you press a key.
 
-The demo uses made-up plates and numbers. The lot names are NJIT's; the sizes are placeholders, set at the top of the script block in the file.
+The demo uses made-up plates and live counts. The lots and their sizes come from NJIT's own live parking page (see [docs/07](docs/07-existing-njit-parking-page.md)), and are set at the top of the script block in the file.
 
 ![The demo: student app, live space map and gate camera](demo/preview.png)
+
+## Video pieces outside the demo
+
+The script (docs/04-video-script.md) needs three things besides the demo itself:
+
+- **Phone mode, for the 1:38 shot where the driver opens Octopark.** Open `demo/index.html?phone` on a real phone (put the `demo` folder on the phone, or host it). It shows just the app, full screen, on "Level 4 • Space D4, guiding you in". One tap switches to "You're parked". Add `&spot=B7` to show a different space.
+- **Title cards, for 0:18 (THE CHALLENGE) and 1:38 (THE VALUE).** Ready-made 1920×1080 images are in `demo/cards/`. Each comes as a full-screen card (`challenge.png`, `value.png`) and as a transparent overlay to put over the filmed footage (`challenge-overlay.png`, `value-overlay.png`).
+- **End card, for 1:50.** `demo/cards/end.png`. Put your names in `TEAM` at the top of the script block in `demo/cards.html`, open it in Chrome at full screen (`F11`) and take a 1920×1080 screenshot, or ask for a new export. The survey number the script mentions goes in `SURVEY` and then shows on the challenge cards.
+
+`demo/opening.html` is an animated stand-in for the 0:00–0:10 ramp shot (a full garage level, a car circling, the clock going from 8:24 to 8:29), if there is no ramp footage. Reload it to replay.
+
+`demo/cards.html` shows all the cards; `←` and `→` switch between them, and `?overlay` shows the transparent versions.
 
 ## What is in this repo
 
@@ -158,17 +177,21 @@ The demo uses made-up plates and numbers. The lot names are NJIT's; the sizes ar
 | [docs/05-data-storage-and-security.md](docs/05-data-storage-and-security.md) | What is stored and for how long, and what that does and does not give campus security |
 | [docs/06-new-jersey-law.md](docs/06-new-jersey-law.md) | How the storage and sharing design fits New Jersey law |
 | [docs/07-existing-njit-parking-page.md](docs/07-existing-njit-parking-page.md) | How NJIT's current live parking page gets its numbers, where they go wrong, and how we answer "doesn't this already exist?" |
+| [docs/08-stitch-prompt.md](docs/08-stitch-prompt.md) | A prompt for Google Stitch, if you want it to try its own design of the demo screen |
 | [demo/index.html](demo/index.html) | The animated concept demo for the video |
 
 ## Before we submit
 
-- [ ] Find out where the video is uploaded. The competition page says "Online" but gives no link — check the registration email or ask the organizers at Ying Wu College of Computing.
+- [ ] Find out where the video is uploaded. The competition page says teams "will upload their video submission" online but gives no link or file format. Check the registration email or ask Dina Anello at Ying Wu College of Computing (contact on the competition page).
 - [ ] Replace the numbers marked **verify** in the pitch brief with current ones from Parking Services, or with our own survey of classmates.
 - [ ] Video is 2:00 or under, and states the challenge and the value proposition.
-- [ ] If an AI tool made any voice or image in the video, credit it at the end.
+- [ ] AI use is allowed, but the competition page says to "be prepared to discuss how it was used" and to consider noting where it helped. Add a short credit at the end for any AI voice, AI images, the logo if AI helped make it, and the demo (built with help from an AI coding assistant), and be ready to explain it.
 
 ## Competition facts
 
-- Teams of 3–6. Judged on impact, feasibility, creativity, content and presentation.
-- Round 2 is a poster showcase on February 11, 2027. Round 3 is a presentation on March 2, 2027. Three winning teams get $3,000 each and present at Verizon headquarters on March 30, 2027.
-- Details: [NJIT Smart Campus page](https://computing.njit.edu/node/601).
+- Teams of 3–6. Judged on impact, feasibility, creativity, content and presentation. The page gives no weights, only a Low / Medium / High guide; "High" content is "backed by data, research, or real-world validation".
+- Projects must align with one of Verizon's three pillars, named exactly: **AI-Driven Automation & Efficiency** (our headline), **Cost & Sustainability Transformation**, and **Next-Gen Products & Services to Enhance Customer Experience**.
+- The page encourages "innovative use of Verizon's 5G" and lists, among others, Multi-access Edge Computing, Private 5G with MEC, AWS Wavelength on Verizon 5G Edge, network slicing and C-V2X. None is required.
+- Round 1 accepts any creative format, for example "PowerPoint with voiceover" or a presenter talking to camera. Prototypes "are not required and will not affect the judging evaluation."
+- Round 2 is a poster showcase on February 11, 2027. Round 3 is a presentation on March 2, 2027. Teams that reach Round 3 get $500. Three winning teams get $3,000 each and present at Verizon headquarters on March 30, 2027. The page is inconsistent on Round 3 length (5 or 10 minutes).
+- Details: [NJIT Smart Campus page](https://computing.njit.edu/smart-campus).

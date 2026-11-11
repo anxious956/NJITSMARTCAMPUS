@@ -45,7 +45,7 @@ Each of these is a manual check today — a hang tag, an officer at a speaker, a
 
 ## 4. Value proposition
 
-> HighlanderSpot turns the cameras and network NJIT already needs into a live map of every parking space, so a driver goes straight to an open spot instead of circling — and campus gets safer, cleaner and cheaper to run.
+> Octopark turns the cameras and network NJIT already needs into a live map of every parking space, so a driver goes straight to an open spot instead of circling — and campus gets safer, cleaner and cheaper to run.
 
 | Who | What they get |
 | --- | --- |

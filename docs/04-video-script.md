@@ -2,7 +2,7 @@
 
 **Hard limit: 2:00.** This script is timed to **1:55**, leaving five seconds of margin. The spoken part is about 200 words — roughly 1:25 at a calm pace — and the rest is pictures and music. If the first read-through runs long, cut the lines marked *(optional)*; do not speed up the voice.
 
-**The format:** a filmed opening where a driver checks NJIT's own parking page and it shows something impossible, then a **freeze frame** where a teammate walks in and gives the pitch with the live demo running behind them, then the frame **unfreezes** and the same driver parks with HighlanderSpot.
+**The format:** a filmed opening where a driver checks NJIT's own parking page and it shows something impossible, then a **freeze frame** where a teammate walks in and gives the pitch with the live demo running behind them, then the frame **unfreezes** and the same driver parks with Octopark.
 
 The competition requires a **challenge statement** and a **value proposition**. Both appear as on-screen titles so a judge cannot miss them.
 
@@ -25,12 +25,12 @@ In this order, and in roughly these proportions:
 | 0:10–0:18 | **Filmed, parked.** The driver opens NJIT's parking page on their phone. Cut to the screen recording of the page; zoom in and circle **Available 255** and **Total 155**. Back to the driver's face. | Driver: "...what?" | Circle on `255` and `155` |
 | 0:18 | **Freeze frame** with a record-scratch sound. The presenter walks into frame in front of the frozen shot. | — | — |
 | 0:18–0:35 | **Presenter**, frozen frame behind or beside. | Presenter: "That's NJIT's real parking page. It counts cars at the gate, so one missed car makes every number after it wrong. And with more permits than spaces, nobody knows where the open spot is until they're already inside." | **THE CHALLENGE** — More permits than spaces. No way to know where the open spot is. *(add your survey number)* |
-| 0:35–0:42 | **Presenter, demo behind.** The demo comes up already running. | Presenter: "What if campus actually knew where your spot was? This is HighlanderSpot." | **HighlanderSpot** |
+| 0:35–0:42 | **Presenter, demo behind.** The demo comes up already running. | Presenter: "What if campus actually knew where your spot was? This is Octopark." | **Octopark** |
 | 0:42–1:05 | **Presenter, demo behind.** Press `Space` — a car rolls up, the plate is read, the phone and the gate sign show the level and space. Presenter gestures to it. | Presenter: "Cameras look at every space, not just the gate. An AI computer in each deck marks every space open or taken. At the gate, a plate reader matches your car to your NJIT permit — and before you pick a ramp, your phone tells you your level and your space." | **Hardware:** overview cameras · plate reader · edge AI computer · 5G router · entry sign |
 | 1:05–1:25 | **Presenter, demo behind.** The "How it works" strip at the bottom of the demo lights up left to right. | Presenter: "It runs on Verizon and AWS. 5G carries the video with no cables to dig. Verizon's 5G Edge runs AWS right inside the network, so the decision is made before you reach the gate. And the backend — permits, the live map, the app — runs on AWS." | **AI-Driven Automation & Efficiency** — Verizon 5G · 5G Edge · Backend on AWS |
 | 1:25–1:38 | **Presenter, demo behind.** Press `V` — a car with no permit or pass arrives and the gate officer is alerted on the right-hand panel. | Presenter: "Privacy is built in. Video never leaves the deck, plates become codes, and they're deleted when you drive out. A car with no permit? The gate officer knows right away." | Parking only · No faces · Deleted on exit |
-| 1:38–1:50 | **Filmed — the frame unfreezes.** The same driver opens HighlanderSpot, drives straight to the space, parks, walks into class relaxed. Clock: 8:14. | Voiceover: "Students get minutes back. NJIT gets parking numbers it can trust. Verizon gets a product for every campus." | **THE VALUE** — Straight to an open spot. Numbers campus can trust. |
-| 1:50–1:55 | Logo and team names. | Presenter or voiceover: "HighlanderSpot. Stop circling." | Team name · NJIT · 2026 Verizon Smart Campus Challenge |
+| 1:38–1:50 | **Filmed — the frame unfreezes.** The same driver opens Octopark, drives straight to the space, parks, walks into class relaxed. Clock: 8:14. | Voiceover: "Students get minutes back. NJIT gets parking numbers it can trust. Verizon gets a product for every campus." | **THE VALUE** — Straight to an open spot. Numbers campus can trust. |
+| 1:50–1:55 | Logo and team names. | Presenter or voiceover: "Octopark. Stop circling." | Team name · NJIT · 2026 Verizon Smart Campus Challenge |
 
 ### Notes on the opening
 
@@ -47,13 +47,14 @@ The demo in [demo/index.html](../demo/index.html) is already finished: phone app
 
 **Must do**
 
-- [ ] Set the real lot sizes at the top of the script block: Parking Deck (Summit St) **1,685**, Science & Tech Garage **922** — from NJIT's live page; the pitch brief says 981, so confirm with Parking Services. Keep Lot 7 (the visitor lot) as it is.
+- [x] Set the real lot sizes at the top of the script block: Parking Deck (Summit St) **1,685**, Science & Tech Garage **922** — from NJIT's live page; the pitch brief says 981, so confirm with Parking Services. Keep Lot 7 (the visitor lot) as it is.
+- [ ] Optional: story mode (`?story` on the end of the address). Each press of `→` (or a clicker) moves to the next moment in this script: Octopark (0:35), every space seen by cameras (0:42), at the gate (0:49), your level and space (0:54), built on Verizon + AWS (1:05), privacy (1:25). The part being talked about comes to the front, a car arrives by itself at the gate and privacy steps, and a subtitle bar names the step. Useful when the demo plays beside the presenter at half size.
 - [ ] Rehearse with `?manual` on the end of the address so cars arrive only on a key press. Time the `Space` and `V` presses against the spoken lines above.
 - [ ] Record a clean 30-second, 1080p screen capture of the demo by itself, as spare footage for the editor.
 
 **Only if all of the above is done**
 
-- [ ] One small callback to the opening, such as a line or badge reading "Counted by cameras, not gates." One line — no new panel.
+- [x] One small callback to the opening, such as a line or badge reading "Counted by cameras, not gates." One line — no new panel.
 
 ## Filming the presenter with the demo behind
 
@@ -102,7 +103,7 @@ Everything can be filmed on a phone in about an hour.
 4. Driver, parked, opens the NJIT page and reacts. Film the face and, separately, the phone screen.
 5. **Presenter walking into the freeze frame** — three takes.
 6. **Presenter with the demo behind — four sections, three takes each.**
-7. Driver opens HighlanderSpot, parks, walks in — one continuous take. Use the same car, clothes and spot in the deck as shot 4 so the unfreeze reads as the same moment.
+7. Driver opens Octopark, parks, walks in — one continuous take. Use the same car, clothes and spot in the deck as shot 4 so the unfreeze reads as the same moment.
 8. Clean screen recording of the demo by itself, 30 seconds, as a spare to cut to.
 
 ## Production plan for the last day

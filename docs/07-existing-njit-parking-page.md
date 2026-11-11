@@ -54,7 +54,7 @@ The underlying problem: a gate counter only knows the difference between entries
 
 **"Doesn't this already exist?"** NJIT already wants live parking counts, which proves the need. Its current system shows the limit of counting at the gates:
 
-| | NJIT's page today | HighlanderSpot |
+| | NJIT's page today | Octopark |
 | --- | --- | --- |
 | How it counts | Entries minus exits at the gate | Cameras look at each actual space |
 | When a car is missed | The error stays until someone resets the counter | The next camera frame corrects it |

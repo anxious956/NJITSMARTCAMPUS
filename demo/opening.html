@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Octopark — opening animation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@700;800;900&family=Overpass+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  /* 0:00-0:10 of docs/04-video-script.md as animation, for when there is no ramp footage:
+     a full garage level, a car circling, the dashboard clock going from 8:24 to 8:29. Reload to replay. */
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; overflow: hidden; background: #EDEBE6; }
+  body { font: 800 20px/1.2 Overpass, Arial, sans-serif; color: #14161A; -webkit-font-smoothing: antialiased; font-kerning: none; }
+  #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; background: #EDEBE6; }
+  .head { position: absolute; left: 120px; top: 70px; }
+  .head small { display: block; font-size: 30px; color: #676C75; }
+  .head b { display: block; font-size: 64px; font-weight: 900; letter-spacing: -1.5px; }
+  .full { position: absolute; left: 120px; top: 230px; background: #C21B1B; color: #fff; font-size: 34px; font-weight: 900; letter-spacing: 2px;
+    padding: 12px 22px 8px; border-radius: 8px; }
+  .clock { position: absolute; right: 120px; top: 70px; background: #0B0B0B; border: 8px solid #2A2B2E; border-radius: 16px; padding: 18px 36px 10px;
+    font: 700 120px/1 "Overpass Mono", monospace; color: #FF5A3C; letter-spacing: 4px; }
+  .clock small { display: block; font: 800 22px/1 Overpass, sans-serif; color: #8A8E96; letter-spacing: 2px; margin-bottom: 8px; }
+  svg { position: absolute; left: 260px; top: 330px; width: 1400px; height: 700px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="head"><small>Science &amp; Tech Garage</small><b>Level 4</b></div>
+  <div class="full">0 OPEN • FULL</div>
+  <div class="clock"><small>DASHBOARD</small><span id="clock">8:24</span></div>
+  <svg id="map" viewBox="0 0 1000 500"></svg>
+</div>
+<script>
+const NS = "http://www.w3.org/2000/svg", svg = document.getElementById("map");
+const el = (n, a = {}, p = svg) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e; };
+function fit() { const s = Math.min(innerWidth / 1920, innerHeight / 1080), st = document.getElementById("stage");
+  st.style.transform = `translate(${(innerWidth - 1920 * s) / 2}px, ${(innerHeight - 1080 * s) / 2}px) scale(${s})`; }
+addEventListener("resize", fit); fit();
+
+// a garage level: four rows of 16 spaces, every one taken
+const N = 16, SW = 54, SH = 80, X0 = 68, COLS = ["#C9C5BC", "#BDB8AE", "#D3CFC7", "#B3AEA4", "#C4C0B8", "#A9A49A"];
+el("rect", { x: 1, y: 1, width: 998, height: 498, rx: 10, fill: "#F6F5F2", stroke: "#DCD9D2", "stroke-width": 2 });
+const car = (x, y, rot, fill, parent = svg) => { const g = el("g", { transform: `translate(${x} ${y}) rotate(${rot})` }, parent);
+  el("rect", { x: -17, y: -33, width: 34, height: 66, rx: 10, fill }, g);
+  el("rect", { x: -13, y: -21, width: 26, height: 13, rx: 4, fill: "#14161A", opacity: .28 }, g);
+  el("rect", { x: -12, y: 15, width: 24, height: 9, rx: 3, fill: "#14161A", opacity: .22 }, g); return g; };
+// rows of spaces; the two driving lanes are at y 130 and 370
+[{ y: 10, d: -1 }, { y: 170, d: 1 }, { y: 250, d: -1 }, { y: 410, d: 1 }].forEach((r, ri) => {
+  for (let i = 0; i <= N; i++) el("path", { d: `M${X0 + i * SW} ${r.y} V${r.y + SH}`, stroke: "#8E8A81", "stroke-width": 2 });
+  for (let i = 0; i < N; i++) car(X0 + i * SW + SW / 2, r.y + SH / 2, r.d > 0 ? 180 : 0, COLS[(i * 7 + ri * 3) % COLS.length]);
+});
+// the driver's car circles the two lanes
+const lap = "M -40 130 H 950 Q 985 130 985 165 V 335 Q 985 370 950 370 H 50 Q 15 370 15 335 V 165 Q 15 130 50 130 H 960";
+const route = el("path", { d: lap, fill: "none", stroke: "#14161A", "stroke-width": 4, "stroke-dasharray": "1 11", "stroke-linecap": "round", opacity: .5 });
+const me = car(0, 0, 90, "#FFC20E"); me.querySelector("rect").setAttribute("stroke", "#14161A"); me.querySelector("rect").setAttribute("stroke-width", 2.5);
+const L = route.getTotalLength(), T = 9800, t0 = performance.now();
+(function frame(t) {
+  const k = Math.min(1, (t - t0) / T), d = Math.min(L, k * L * 1.0);
+  const p = route.getPointAtLength(d), q = route.getPointAtLength(Math.min(L, d + 2));
+  me.setAttribute("transform", `translate(${p.x} ${p.y}) rotate(${Math.atan2(q.y - p.y, q.x - p.x) * 180 / Math.PI + 90})`);
+  document.getElementById("clock").textContent = "8:" + String(24 + Math.min(5, Math.floor(k * 6))).padStart(2, "0");
+  if (k < 1) requestAnimationFrame(frame);
+})(t0);
+</script>
+</body>
+</html>
