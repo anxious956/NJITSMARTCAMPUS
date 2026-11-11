@@ -162,6 +162,8 @@ The script (docs/04-video-script.md) needs three things besides the demo itself:
 - **Title cards, for 0:18 (THE CHALLENGE) and 1:38 (THE VALUE).** Ready-made 1920×1080 images are in `demo/cards/`. Each comes as a full-screen card (`challenge.png`, `value.png`) and as a transparent overlay to put over the filmed footage (`challenge-overlay.png`, `value-overlay.png`).
 - **End card, for 1:50.** `demo/cards/end.png`. Put your names in `TEAM` at the top of the script block in `demo/cards.html`, open it in Chrome at full screen (`F11`) and take a 1920×1080 screenshot, or ask for a new export. The survey number the script mentions goes in `SURVEY` and then shows on the challenge cards.
 
+`demo/opening.html` is an animated stand-in for the 0:00–0:10 ramp shot (a full garage level, a car circling, the clock going from 8:24 to 8:29), if there is no ramp footage. Reload it to replay.
+
 `demo/cards.html` shows all the cards; `←` and `→` switch between them, and `?overlay` shows the transparent versions.
 
 ## What is in this repo
