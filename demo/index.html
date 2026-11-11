@@ -98,6 +98,28 @@
   .hero.guest { background: var(--guest); border-color: var(--guest); color: #fff; }
   .hero.guest small, .hero.guest > span { color: #fff; } .hero.guest .cta { background: #fff; color: var(--guest); }
 
+  /* Map-first layout, like Uber or Apple Maps: a live copy of the garage map on top, the card over its bottom edge. */
+  .minimap { position: relative; margin: 0 -16px; height: 262px; background: var(--floor); overflow: hidden; flex: none; }
+  .minimap svg { width: 100%; height: 100%; display: block; }
+  .mm-chip { position: absolute; top: 12px; left: 14px; background: var(--surface); color: var(--ink); border-radius: 999px; padding: 7px 12px 5px;
+    font-size: 13.5px; font-weight: 800; box-shadow: 0 2px 10px rgba(0,0,0,.14); white-space: nowrap; }
+  .mm-open { left: auto; right: 14px; color: var(--green); }
+  #parkView .hero { margin-top: -26px; position: relative; z-index: 1; border-radius: 22px; min-height: 0; box-shadow: 0 -4px 22px rgba(0,0,0,.12); }
+  #parkView:has(.hero.go) .forecast, #parkView:has(.hero.guest) .forecast { display: none; }
+  .route-steps { display: none; list-style: none; margin: 4px 0 2px; padding: 0; }
+  .hero.go .route-steps { display: block; }
+  .route-steps li { display: flex; align-items: center; gap: 10px; font-size: 15.5px; font-weight: 800; padding: 5px 0 3px; }
+  .route-steps li::before { content: attr(data-n); flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 13px; border: 2px solid currentColor; padding-top: 2px; }
+  .route-steps li.ok { opacity: .6; } .route-steps li.ok::before { content: "✓"; }
+  .hero.go .cta { margin-top: 10px; }
+  .lotrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .lotchip { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 10px 9px; min-width: 0; }
+  .lotchip small { display: block; font-size: 13px; font-weight: 800; color: var(--ink-2); line-height: 1.15; min-height: 30px; }
+  .lotchip b { display: block; font-size: 26px; font-weight: 900; letter-spacing: -.5px; line-height: 1.1; margin-top: 4px; }
+  .lotchip span { display: block; font-size: 12.5px; font-weight: 800; white-space: nowrap; }
+  .lotchip .bar { height: 5px; border-radius: 3px; background: #E7E5E0; margin-top: 7px; overflow: hidden; }
+  .lotchip .bar i { display: block; height: 100%; border-radius: 3px; transition: width .7s, background-color .7s; }
   .sect { margin: 18px 6px 8px; display: flex; justify-content: space-between; align-items: baseline; }
   .sect .label { color: var(--ink-3); font-size: 15px; }
   .sect span { color: var(--ink-3); font-size: 14px; }
@@ -182,7 +204,7 @@
   .stall.target .openmark { opacity: 1; fill: var(--you); stroke: var(--you-line); stroke-width: 3; animation: flash 1s steps(2) infinite; }
   .stall.mine .body, #mover .body { fill: var(--you); stroke: var(--you-line); stroke-width: 2; }
   .stall.mine.guest .body, #mover.guest .body { fill: var(--guest); }
-  #lotsvg .floor { fill: var(--floor); stroke: var(--line); } #lotsvg .ln { stroke: var(--stall-line); } #lotsvg .chev { stroke: var(--chev); } #lotsvg .lbl { fill: var(--ink-3); }
+  .floor { fill: var(--floor); stroke: var(--line); } .ln { stroke: var(--stall-line); } .chev { stroke: var(--chev); } .lbl { fill: var(--ink-3); }
   .stall text { fill: var(--ink-3); font: 700 13px var(--sans); text-anchor: middle; }
   .stall.free text { fill: var(--green); font-weight: 900; }
   .stall.target text, .stall.mine text { fill: var(--ink); font-weight: 900; }
@@ -345,7 +367,7 @@
   .look-app .hero { border-radius: 22px; } .look-app .group { border-radius: 18px; }
   .look-app .cta, .look-app .pillars span { border-radius: 999px; } .look-app .tabs .on { color: var(--brand-blue); }
   .look-app .avatar { background: var(--brand-blue); }
-  .look-app #lotsvg .floor { stroke: none; }
+  .look-app .floor { stroke: none; }
   .look-app .caption.ok .sq { background: #6CB2FF; }
   .look-app .stall .car { filter: grayscale(1) brightness(1.04); }
   .look-app .stall.mine .car { filter: none; }
@@ -414,11 +436,11 @@
   body.phone-only .screen::before, body.phone-only .status { display: none; }
   body.phone-only .tabs { height: auto; min-height: 70px; padding-bottom: max(8px, env(safe-area-inset-bottom)); }
   @media (max-height: 880px) { body.phone-only .forecast { display: none; } }
-  @media (max-height: 760px) { body.phone-only .permit { display: none; } }
+  @media (max-height: 760px) { body.phone-only .lotrow, body.phone-only #parkView .sect { display: none; } }
 
   /* Presenter mode (press P): leaves the bottom-left corner empty for a webcam bubble. */
   body.presenter .phone { height: 650px; }
-  body.presenter .forecast, body.presenter .permit, body.presenter .lot:nth-child(n+3) { display: none; }
+  body.presenter .forecast, body.presenter .lotrow, body.presenter #parkView .sect { display: none; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -448,18 +470,19 @@
         <div class="status"><span id="clock">8:12</span><span>5G UW</span></div>
         <div class="view" id="parkView">
         <div class="apphead"><div><small>Good morning</small><b>Find parking</b></div><div class="avatar">A</div></div>
+        <div class="minimap" aria-hidden="true">
+          <svg id="minimap" viewBox="0 0 1000 680" preserveAspectRatio="xMidYMid meet"><use href="#mapcontent"/></svg>
+          <span class="mm-chip">Science &amp; Tech Garage • L4</span><span class="mm-chip mm-open" id="mmOpen"></span>
+        </div>
         <div class="hero" id="hero" role="status" aria-atomic="true"><small id="heroLabel"></small><b id="heroBig"></b><span id="heroSub"></span>
+          <ol class="route-steps" id="heroSteps"></ol>
           <div class="cta"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"/></svg><span id="heroCta"></span></div></div>
-        <div class="sect"><div class="label">All lots</div><span>Updated live</span></div>
-        <div class="group" id="lots"></div>
+        <div class="sect"><div class="label">Nearby lots</div><span>Updated live</span></div>
+        <div class="lotrow" id="lots"></div>
         <div class="group forecast">
           <div class="top"><span>Forecast • <b id="fcName"></b></span><em>Full by ~10:10</em></div>
           <div class="bars"><i style="height:16%"></i><i class="now" style="height:48%"></i><i style="height:82%"></i><i class="full" style="height:100%"></i><i class="full" style="height:100%"></i><i class="full" style="height:96%"></i><i style="height:86%"></i></div>
           <div class="hours"><span>7</span><span class="now">8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>1</span></div>
-        </div>
-        <div class="group permit">
-          <div class="pic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.4 1.7-2 3-2s2.4.6 3 2M15 10h3M15 13h3"/></svg></div>
-          <div><b>Fall term • Commuter</b><span>Your plate is your permit</span></div><em>Active</em>
         </div>
         </div>
         <div class="view" id="permitView">
@@ -611,9 +634,9 @@
 // see docs/07-existing-njit-parking-page.md. NJIT Campus Planning gives the Science & Tech garage 981 spaces
 // instead of 922: confirm with Parking Services. The "open" numbers are simulated.
 const LOTS = [
-  { name: "Parking Deck • Summit St", sign: "PARKING DECK", cap: 1685, open: 141 },
-  { name: "Science & Tech Garage",    sign: "STPG",         cap: 922,  open: 212 },
-  { name: "Lot 16 • New St",          sign: "LOT 16",       cap: 182,  open: 5 },
+  { name: "Parking Deck • Summit St", short: "Summit St Deck", sign: "PARKING DECK", cap: 1685, open: 141 },
+  { name: "Science & Tech Garage",    short: "Sci & Tech Garage", sign: "STPG", cap: 922, open: 212 },
+  { name: "Lot 16 • New St",          short: "Lot 16",        sign: "LOT 16",       cap: 182,  open: 5 },
 ];
 const FEATURED = 1;            // which lot the live map shows and cars are assigned to
 const LEVEL = 4;                // the garage has 7 parking floors; overnight parking is not allowed on levels 1-3
@@ -691,16 +714,23 @@ function status(l) {
 function drawLots() {
   $("lots").innerHTML = LOTS.map(l => {
     const [word, col] = status(l), full = 1 - l.open / l.cap;
-    return `<div class="lot"><div class="row"><div class="nm"><b>${l.name}</b><span style="color:${col}">${word}</span></div>
-      <div class="ct"><b>${l.open}</b><span>open</span></div></div>
+    return `<div class="lotchip"><small>${l.short}</small><b>${l.open}</b><span style="color:${col}">${word}</span>
       <div class="bar"><i style="width:${(full * 100).toFixed(1)}%;background:${col}"></i></div></div>`;
   }).join("");
   const open = LOTS.reduce((a, l) => a + l.open, 0), cap = LOTS.reduce((a, l) => a + l.cap, 0);
   $("campusOpen").textContent = open; $("campusPct").textContent = Math.round(100 * (1 - open / cap)) + "%";
 }
-let heroState = "idle";
+let heroState = "idle", mmBox = [0, 0, 1000, 680], mmAnim = 0;
+function miniFocus(id) {        // zoom the app's mini map onto a space, or back out to the whole level
+  const st = id && stalls.find(x => x.id === id), to = st ? [st.cx - 230, st.cy - 150, 460, 310] : [0, 0, 1000, 680], from = mmBox.slice(), t0 = performance.now();
+  cancelAnimationFrame(mmAnim);
+  (function f(t) { const k = REDUCED ? 1 : Math.min(1, (t - t0) / 700), e = k * k * (3 - 2 * k);
+    mmBox = from.map((v, i) => v + (to[i] - v) * e); $("minimap").setAttribute("viewBox", mmBox.join(" "));
+    if (k < 1) mmAnim = requestAnimationFrame(f); })(t0);
+}
 function hero(state, a = {}) {
   heroState = state; const h = $("hero");
+  miniFocus(state === "idle" ? null : a.id);
   h.className = "hero" + (state === "idle" ? "" : " " + state);
   if (state === "idle") {
     $("heroLabel").textContent = "Best right now"; $("heroBig").textContent = lot.name;
@@ -708,6 +738,7 @@ function hero(state, a = {}) {
   } else if (state === "go") {
     $("heroLabel").textContent = "Permit recognized at the gate"; $("heroBig").textContent = `Level ${LEVEL} • Space ${a.id}`;
     $("heroSub").textContent = lot.name; $("heroCta").textContent = "Guiding you in…";
+    $("heroSteps").innerHTML = `<li class="ok" data-n="1">Entered at Gate 1</li><li data-n="2">Ramp up to Level ${LEVEL}</li><li data-n="3">Space ${a.id}, row ${a.id[0]}</li>`;
   } else if (state === "guest") {
     $("heroLabel").textContent = "Your overnight guest has arrived"; $("heroBig").textContent = `Level ${LEVEL} • Space ${a.id}`;
     $("heroSub").textContent = "One-night guest permit approved"; $("heroCta").textContent = "Guest permit active";
@@ -718,7 +749,8 @@ function hero(state, a = {}) {
 }
 
 // ---------- map: drawn like a floor plan ----------
-const svg = $("lotsvg"), N = 16, SW = 54, SH = 108, X0 = 68, H = 680;
+// The map is drawn into one group so the app's mini map can show a live copy of it (<use href="#mapcontent">).
+const svg = el("g", { id: "mapcontent" }, $("lotsvg")), N = 16, SW = 54, SH = 108, X0 = 68, H = 680;
 const ROWS = [
   { id: "A", y: 24,  dir: -1, lane: 182 },   // dir -1: closed end at the top, cars park nose-up
   { id: "B", y: 232, dir: 1,  lane: 182 },
@@ -758,7 +790,7 @@ const route = el("path", { id: "route" }, svg);
 const mover = el("g", { id: "mover", style: "display:none" }, svg);
 carGlyph(mover, "#FFC20E");
 const freeStalls = () => stalls.filter(s => s.g.classList.contains("free"));
-function drawMap() { $("mapOpen").textContent = freeStalls().length; if (heroState === "idle") hero("idle"); }
+function drawMap() { $("mapOpen").textContent = freeStalls().length; $("mmOpen").textContent = `${freeStalls().length} open here`; if (heroState === "idle") hero("idle"); }
 
 const ease = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
 function animate(dur, fn) {
@@ -933,8 +965,11 @@ document.addEventListener("keydown", e => {
 log("Term permit → Level 2 • C4"); log("Guest permit → Level 5 • A9", "g"); log("Term permit → Level 4 • D11");
 fit();
 if (PHONE) {
-  hero("go", PHONE_SPOT);
-  document.querySelector(".screen").addEventListener("click", () => hero(heroState === "go" ? "done" : "go", PHONE_SPOT));
+  const ps = stalls.find(x => x.id === PHONE_SPOT.id) || stalls[48];
+  PHONE_SPOT.id = ps.id; ps.g.classList.remove("free"); ps.g.classList.add("target"); hero("go", PHONE_SPOT);
+  document.querySelector(".screen").addEventListener("click", () => {
+    const go = heroState !== "go"; ps.g.classList.toggle("target", go); ps.g.classList.toggle("mine", !go); hero(go ? "go" : "done", PHONE_SPOT);
+  });
 } else if (new URLSearchParams(location.search).has("story")) goStep(0); else setTimeout(() => carArrives("permit"), 1800);
 setInterval(() => { if (auto) carArrives(["permit", "permit", "guest", "permit", "none"][n++ % 5]); }, AUTO_EVERY_MS || 13000);
 </script>
