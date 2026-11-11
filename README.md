@@ -157,6 +157,7 @@ The demo uses made-up plates and numbers. The lot names are NJIT's; the sizes ar
 | [docs/04-video-script.md](docs/04-video-script.md) | The two-minute script, shot list and production plan |
 | [docs/05-data-storage-and-security.md](docs/05-data-storage-and-security.md) | What is stored and for how long, and what that does and does not give campus security |
 | [docs/06-new-jersey-law.md](docs/06-new-jersey-law.md) | How the storage and sharing design fits New Jersey law |
+| [docs/07-existing-njit-parking-page.md](docs/07-existing-njit-parking-page.md) | How NJIT's current live parking page gets its numbers, where they go wrong, and how we answer "doesn't this already exist?" |
 | [demo/index.html](demo/index.html) | The animated concept demo for the video |
 
 ## Before we submit
