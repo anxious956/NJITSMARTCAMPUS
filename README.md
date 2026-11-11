@@ -155,6 +155,8 @@ The demo uses made-up plates and numbers. The lot names are NJIT's; the sizes ar
 | [docs/02-rules-and-regulations.md](docs/02-rules-and-regulations.md) | Federal, New Jersey and NJIT rules for plate readers and campus cameras |
 | [docs/03-architecture-data-security.md](docs/03-architecture-data-security.md) | System design, how Verizon is used, what data is collected and how it is secured |
 | [docs/04-video-script.md](docs/04-video-script.md) | The two-minute script, shot list and production plan |
+| [docs/05-data-storage-and-security.md](docs/05-data-storage-and-security.md) | What is stored and for how long, and what that does and does not give campus security |
+| [docs/06-new-jersey-law.md](docs/06-new-jersey-law.md) | How the storage and sharing design fits New Jersey law |
 | [demo/index.html](demo/index.html) | The animated concept demo for the video |
 
 ## Before we submit
