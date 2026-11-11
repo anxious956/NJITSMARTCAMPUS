@@ -6,300 +6,546 @@
 <title>HighlanderSpot — concept demo</title>
 <style>
   :root {
-    --bg: #0b1220; --panel: #131c2e; --panel2: #1a2540; --line: #26324f;
-    --text: #e8edf7; --muted: #8b98b5; --red: #e0252f; --green: #2fd17c;
-    --amber: #f5b83d; --taken: #2a3553;
+    --bg: #070b14; --panel: #0f172a; --panel2: #17213a; --line: #25324f;
+    --text: #f1f5fb; --muted: #8fa0c0; --dim: #5d6c8c;
+    --red: #e5252f; --green: #34d399; --amber: #fbbf24;
   }
   * { box-sizing: border-box; }
-  html, body { height: 100%; margin: 0; }
-  body {
-    background: radial-gradient(1200px 700px at 70% -10%, #1b2a4d 0%, var(--bg) 60%);
-    color: var(--text); font: 15px/1.4 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
-    display: flex; flex-direction: column; overflow: hidden;
-  }
-  header { display: flex; align-items: center; gap: 14px; padding: 16px 28px 8px; }
-  .logo { width: 34px; height: 34px; border-radius: 9px; background: var(--red);
-    display: grid; place-items: center; font-weight: 800; }
-  h1 { font-size: 22px; margin: 0; letter-spacing: .2px; }
-  .tag { color: var(--muted); font-size: 13px; }
-  .note { margin-left: auto; color: var(--muted); font-size: 12px;
-    border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }
-  main { flex: 1; min-height: 0; display: grid; gap: 18px; padding: 10px 28px 14px;
-    grid-template-columns: 330px 1fr 400px; }
-  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
-    padding: 16px; min-height: 0; display: flex; flex-direction: column; }
-  .panel h2 { margin: 0 0 10px; font-size: 12px; letter-spacing: 1.4px;
-    text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  html, body { height: 100%; margin: 0; background: #04070d; overflow: hidden; }
+  body { color: var(--text); font: 17px/1.35 Inter, "SF Pro Display", "Segoe UI", system-ui, Roboto, sans-serif; }
+  .mono { font-family: ui-monospace, "SF Mono", Consolas, monospace; }
 
-  /* phone */
-  .phone { background: #05080f; border: 2px solid #2b3550; border-radius: 34px;
-    padding: 14px 12px; flex: 1; display: flex; flex-direction: column; min-height: 0; }
-  .phone .bar { display: flex; justify-content: space-between; color: var(--muted);
-    font-size: 11px; padding: 0 10px 8px; }
-  .banner { background: linear-gradient(135deg, #17603c, #0f3d27); border-radius: 14px;
-    padding: 12px 14px; margin-bottom: 10px; transition: all .4s; opacity: .0;
-    transform: translateY(-8px); min-height: 78px; }
-  .banner.show { opacity: 1; transform: none; }
-  .banner.warn { background: linear-gradient(135deg, #6b4a12, #40290a); }
-  .banner small { color: #bfe9d2; display: block; font-size: 11px; }
-  .banner.warn small { color: #f3dcae; }
-  .banner b { font-size: 19px; display: block; margin-top: 2px; }
-  .lots { display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
-  .lot { background: var(--panel2); border-radius: 12px; padding: 10px 12px;
-    border: 1px solid transparent; transition: border-color .3s; }
-  .lot.best { border-color: var(--green); }
-  .lot .row { display: flex; justify-content: space-between; align-items: baseline; }
-  .lot .name { font-weight: 600; font-size: 14px; }
-  .lot .open { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .lot .open span { font-size: 11px; color: var(--muted); font-weight: 400; }
-  .meter { height: 5px; background: #0b1220; border-radius: 3px; margin-top: 7px; overflow: hidden; }
-  .meter i { display: block; height: 100%; background: var(--green); transition: width .6s, background .6s; }
-  .badge { font-size: 10px; color: var(--green); letter-spacing: .8px; text-transform: uppercase; }
+  /* The whole demo is drawn on a fixed 1920 x 1080 stage and scaled to fit the window. */
+  #stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px;
+    transform-origin: center; display: flex; flex-direction: column;
+    background: radial-gradient(1300px 800px at 62% -12%, #1a2a52 0%, var(--bg) 62%); }
 
-  /* map */
-  .maphead { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
-  .maphead b { font-size: 34px; font-variant-numeric: tabular-nums; }
-  .maphead span { color: var(--muted); }
-  .legend { margin-left: auto; display: flex; gap: 14px; color: var(--muted); font-size: 12px; }
-  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; }
-  .grid { flex: 1; display: grid; grid-template-columns: repeat(18, 1fr); gap: 5px;
-    align-content: center; }
-  .aisle { grid-column: 1 / -1; height: 16px; border-top: 2px dashed #24304d; margin-top: 8px; }
-  .sp { aspect-ratio: 1 / 1.5; border-radius: 5px; background: var(--taken);
-    transition: background .5s, box-shadow .5s; position: relative; }
-  .sp.free { background: var(--green); }
-  .sp.you { background: var(--amber); box-shadow: 0 0 0 3px #f5b83d55, 0 0 22px #f5b83d; }
-  .pipe { display: flex; align-items: center; gap: 0; margin-top: 12px; }
-  .node { flex: none; background: var(--panel2); border: 1px solid var(--line);
-    border-radius: 10px; padding: 8px 12px; font-size: 12.5px; text-align: center; transition: all .25s; }
-  .node small { display: block; color: var(--muted); font-size: 10.5px; }
-  .node.on { border-color: var(--red); box-shadow: 0 0 16px #e0252f66; }
-  .wire { flex: 1; height: 2px; background: var(--line); position: relative; overflow: hidden; }
-  .wire i { position: absolute; top: 0; left: -30%; width: 30%; height: 100%; background: var(--red); }
-  .wire.on i { animation: flow .45s linear; }
-  @keyframes flow { to { left: 100%; } }
+  header { height: 88px; flex: none; display: flex; align-items: center; padding: 0 36px; gap: 28px; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .logo { width: 46px; height: 46px; border-radius: 13px; background: var(--red); display: grid; place-items: center;
+    box-shadow: 0 6px 24px #e5252f55; }
+  h1 { margin: 0; font-size: 27px; letter-spacing: -.2px; }
+  .brand p { margin: 0; color: var(--muted); font-size: 14px; }
+  .chips { margin-left: auto; display: flex; gap: 12px; }
+  .chip { background: #0f172acc; border: 1px solid var(--line); border-radius: 14px; padding: 8px 18px;
+    display: flex; align-items: baseline; gap: 9px; }
+  .chip b { font-size: 24px; font-variant-numeric: tabular-nums; }
+  .chip span { color: var(--muted); font-size: 14px; }
+  .live { width: 9px; height: 9px; border-radius: 50%; background: var(--green); align-self: center;
+    box-shadow: 0 0 0 0 #34d39988; animation: ping 1.8s infinite; }
+  @keyframes ping { 70% { box-shadow: 0 0 0 10px #34d39900; } 100% { box-shadow: 0 0 0 0 #34d39900; } }
+  .note { color: var(--muted); font-size: 13px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; }
 
-  /* gate */
-  .cam { position: relative; background: linear-gradient(#0a0f1b, #111a2c); border-radius: 12px;
-    height: 190px; overflow: hidden; border: 1px solid var(--line); }
-  .cam .rec { position: absolute; top: 8px; left: 10px; font-size: 10.5px; color: var(--muted); letter-spacing: 1px; }
-  .cam .rec::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%;
-    background: var(--red); margin-right: 6px; animation: blink 1.2s infinite; }
+  main { flex: 1; min-height: 0; display: grid; grid-template-columns: 400px 1fr 440px; gap: 24px; padding: 0 36px 28px; }
+  .panel { background: #0f172ae6; border: 1px solid var(--line); border-radius: 22px; }
+  .eyebrow { font-size: 12.5px; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+  /* ---------- phone ---------- */
+  .phonecol { min-height: 0; }
+  .phone { height: 964px; background: #060a13; border: 9px solid #1d2742; border-radius: 56px; padding: 14px 18px 0;
+    display: flex; flex-direction: column; position: relative; box-shadow: 0 30px 80px #0009; overflow: hidden; }
+  .phone::before { content: ""; position: absolute; top: 12px; left: 50%; width: 104px; height: 26px; margin-left: -52px;
+    background: #000; border-radius: 16px; }
+  .status { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; padding: 4px 12px 0; height: 38px; }
+  .status span:last-child { color: var(--muted); font-weight: 500; }
+  .apphead { display: flex; justify-content: space-between; align-items: center; padding: 10px 4px 14px; }
+  .apphead small { color: var(--muted); font-size: 14px; display: block; }
+  .apphead b { font-size: 26px; letter-spacing: -.3px; }
+  .avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--panel2); border: 1px solid var(--line);
+    display: grid; place-items: center; font-weight: 700; color: var(--muted); }
+  .hero { border-radius: 24px; padding: 18px 20px; background: linear-gradient(140deg, #1c2b4f, #131d36);
+    border: 1px solid #2c3b62; transition: background .5s, border-color .5s, transform .3s; min-height: 204px;
+    display: flex; flex-direction: column; }
+  .hero small { font-size: 11.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .hero b { font-size: 29px; line-height: 1.12; letter-spacing: -.4px; margin: 6px 0 4px; }
+  .hero span { color: #c5d0e6; font-size: 15px; }
+  .cta { margin-top: auto; align-self: flex-start; background: var(--text); color: #0b1220; font-weight: 700; font-size: 14.5px;
+    border-radius: 999px; padding: 8px 18px; }
+  .hero.go { background: linear-gradient(140deg, #9a6a08, #5e3f05); border-color: var(--amber); transform: scale(1.02); }
+  .hero.go small { color: #ffe7a8; } .hero.go .cta { background: var(--amber); }
+  .hero.done { background: linear-gradient(140deg, #0f7a4f, #0a4a31); border-color: var(--green); }
+  .hero.done small { color: #b8f3d7; } .hero.done .cta { background: var(--green); }
+  .hero.guest { background: linear-gradient(140deg, #284a9a, #182c63); border-color: #7aa7ff; transform: scale(1.02); }
+  .hero.guest small { color: #cfe0ff; } .hero.guest .cta { background: #9fc0ff; }
+  .permit { margin-top: 10px; background: var(--panel2); border-radius: 18px; padding: 13px 14px; display: flex; align-items: center; gap: 12px; }
+  .permit div { flex: 1; } .permit b { display: block; font-size: 15.5px; font-weight: 600; } .permit span { font-size: 13px; color: var(--muted); }
+  .permit em { font-style: normal; font-size: 12.5px; font-weight: 700; color: var(--green); border: 1px solid #34d39966; border-radius: 999px; padding: 4px 11px; }
+  .sect { margin: 16px 4px 8px; display: flex; justify-content: space-between; }
+  .sect span { color: var(--dim); font-size: 12.5px; }
+  #lots { display: flex; flex-direction: column; gap: 8px; }
+  .lot { display: flex; align-items: center; gap: 13px; background: var(--panel2); border-radius: 18px; padding: 13px 14px; min-height: 82px; }
+  .ring { width: 42px; height: 42px; flex: none; transform: rotate(-90deg); }
+  .ring circle { fill: none; stroke-width: 6; }
+  .ring .trk { stroke: #0b1220; } .ring .arc { stroke-linecap: round; transition: stroke-dashoffset .7s, stroke .7s; }
+  .lot .nm { flex: 1; min-width: 0; }
+  .lot .nm b { display: block; font-size: 16px; font-weight: 600; line-height: 1.2; }
+  .lot .nm span { font-size: 13px; }
+  .lot .ct { text-align: right; font-variant-numeric: tabular-nums; }
+  .lot .ct b { font-size: 24px; display: block; line-height: 1; }
+  .lot .ct span { color: var(--muted); font-size: 12px; }
+  .forecast { margin-top: 10px; background: var(--panel2); border-radius: 18px; padding: 12px 14px 10px; }
+  .forecast .top { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
+  .forecast .top b { color: var(--text); font-weight: 600; }
+  .bars { display: flex; align-items: flex-end; gap: 7px; height: 60px; margin-top: 10px; }
+  .bars i { flex: 1; background: #2a3759; border-radius: 4px 4px 0 0; }
+  .bars i.now { background: var(--amber); } .bars i.full { background: #e5252fbb; }
+  .hours { display: flex; gap: 7px; font-size: 10.5px; color: var(--dim); margin-top: 3px; }
+  .hours span { flex: 1; text-align: center; }
+  .tabs { margin: auto -18px 0; height: 70px; border-top: 1px solid #18213a; display: flex; justify-content: space-around;
+    align-items: center; background: #080d18; font-size: 11.5px; color: var(--dim); }
+  .tabs div { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .tabs svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .tabs .on { color: var(--text); }
+
+  /* ---------- map ---------- */
+  .mapcol { display: flex; flex-direction: column; gap: 20px; min-height: 0; }
+  .map { flex: 1; min-height: 0; padding: 22px 26px 18px; display: flex; flex-direction: column; }
+  .maphead { display: flex; align-items: flex-end; gap: 22px; }
+  .maphead h2 { margin: 4px 0 0; font-size: 28px; letter-spacing: -.3px; }
+  .levels { display: flex; gap: 6px; margin-bottom: 4px; }
+  .levels span { font-size: 13.5px; font-weight: 600; color: var(--dim); border: 1px solid var(--line); border-radius: 9px; padding: 4px 11px; }
+  .levels .on { color: #0b1220; background: var(--text); border-color: var(--text); }
+  .yours { margin-left: auto; background: #fbbf2420; border: 1px solid var(--amber); color: var(--amber); font-weight: 700;
+    border-radius: 12px; padding: 7px 14px; font-size: 16px; opacity: 0; transform: translateY(6px); transition: all .35s; }
+  .yours.show { opacity: 1; transform: none; }
+  .count { text-align: right; line-height: 1; }
+  .count b { font-size: 60px; letter-spacing: -1.5px; font-variant-numeric: tabular-nums; color: var(--green); }
+  .count span { display: block; color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .yours + .count { margin-left: 0; } .count { margin-left: auto; }
+  #lotsvg { flex: 1; min-height: 0; width: 100%; margin-top: 12px; }
+  .stall .openmark { opacity: 0; transition: opacity .6s; fill: #34d39929; stroke: var(--green); stroke-width: 1.8; }
+  .stall.free .openmark { opacity: 1; }
+  .stall .car { transition: opacity .6s; }
+  .stall.free .car, .stall.target .car { opacity: 0; }
+  .stall.target .openmark { opacity: 1; fill: #fbbf2433; stroke: var(--amber); stroke-width: 2.6; animation: pulse 1s ease-in-out infinite; }
+  .stall.mine .body { fill: var(--amber); }
+  .stall text { fill: #6a7896; font-size: 11px; font-weight: 600; text-anchor: middle; }
+  .stall.target text, .stall.mine text { fill: var(--amber); }
+  @keyframes pulse { 50% { fill: #fbbf2466; } }
+  #route { fill: none; stroke: var(--amber); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 3 12; opacity: 0;
+    transition: opacity .4s; animation: march .5s linear infinite; }
+  #route.show { opacity: .9; }
+  @keyframes march { to { stroke-dashoffset: -15; } }
+  .legend { display: flex; gap: 20px; color: var(--muted); font-size: 13.5px; margin-top: 6px; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; margin-right: 7px; vertical-align: -1px; }
+
+  .pipe { flex: none; height: 112px; padding: 0 26px; display: flex; align-items: center; }
+  .node { flex: none; display: flex; align-items: center; gap: 9px; background: var(--panel2); border: 1px solid var(--line);
+    border-radius: 15px; padding: 10px 13px; transition: border-color .2s, box-shadow .2s; }
+  .node svg { width: 23px; height: 23px; fill: none; stroke: var(--muted); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: stroke .2s; }
+  .node b { display: block; font-size: 15px; font-weight: 600; white-space: nowrap; }
+  .node span { display: block; font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+  .node.on { border-color: var(--red); box-shadow: 0 0 22px #e5252f66; } .node.on svg { stroke: var(--text); }
+  .wire { flex: 1; position: relative; height: 34px; min-width: 44px; }
+  .wire::before { content: ""; position: absolute; left: 0; right: 0; top: 16px; height: 2px; background: var(--line); }
+  .wire.video::before { height: 6px; top: 14px; border-radius: 3px; background: #33436a; }
+  .wire em { position: absolute; left: 0; right: 0; top: -3px; text-align: center; font-style: normal; font-size: 10.5px;
+    letter-spacing: .8px; text-transform: uppercase; color: var(--muted); }
+  .wire i { position: absolute; top: 11px; left: 0; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%;
+    background: var(--red); box-shadow: 0 0 12px var(--red); opacity: 0; }
+  .wire.on i { animation: dot .32s linear; }
+  @keyframes dot { 0% { left: 0; opacity: 1; } 100% { left: 100%; opacity: 1; } }
+
+  /* ---------- gate ---------- */
+  .gate { padding: 22px 22px 18px; display: flex; flex-direction: column; min-height: 0; }
+  .cam { position: relative; height: 244px; margin-top: 12px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line);
+    background: linear-gradient(#090e1a, #18223a); flex: none; }
+  .cam > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .osd { position: absolute; top: 10px; left: 12px; right: 12px; display: flex; justify-content: space-between;
+    font-size: 11.5px; letter-spacing: 1.2px; color: #c4cfe6; z-index: 3; }
+  .osd b::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--red);
+    margin-right: 7px; animation: blink 1.2s infinite; }
+  .osd b { font-weight: 600; }
   @keyframes blink { 50% { opacity: .2; } }
-  .car { position: absolute; left: 50%; bottom: -150px; width: 210px; transform: translateX(-50%);
-    transition: bottom .9s cubic-bezier(.2,.8,.2,1); }
-  .car.in { bottom: 14px; }
-  .car.out { bottom: 230px; transition: bottom .7s ease-in; }
-  .scan { position: absolute; left: 0; right: 0; height: 2px; background: var(--red);
-    box-shadow: 0 0 14px 3px #e0252f; top: -4px; opacity: 0; }
-  .scan.go { animation: sweep .9s ease-in-out; }
-  @keyframes sweep { 0% { top: 20px; opacity: 1; } 100% { top: 180px; opacity: 1; } }
-  .read { margin-top: 10px; display: grid; grid-template-columns: 92px 1fr; gap: 5px 10px; font-size: 13px; }
-  .read dt { color: var(--muted); }
-  .read dd { margin: 0; font-variant-numeric: tabular-nums; min-height: 19px; }
-  .mono { font-family: ui-monospace, Consolas, monospace; }
-  .ok { color: var(--green); } .bad { color: var(--amber); }
-  .log { margin-top: 12px; flex: 1; overflow: hidden; border-top: 1px solid var(--line); padding-top: 8px; }
-  .log div { display: grid; grid-template-columns: 64px 104px 1fr; gap: 8px; font-size: 12px;
-    padding: 4px 0; color: var(--muted); animation: slide .35s; }
-  .log div b { color: var(--text); font-weight: 500; }
-  @keyframes slide { from { opacity: 0; transform: translateY(-6px); } }
-  .privacy { margin-top: 8px; font-size: 11.5px; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; }
-  .privacy span { border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; }
+  .gcar { position: absolute; left: 50%; top: 0; width: 220px; margin-left: -110px; transform-origin: 50% 0;
+    transform: translateY(18px) scale(.28); opacity: 0; transition: transform 1s cubic-bezier(.2,.7,.2,1), opacity .35s; z-index: 2; }
+  .gcar.in { transform: translateY(58px) scale(1); opacity: 1; }
+  .gcar.out { transform: translateY(330px) scale(1.55); opacity: 1; transition: transform .8s ease-in; }
+  .gcar.reset { transition: none; }
+  .det { opacity: 0; transition: opacity .2s; } .det.show { opacity: 1; }
+  .scan { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--red); box-shadow: 0 0 18px 4px var(--red);
+    opacity: 0; z-index: 3; }
+  .scan.go { animation: sweep .8s ease-in-out; }
+  @keyframes sweep { 0% { top: 40px; opacity: 1; } 100% { top: 232px; opacity: 1; } }
+  .led { margin-top: 12px; flex: none; background: #000; border: 3px solid #1b2337; border-radius: 12px; height: 62px;
+    display: grid; place-items: center; position: relative; overflow: hidden; }
+  .led b { font-family: ui-monospace, Consolas, monospace; font-size: 22px; letter-spacing: 2.5px; color: #ffb21e;
+    text-shadow: 0 0 10px #ff9d00aa; transition: opacity .25s; white-space: nowrap; }
+  .led.vis b { color: #ff6a4d; text-shadow: 0 0 10px #ff3d00aa; }
+  .led::after { content: ""; position: absolute; inset: 0; background: radial-gradient(#0000 55%, #000b 60%) 0 0 / 4px 4px; }
+  .led small { position: absolute; left: 10px; top: 4px; font-size: 9px; letter-spacing: 1.3px; color: #4c5878; z-index: 1; }
+  .steps { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; flex: none; }
+  .steps li { display: grid; grid-template-columns: 26px 1fr; column-gap: 12px; align-items: center; background: var(--panel2);
+    border-radius: 13px; padding: 9px 13px; min-height: 58px; opacity: .45; transition: opacity .3s; }
+  .steps li.active, .steps li.done, .steps li.warn { opacity: 1; }
+  .steps i { grid-row: span 2; width: 26px; height: 26px; border-radius: 50%; border: 2.5px solid var(--dim); display: grid; place-items: center;
+    font-style: normal; font-size: 15px; font-weight: 800; color: #06281a; }
+  .steps li.active i { border-color: var(--text); border-top-color: transparent; animation: spin .6s linear infinite; }
+  .steps li.done i { background: var(--green); border-color: var(--green); }
+  .steps li.done i::after { content: "✓"; }
+  .steps li.warn i { background: var(--amber); border-color: var(--amber); } .steps li.warn i::after { content: "!"; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .steps span { font-size: 13px; color: var(--muted); }
+  .steps em { font-style: normal; font-size: 16px; font-weight: 600; min-height: 22px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .steps em s { color: var(--dim); font-weight: 400; }
+  .logwrap { margin-top: 14px; flex: 1; min-height: 0; overflow: hidden; }
+  .log div { display: grid; grid-template-columns: 10px 50px 1fr; gap: 10px; align-items: center; font-size: 13.5px;
+    padding: 6px 0; border-top: 1px solid #1a243d; animation: slide .35s; color: var(--muted); }
+  .log u { width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
+  .log .v u { background: var(--amber); }
+  .log b { color: var(--text); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @keyframes slide { from { opacity: 0; transform: translateY(-8px); } }
+  .privacy { display: flex; gap: 8px; flex: none; margin-top: 10px; }
+  .privacy span { flex: 1; text-align: center; font-size: 12.5px; color: #b9c5de; background: var(--panel2); border-radius: 10px; padding: 7px 4px; }
 
-  /* presenter mode (press P): keeps a clear corner for the speaker's camera bubble */
-  .stage { display: none; height: 250px; margin-top: 12px; border-radius: 16px;
-    border: 1px dashed var(--line); }
-  body.presenter .stage { display: block; }
-  body.presenter .lot:nth-child(n+3) { display: none; }
+  /* Presenter mode (press P): leaves the bottom-left corner empty for a webcam bubble. */
+  body.presenter .phone { height: 650px; }
+  body.presenter .forecast, body.presenter .permit, body.presenter .lot:nth-child(n+3) { display: none; }
 </style>
 </head>
 <body>
-<header>
-  <div class="logo">H</div>
-  <div><h1>HighlanderSpot</h1><div class="tag">Live parking for NJIT</div></div>
-  <div class="note">Concept demo · simulated data</div>
-</header>
-
-<main>
-  <section class="panel">
-    <h2>Student app</h2>
-    <div class="phone">
-      <div class="bar"><span id="clock">8:12</span><span>5G UW</span></div>
-      <div class="banner" id="banner"><small id="bsmall"></small><b id="bbig"></b></div>
-      <div class="lots" id="lots"></div>
+<div id="stage">
+  <header>
+    <div class="brand">
+      <div class="logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 20V4h5.5a4.5 4.5 0 0 1 0 9H8"/></svg></div>
+      <div><h1>HighlanderSpot</h1><p>Live parking for NJIT</p></div>
     </div>
-    <div class="stage" id="stage"></div>
-  </section>
+    <div class="chips">
+      <div class="chip"><b id="campusOpen">0</b><span>open across campus</span></div>
+      <div class="chip"><b id="campusPct">0%</b><span>full</span></div>
+      <div class="chip"><i class="live"></i><b id="clockTop">8:12 AM</b></div>
+    </div>
+    <div class="note">Concept demo · simulated data</div>
+  </header>
 
-  <section class="panel">
-    <h2 id="maptitle">Live space map</h2>
-    <div class="maphead">
-      <b id="mapopen">0</b><span>open on this level</span>
-      <div class="legend">
-        <span><i style="background:var(--green)"></i>Open</span>
-        <span><i style="background:var(--taken)"></i>Taken</span>
-        <span><i style="background:var(--amber)"></i>Yours</span>
+  <main>
+    <!-- student app -->
+    <section class="phonecol">
+      <div class="phone">
+        <div class="status"><span id="clock">8:12</span><span>5G UW</span></div>
+        <div class="apphead"><div><small>Good morning</small><b>Find parking</b></div><div class="avatar">A</div></div>
+        <div class="hero" id="hero"><small id="heroLabel"></small><b id="heroBig"></b><span id="heroSub"></span><div class="cta" id="heroCta"></div></div>
+        <div class="sect"><div class="eyebrow">All lots</div><span>updated live</span></div>
+        <div id="lots"></div>
+        <div class="forecast">
+          <div class="top"><span>Forecast · <b id="fcName"></b></span><span>fills by ~9:40</span></div>
+          <div class="bars"><i style="height:22%"></i><i class="now" style="height:58%"></i><i style="height:88%"></i><i class="full" style="height:100%"></i><i class="full" style="height:100%"></i><i style="height:82%"></i><i style="height:64%"></i></div>
+          <div class="hours"><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>1</span></div>
+        </div>
+        <div class="permit"><div><b>Fall term permit · Commuter</b><span>Your plate is your permit</span></div><em>Active</em></div>
+        <nav class="tabs">
+          <div class="on"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Park</div>
+          <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Lots</div>
+          <div><svg viewBox="0 0 24 24"><path d="M5 16l1.5-5a2 2 0 0 1 2-1.5h7a2 2 0 0 1 2 1.5L19 16"/><rect x="3" y="14" width="18" height="5" rx="2"/></svg>My car</div>
+          <div><svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7 2.5 7h-17S6 15 6 9z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Alerts</div>
+        </nav>
       </div>
-    </div>
-    <div class="grid" id="grid"></div>
-    <div class="pipe" id="pipe">
-      <div class="node">Cameras<small>plates + spaces</small></div><div class="wire"><i></i></div>
-      <div class="node">5G<small>wireless backhaul</small></div><div class="wire"><i></i></div>
-      <div class="node">Edge AI<small>video stops here</small></div><div class="wire"><i></i></div>
-      <div class="node">Parking service<small>match + assign</small></div><div class="wire"><i></i></div>
-      <div class="node">App + sign<small>go to your spot</small></div>
-    </div>
-  </section>
+    </section>
 
-  <section class="panel">
-    <h2>Gate camera · Parking Services view</h2>
-    <div class="cam">
-      <div class="rec">GATE 1 · EDGE</div>
-      <svg class="car" id="car" viewBox="0 0 210 150" aria-hidden="true">
-        <rect x="18" y="38" width="174" height="96" rx="20" fill="#33415f"/>
-        <rect x="38" y="10" width="134" height="52" rx="18" fill="#263250"/>
-        <rect x="50" y="18" width="110" height="32" rx="10" fill="#0d1526"/>
-        <rect x="26" y="74" width="34" height="16" rx="7" fill="#ffe9a8"/>
-        <rect x="150" y="74" width="34" height="16" rx="7" fill="#ffe9a8"/>
-        <rect x="68" y="98" width="74" height="26" rx="4" fill="#f2f0df" stroke="#1b2540" stroke-width="2"/>
-        <text id="platetxt" x="105" y="117" text-anchor="middle" font-family="Consolas, monospace"
-              font-size="15" font-weight="700" fill="#1b2540"></text>
-      </svg>
-      <div class="scan" id="scan"></div>
-    </div>
-    <dl class="read">
-      <dt>Plate</dt><dd id="rplate" class="mono"></dd>
-      <dt>Stored as</dt><dd id="rtoken" class="mono"></dd>
-      <dt>Permit</dt><dd id="rpermit"></dd>
-      <dt>Assigned</dt><dd id="rassign"></dd>
-    </dl>
-    <div class="log" id="log"></div>
-    <div class="privacy"><span>No video stored</span><span>Plates tokenised</span><span>Deleted on exit</span></div>
-  </section>
-</main>
+    <!-- live map -->
+    <section class="mapcol">
+      <div class="panel map">
+        <div class="maphead">
+          <div>
+            <div class="eyebrow">Live space map</div>
+            <h2 id="mapLot"></h2>
+          </div>
+          <div class="levels"><span>L2</span><span>L3</span><span class="on">L4</span><span>L5</span><span>L6</span></div>
+          <div class="yours" id="yours"></div>
+          <div class="count"><b id="mapOpen">0</b><span id="mapSub"></span></div>
+        </div>
+        <svg id="lotsvg" viewBox="0 0 1000 680" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="legend">
+          <span><i style="background:var(--green)"></i>Open</span>
+          <span><i style="background:#5b6b8c"></i>Taken</span>
+          <span><i style="background:var(--amber)"></i>Your spot</span>
+        </div>
+      </div>
+      <div class="panel pipe" id="pipe">
+        <div class="node"><svg viewBox="0 0 24 24"><path d="M3 8h11l4 3v5H3z"/><circle cx="8.5" cy="12" r="2"/><path d="M6 16v4"/></svg><div><b>Cameras</b><span>plates, spaces</span></div></div>
+        <div class="wire video"><em>video</em><i></i></div>
+        <div class="node"><svg viewBox="0 0 24 24"><path d="M12 20v-7"/><circle cx="12" cy="11" r="2"/><path d="M7.5 15a6 6 0 0 1 0-8M16.5 7a6 6 0 0 1 0 8M4.5 18a10 10 0 0 1 0-14M19.5 4a10 10 0 0 1 0 14"/></svg><div><b>Verizon 5G</b><span>no cables</span></div></div>
+        <div class="wire video"><em>video</em><i></i></div>
+        <div class="node"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg><div><b>Edge AI</b><span>video ends here</span></div></div>
+        <div class="wire"><em>data</em><i></i></div>
+        <div class="node"><svg viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.5-9 6 6 0 0 1 11.5 1.5A3.8 3.8 0 0 1 17.5 18z"/></svg><div><b>Cloud</b><span>match, assign</span></div></div>
+        <div class="wire"><em>data</em><i></i></div>
+        <div class="node"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg><div><b>App + sign</b><span>your spot</span></div></div>
+      </div>
+    </section>
+
+    <!-- gate -->
+    <section class="panel gate">
+      <div class="eyebrow">Gate camera · Parking Services</div>
+      <div class="cam">
+        <svg viewBox="0 0 400 244" preserveAspectRatio="none" aria-hidden="true">
+          <polygon points="150,0 250,0 400,244 0,244" fill="#1c2640"/>
+          <path d="M163 0 L52 244 M237 0 L348 244" stroke="#f1f5fb" stroke-opacity=".35" stroke-width="3"/>
+          <path d="M200 0 V244" stroke="#fbbf24" stroke-opacity=".35" stroke-width="3" stroke-dasharray="14 16"/>
+        </svg>
+        <div class="osd"><b>GATE 1 · EDGE CAM</b><span id="osdTime">08:12:00</span></div>
+        <div class="gcar" id="gcar">
+          <svg viewBox="0 0 220 170" aria-hidden="true">
+            <ellipse cx="110" cy="156" rx="96" ry="10" fill="#000" opacity=".45"/>
+            <rect x="30" y="138" width="32" height="18" rx="5" fill="#05080f"/><rect x="158" y="138" width="32" height="18" rx="5" fill="#05080f"/>
+            <path d="M50 70 L67 24 Q70 16 79 16 H141 Q150 16 153 24 L170 70 Z" id="gcab" fill="#2f3d5e"/>
+            <path d="M62 64 L75 29 H145 L158 64 Z" fill="#0b1322"/>
+            <path d="M70 60 L80 34 H100 L92 60 Z" fill="#fff" opacity=".06"/>
+            <rect x="6" y="58" width="18" height="11" rx="4" id="gmir1" fill="#2f3d5e"/><rect x="196" y="58" width="18" height="11" rx="4" id="gmir2" fill="#2f3d5e"/>
+            <rect x="18" y="62" width="184" height="86" rx="22" id="gbody" fill="#3d4d74"/>
+            <rect x="76" y="76" width="68" height="12" rx="6" fill="#1a2338"/>
+            <rect x="28" y="76" width="38" height="15" rx="7.5" fill="#fff4c9"/><rect x="154" y="76" width="38" height="15" rx="7.5" fill="#fff4c9"/>
+            <rect x="26" y="126" width="168" height="15" rx="7.5" fill="#263251"/>
+            <rect x="68" y="98" width="84" height="30" rx="4" fill="#f8efbf" stroke="#1b2540" stroke-width="2"/>
+            <text id="platetxt" x="110" y="120" text-anchor="middle" font-family="Consolas, ui-monospace, monospace" font-size="18" font-weight="700" fill="#1b2540"></text>
+            <g class="det" id="det" fill="none" stroke="#34d399" stroke-width="3" stroke-linecap="round">
+              <path d="M60 104 V92 H74 M146 92 H160 V104 M160 122 V134 H146 M74 134 H60 V122"/>
+              <rect x="60" y="74" width="54" height="15" rx="3" fill="#34d399" stroke="none"/>
+              <text x="87" y="85.5" text-anchor="middle" font-size="10" font-weight="700" fill="#06281a" stroke="none" font-family="system-ui, sans-serif">PLATE</text>
+            </g>
+          </svg>
+        </div>
+        <div class="scan" id="scan"></div>
+      </div>
+      <div class="led" id="led"><small>ENTRY SIGN</small><b id="ledtxt"></b></div>
+      <ol class="steps" id="steps">
+        <li><i></i><span>Plate read at the edge</span><em id="s0" class="mono"></em></li>
+        <li><i></i><span>Converted to a token</span><em id="s1" class="mono"></em></li>
+        <li><i></i><span>Checked against NJIT permits</span><em id="s2"></em></li>
+        <li><i></i><span>Space assigned</span><em id="s3"></em></li>
+      </ol>
+      <div class="logwrap"><div class="eyebrow" style="margin-bottom:6px">Recent arrivals</div><div class="log" id="log"></div></div>
+      <div class="privacy"><span>No video stored</span><span>Plates tokenized</span><span>Deleted on exit</span></div>
+    </section>
+  </main>
+</div>
 
 <script>
 // ---- Edit these to match campus. Names and capacities are placeholders. ----
 const LOTS = [
-  { name: "Summit Street Deck",        cap: 1100, open: 64 },
-  { name: "Science & Tech Park Garage", cap: 981,  open: 212 },
-  { name: "Lot 7",                      cap: 140,  open: 9 },
-  { name: "Lot 10",                     cap: 95,   open: 3 },
+  { name: "Parking Deck · Summit St", sign: "PARKING DECK", cap: 1100, open: 64 },
+  { name: "Science & Tech Garage",    sign: "STPG",         cap: 981,  open: 212 },
+  { name: "Lot 7",                    sign: "LOT 7",        cap: 140,  open: 5 },
 ];
-const AUTO_CAR_EVERY_MS = 9000;   // 0 = only on key press (Space = permit car, V = no permit)
+const FEATURED = 1;            // which lot the live map shows and cars are assigned to
+const LEVEL = 4;                // the garage allows overnight parking only above level 3
+let AUTO_EVERY_MS = 13000;     // a car arrives by itself this often; 0 = keys only
+// Keys: Space = student with a term permit · G = guest with an approved one-night permit
+//       V = car with no permit or pass · P = presenter mode · A = auto on/off
 // ---------------------------------------------------------------------------
 
 const $ = id => document.getElementById(id);
 const rnd = n => Math.floor(Math.random() * n);
 const pick = s => s[rnd(s.length)];
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const NS = "http://www.w3.org/2000/svg";
+const el = (n, a = {}, p) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+
+// fit the 1920x1080 stage to any window
+function fit() { const s = Math.min(innerWidth / 1920, innerHeight / 1080); $("stage").style.transform = `translate(-50%,-50%) scale(${s})`; }
+addEventListener("resize", fit); fit();
+
 const LETTERS = "ABCDEFGHJKLMNPRSTUVWXYZ", HEX = "0123456789abcdef";
 const fakePlate = () => pick(LETTERS) + (10 + rnd(90)) + "-" + pick(LETTERS) + pick(LETTERS) + pick(LETTERS);
-const fakeToken = () => "tok_" + Array.from({ length: 10 }, () => pick(HEX)).join("");
+const fakeToken = () => "tok_" + Array.from({ length: 12 }, () => pick(HEX)).join("");
+const lot = LOTS[FEATURED];
 
-// phone lot list
-function best() { return LOTS.reduce((a, b) => (b.open > a.open ? b : a)); }
-function drawLots() {
-  const b = best();
-  $("lots").innerHTML = LOTS.map(l => {
-    const pct = Math.round(100 * l.open / l.cap);
-    const col = l.open < 12 ? "var(--red)" : l.open < 70 ? "var(--amber)" : "var(--green)";
-    return `<div class="lot ${l === b ? "best" : ""}">
-      <div class="row"><span class="name">${l.name}</span>
-      <span class="open">${l.open} <span>open</span></span></div>
-      ${l === b ? '<div class="badge">Best right now</div>' : ""}
-      <div class="meter"><i style="width:${Math.max(3, pct)}%;background:${col}"></i></div></div>`;
-  }).join("");
-}
-
-// space map: 4 rows of 18 with aisles
-const cells = [];
-for (let r = 0; r < 4; r++) {
-  for (let c = 0; c < 18; c++) {
-    const d = document.createElement("div");
-    d.className = "sp" + (Math.random() < 0.22 ? " free" : "");
-    $("grid").appendChild(d); cells.push(d);
-  }
-  if (r % 2 === 1 && r < 3) { const a = document.createElement("div"); a.className = "aisle"; $("grid").appendChild(a); }
-}
-const freeCells = () => cells.filter(c => c.classList.contains("free"));
-function drawMap() { $("mapopen").textContent = freeCells().length; }
-
-// background life: spaces and counts drift
+// ---------- clock ----------
+let mins = 12, secs = 0;
+const hhmm = () => "8:" + String(mins).padStart(2, "0");
 setInterval(() => {
-  const c = pick(cells);
-  if (!c.classList.contains("you")) c.classList.toggle("free");
-  const l = pick(LOTS);
-  l.open = Math.max(0, Math.min(l.cap, l.open + pick([-2, -1, -1, 1, 1, 2])));
+  secs += 1; if (secs % 8 === 0) mins = (mins + 1) % 60;
+  $("clock").textContent = hhmm(); $("clockTop").textContent = hhmm() + " AM";
+  $("osdTime").textContent = "08:" + String(mins).padStart(2, "0") + ":" + String((secs * 7) % 60).padStart(2, "0");
+}, 1000);
+
+// ---------- phone ----------
+function status(l) {
+  const p = l.open / l.cap;
+  return p < 0.04 || l.open < 6 ? ["Almost full", "var(--red)"] : p < 0.1 ? ["Filling up", "var(--amber)"] : ["Plenty of room", "var(--green)"];
+}
+function drawLots() {
+  const C = 2 * Math.PI * 16;
+  $("lots").innerHTML = LOTS.map(l => {
+    const [word, col] = status(l), full = 1 - l.open / l.cap;
+    return `<div class="lot"><svg class="ring" viewBox="0 0 42 42"><circle class="trk" cx="21" cy="21" r="16"/>
+      <circle class="arc" cx="21" cy="21" r="16" stroke="${col}" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - full)}"/></svg>
+      <div class="nm"><b>${l.name}</b><span style="color:${col}">${word}</span></div>
+      <div class="ct"><b>${l.open}</b><span>open</span></div></div>`;
+  }).join("");
+  const open = LOTS.reduce((a, l) => a + l.open, 0), cap = LOTS.reduce((a, l) => a + l.cap, 0);
+  $("campusOpen").textContent = open; $("campusPct").textContent = Math.round(100 * (1 - open / cap)) + "%";
+}
+let heroState = "idle";
+function hero(state, a = {}) {
+  heroState = state; const h = $("hero");
+  h.className = "hero" + (state === "idle" ? "" : " " + state);
+  if (state === "idle") {
+    $("heroLabel").textContent = "Best right now"; $("heroBig").textContent = lot.name;
+    $("heroSub").textContent = `${lot.open} open · Level ${LEVEL} has ${freeStalls().length}`; $("heroCta").textContent = "Navigate";
+  } else if (state === "go") {
+    $("heroLabel").textContent = "Permit recognized at the gate"; $("heroBig").textContent = `Level ${LEVEL} · Space ${a.id}`;
+    $("heroSub").textContent = lot.name; $("heroCta").textContent = "Guiding you in…";
+  } else if (state === "guest") {
+    $("heroLabel").textContent = "Your overnight guest has arrived"; $("heroBig").textContent = `Level ${LEVEL} · Space ${a.id}`;
+    $("heroSub").textContent = "One-night guest permit approved"; $("heroCta").textContent = "Guest permit active";
+  } else {
+    $("heroLabel").textContent = "You're parked"; $("heroBig").textContent = `Space ${a.id} · Level ${LEVEL}`;
+    $("heroSub").textContent = `${lot.name} · ${hhmm()} AM`; $("heroCta").textContent = "On time for class";
+  }
+}
+
+// ---------- map ----------
+const svg = $("lotsvg"), N = 16, SW = 54, SH = 108, X0 = 68, H = 680;
+const ROWS = [
+  { id: "A", y: 24,  dir: -1, lane: 182 },   // dir -1: closed end at the top, cars park nose-up
+  { id: "B", y: 232, dir: 1,  lane: 182 },
+  { id: "C", y: 340, dir: -1, lane: 498 },
+  { id: "D", y: 548, dir: 1,  lane: 498 },
+];
+const CARCOL = ["#5b6b8c", "#74819d", "#44516f", "#8d6464", "#4f7378", "#aab3c5", "#353f5a", "#6a5f86"];
+function carGlyph(parent, color) {
+  const g = el("g", { class: "car" }, parent);
+  el("rect", { class: "body", x: -19, y: -39, width: 38, height: 78, rx: 11, fill: color }, g);
+  el("rect", { x: -14, y: -24, width: 28, height: 15, rx: 4.5, fill: "#0b1220", opacity: .75 }, g);
+  el("rect", { x: -13, y: 17, width: 26, height: 10, rx: 3.5, fill: "#0b1220", opacity: .6 }, g);
+  el("rect", { x: -15, y: -38, width: 9, height: 3.5, rx: 1.7, fill: "#fff7d6" }, g);
+  el("rect", { x: 6, y: -38, width: 9, height: 3.5, rx: 1.7, fill: "#fff7d6" }, g);
+  return g;
+}
+el("rect", { x: 0, y: 0, width: 1000, height: H, rx: 22, fill: "#0b1324", stroke: "#1e2a47", "stroke-width": 2 }, svg);
+[182, 498].forEach(y => { for (let x = 110; x < 940; x += 118) el("path", { d: `M${x - 6} ${y - 8} L${x + 4} ${y} L${x - 6} ${y + 8}`, fill: "none", stroke: "#fff", "stroke-opacity": .1, "stroke-width": 3.5, "stroke-linecap": "round" }, svg); });
+el("text", { x: 34, y: 187, fill: "#55637f", "font-size": 12, "font-weight": 700, "text-anchor": "middle", "letter-spacing": 1.5 }, svg).textContent = "IN";
+el("text", { x: 34, y: 503, fill: "#55637f", "font-size": 12, "font-weight": 700, "text-anchor": "middle", "letter-spacing": 1.5 }, svg).textContent = "IN";
+el("text", { x: 968, y: 340, fill: "#55637f", "font-size": 12, "font-weight": 700, "text-anchor": "middle", "letter-spacing": 1.5, transform: "rotate(90 968 340)" }, svg).textContent = `RAMP · L${LEVEL - 1} / L${LEVEL + 1}`;
+const stalls = [];
+ROWS.forEach(r => {
+  const back = r.dir < 0 ? r.y : r.y + SH;
+  el("path", { d: `M${X0} ${back} H${X0 + N * SW}`, stroke: "#fff", "stroke-opacity": .3, "stroke-width": 2 }, svg);
+  for (let i = 0; i <= N; i++) el("path", { d: `M${X0 + i * SW} ${r.y} V${r.y + SH}`, stroke: "#fff", "stroke-opacity": .3, "stroke-width": 2 }, svg);
+  for (let i = 0; i < N; i++) {
+    const x = X0 + i * SW, cx = x + SW / 2, cy = r.y + SH / 2 + r.dir * 7.5, id = r.id + (i + 1);
+    const g = el("g", { class: "stall" + (Math.random() < 0.24 ? " free" : "") }, svg);
+    el("rect", { class: "openmark", x: x + 5, y: r.dir < 0 ? r.y + 5 : r.y + 19, width: SW - 10, height: SH - 24, rx: 7 }, g);
+    const c = carGlyph(g, pick(CARCOL)); c.setAttribute("transform", `translate(${cx} ${cy}) rotate(${r.dir > 0 ? 180 : 0})`);
+    el("text", { x: cx, y: r.dir < 0 ? r.y + SH - 5 : r.y + 13 }, g).textContent = id;
+    stalls.push({ g, id, cx, cy, row: r });
+  }
+});
+const route = el("path", { id: "route" }, svg);
+const mover = el("g", { style: "display:none" }, svg);
+carGlyph(mover, "#fbbf24");
+const freeStalls = () => stalls.filter(s => s.g.classList.contains("free"));
+function drawMap() { $("mapOpen").textContent = freeStalls().length; if (heroState === "idle") hero("idle"); }
+
+const ease = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+function animate(dur, fn) { return new Promise(res => { const t0 = performance.now(); (function f(t) { const k = Math.min(1, Math.max(0, (t - t0) / dur)); fn(k); k < 1 ? requestAnimationFrame(f) : res(); })(t0); }); }
+async function driveTo(s) {
+  const y = s.row.lane, turn = s.cx - 48, place = (x, yy, a) => mover.setAttribute("transform", `translate(${x} ${yy}) rotate(${a})`);
+  mover.style.display = ""; place(-60, y, 90);
+  await animate(700 + (turn + 60) * 1.7, k => place(-60 + (turn + 60) * ease(k), y, 90));
+  await animate(900, k => {
+    const t = 1 - Math.pow(1 - k, 2), u = 1 - t;                     // quadratic curve from the lane into the stall
+    const x = u * u * turn + 2 * u * t * s.cx + t * t * s.cx, yy = u * u * y + 2 * u * t * y + t * t * s.cy;
+    const dx = 2 * u * (s.cx - turn), dy = 2 * t * (s.cy - y);
+    place(x, yy, Math.atan2(dx, -dy) * 180 / Math.PI);
+  });
+  mover.style.display = "none";
+}
+
+// ---------- background life ----------
+setInterval(() => {
+  const f = freeStalls().length, pool = stalls.filter(s => !s.g.classList.contains("target") && !s.g.classList.contains("mine"));
+  const want = f < 9 ? false : f > 20 ? true : Math.random() < .5;       // true = fill a free space
+  const c = pool.filter(s => s.g.classList.contains("free") === want);
+  if (c.length) pick(c).g.classList.toggle("free");
+  const l = pick(LOTS); l.open = Math.max(1, Math.min(l.cap, l.open + pick([-2, -1, -1, 1, 1, 2])));
   drawLots(); drawMap();
-}, 1300);
+}, 1700);
 
-let mins = 12;
-setInterval(() => { mins = (mins + 1) % 60; $("clock").textContent = "8:" + String(mins).padStart(2, "0"); }, 6000);
+// ---------- entry sign ----------
+let ledHold = 0, ledI = 0;
+function led(text, visitor = false) { const b = $("ledtxt"); b.style.opacity = 0; setTimeout(() => { b.textContent = text; $("led").classList.toggle("vis", visitor); b.style.opacity = 1; }, 220); }
+setInterval(() => { if (Date.now() < ledHold) return; const l = LOTS[ledI++ % LOTS.length]; led(`${l.sign}  ${l.open} OPEN`); }, 3200);
 
+// ---------- pipeline ----------
 async function pulsePipe() {
   const parts = [...$("pipe").children];
-  for (const p of parts) { p.classList.add("on"); await sleep(p.className.includes("wire") ? 230 : 130); }
-  await sleep(500); parts.forEach(p => p.classList.remove("on"));
+  for (const p of parts) { p.classList.remove("on"); void p.offsetWidth; p.classList.add("on"); await sleep(p.classList.contains("wire") ? 320 : 170); }
+  await sleep(600); parts.forEach(p => p.classList.remove("on"));
 }
 
-function log(token, text, cls) {
-  const d = document.createElement("div");
-  d.innerHTML = `<span>8:${String(mins).padStart(2, "0")}</span><span class="mono">${token.slice(0, 11)}…</span><b class="${cls}">${text}</b>`;
-  $("log").prepend(d);
-  while ($("log").children.length > 6) $("log").lastChild.remove();
+// ---------- gate sequence ----------
+const stepEls = [...$("steps").children];
+const step = (i, cls) => { stepEls[i].className = cls; };
+function log(text, visitor) {
+  const d = document.createElement("div"); if (visitor) d.className = "v";
+  d.innerHTML = `<u></u><span>${hhmm()}</span><b>${text}</b>`;
+  $("log").prepend(d); while ($("log").children.length > 4) $("log").lastChild.remove();
 }
-
-let busy = false;
-async function carArrives(hasPermit = true) {
+let busy = false, mine = null;
+async function carArrives(kind = "permit") {   // "permit" | "guest" | "none"
   if (busy) return; busy = true;
-  const plate = fakePlate(), token = fakeToken(), car = $("car");
-  ["rplate", "rtoken", "rpermit", "rassign"].forEach(i => { $(i).textContent = ""; $(i).className = i.startsWith("rp") || i === "rtoken" ? "mono" : ""; });
-  $("rpermit").className = ""; $("banner").classList.remove("show");
-  cells.forEach(c => c.classList.remove("you"));
-  $("platetxt").textContent = plate;
-  car.className.baseVal = "car"; await sleep(60);
-  car.className.baseVal = "car in"; await sleep(950);
-  $("scan").classList.remove("go"); void $("scan").offsetWidth; $("scan").classList.add("go");
-  await sleep(900);
-  $("rplate").textContent = plate + "  (read at edge, not stored)";
-  pulsePipe(); await sleep(450);
-  $("rtoken").textContent = token; await sleep(450);
+  const plate = fakePlate(), token = fakeToken(), car = $("gcar"), col = pick(["#3d4d74", "#6b3a41", "#2f5a5c", "#59607a", "#3a3f63"]);
+  stepEls.forEach((li, i) => { li.className = ""; $("s" + i).textContent = ""; });
+  if (mine) { mine.g.classList.remove("mine"); mine = null; }
+  $("yours").classList.remove("show"); hero("idle");
+  $("platetxt").textContent = plate; $("gbody").setAttribute("fill", col);
+  $("det").classList.remove("show");
+  car.className = "gcar reset"; void car.offsetWidth; car.className = "gcar"; await sleep(40);
+  car.className = "gcar in"; await sleep(1050);
 
-  if (hasPermit) {
-    const lot = best(), level = 2 + rnd(3);
-    $("rpermit").textContent = "Commuter permit ✓"; $("rpermit").className = "ok"; await sleep(400);
-    $("rassign").textContent = `${lot.name} · Level ${level}`;
-    const f = freeCells(); if (f.length) { const c = pick(f); c.classList.remove("free"); c.classList.add("you"); }
-    lot.open = Math.max(0, lot.open - 1); drawLots(); drawMap();
-    $("maptitle").textContent = `Live space map · ${lot.name} · Level ${level}`;
-    $("banner").className = "banner show";
-    $("bsmall").textContent = "Welcome back — permit recognised";
-    $("bbig").textContent = `Level ${level} · ${$("mapopen").textContent} open`;
-    log(token, `Permit OK → ${lot.name.split(" ")[0]} L${level}`, "ok");
+  $("scan").classList.remove("go"); void $("scan").offsetWidth; $("scan").classList.add("go");
+  step(0, "active"); await sleep(800);
+  $("det").classList.add("show"); $("s0").textContent = plate; step(0, "done");
+  pulsePipe(); step(1, "active"); await sleep(650);
+  $("s1").textContent = token; $("s0").innerHTML = `<s>${plate}</s> not stored`; step(1, "done");
+  step(2, "active"); await sleep(600);
+
+  if (kind !== "none") {
+    const guest = kind === "guest";
+    $("s2").textContent = guest ? "One-night guest permit ✓" : "Student term permit ✓"; step(2, "done"); step(3, "active"); await sleep(500);
+    const f = freeStalls(), s = f.length ? pick(f) : pick(stalls);
+    s.g.classList.remove("free"); s.g.classList.add("target");
+    $("s3").textContent = `${lot.sign} · Level ${LEVEL} · Space ${s.id}`; step(3, "done");
+    ledHold = Date.now() + 7000; led(`${guest ? "GUEST" : "WELCOME"}  L${LEVEL} · ${s.id}`);
+    $("yours").textContent = `${guest ? "Guest spot" : "Your spot"} · ${s.id}`; $("yours").classList.add("show");
+    hero(guest ? "guest" : "go", s); lot.open = Math.max(1, lot.open - 1); drawLots(); $("mapOpen").textContent = freeStalls().length;
+    const y = s.row.lane, turn = s.cx - 48;
+    route.setAttribute("d", `M4 ${y} H${turn} Q${s.cx} ${y} ${s.cx} ${s.cy}`); route.classList.add("show");
+    await sleep(900); car.className = "gcar in out";
+    await driveTo(s);
+    s.g.classList.remove("target"); s.g.classList.add("mine"); mine = s; route.classList.remove("show");
+    if (!guest) hero("done", s);
+    log(`${guest ? "Guest permit" : "Term permit"} → Level ${LEVEL} · ${s.id}`, false);
   } else {
-    $("rpermit").textContent = "No NJIT permit on file"; $("rpermit").className = "bad"; await sleep(400);
-    $("rassign").textContent = "Visitor parking · pay by phone";
-    $("banner").className = "banner warn show";
-    $("bsmall").textContent = "Gate sign";
-    $("bbig").textContent = "Visitor → Visitor Lot";
-    log(token, "No permit → visitor · flagged if over limit", "bad");
+    $("s2").textContent = "No permit or guest pass"; step(2, "warn"); step(3, "active"); await sleep(500);
+    $("s3").textContent = "Not assigned · gate officer alerted"; step(3, "warn");
+    ledHold = Date.now() + 6000; led("NO PERMIT · PRESS HELP", true);
+    log("No permit or pass → gate officer", true);
+    await sleep(2400); car.className = "gcar in out"; await sleep(900);
   }
-  await sleep(2600);
-  car.className.baseVal = "car in out"; await sleep(800);
   busy = false;
 }
 
+// ---------- start ----------
+$("mapLot").textContent = lot.name; $("mapSub").textContent = `open on Level ${LEVEL}`; $("fcName").textContent = LOTS[0].name;
 if (location.search.includes("presenter")) document.body.classList.add("presenter");
-drawLots(); drawMap();
+if (location.search.includes("manual")) AUTO_EVERY_MS = 0;
+drawLots(); hero("idle"); drawMap(); led(`${lot.sign}  ${lot.open} OPEN`);
+let auto = !!AUTO_EVERY_MS, n = 0;
 document.addEventListener("keydown", e => {
-  if (e.code === "Space") { e.preventDefault(); carArrives(true); }
-  if (e.key.toLowerCase() === "v") carArrives(false);
-  if (e.key.toLowerCase() === "p") document.body.classList.toggle("presenter");
+  const k = e.key.toLowerCase();
+  if (e.code === "Space") { e.preventDefault(); carArrives("permit"); }
+  if (k === "v") carArrives("none");
+  if (k === "g") carArrives("guest");
+  if (k === "p") document.body.classList.toggle("presenter");
+  if (k === "a") auto = !auto;
 });
-setTimeout(() => carArrives(true), 1500);
-if (AUTO_CAR_EVERY_MS) { let n = 0; setInterval(() => carArrives(++n % 4 !== 0), AUTO_CAR_EVERY_MS); }
+// the arrivals list starts with a few earlier cars so it is never empty on camera
+log("Term permit → Level 2 · C4", false); log("Guest permit → Level 5 · A9", false); log("Term permit → Level 4 · D11", false);
+setTimeout(() => carArrives("permit"), 1800);
+setInterval(() => { if (auto) carArrives(["permit", "permit", "guest", "permit", "none"][n++ % 5]); }, AUTO_EVERY_MS || 13000);
 </script>
 </body>
 </html>

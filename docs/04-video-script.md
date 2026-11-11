@@ -15,7 +15,7 @@ The competition requires a **challenge statement** and a **value proposition**. 
 | 0:27–0:35 | **Presenter, demo behind.** Presenter steps into frame; the demo is already running. | Presenter: "What if campus already knew where your spot was? This is HighlanderSpot." | **HighlanderSpot** |
 | 0:35–1:00 | **Presenter, demo behind.** Press `Space` on "At the gate" — a car rolls up, the plate is scanned, the phone shows the level. Presenter gestures to it. | Presenter: "Cameras watch the lots, and an AI computer in each deck marks every space open or taken. At the gate, a plate reader matches your car to your NJIT permit — and before you pick a ramp, your phone tells you exactly where to go." | **Hardware:** overview cameras · plate reader · edge AI computer · 5G router · entry sign |
 | 1:00–1:22 | **Presenter, demo behind.** The pipeline at the bottom of the demo lights up left to right each time a car arrives. | Presenter: "It runs on Verizon. 5G carries the video without digging up a single lot. Edge computing makes the decision in the time it takes to reach the gate. And a private network keeps campus cameras off the public internet." | **AI-Driven Automation & Efficiency** — 5G Ultra Wideband · 5G Edge with AWS · Private 5G |
-| 1:22–1:38 | **Presenter, demo behind.** Press `V` on "Public Safety" — a car with no permit is flagged on the right-hand panel. | Presenter: "Privacy is built in. Video never leaves the edge. Plates become codes. Your data is deleted when you drive out. *(optional:)* And Public Safety sees which vehicles are on campus — not where you've been." | Parking only · No faces · Deleted on exit |
+| 1:22–1:38 | **Presenter, demo behind.** Press `V` on "Public Safety" — a car with no permit or pass arrives and the gate officer is alerted on the right-hand panel. | Presenter: "Privacy is built in. Video never leaves the edge. Plates become codes. Your data is deleted when you drive out. *(optional:)* And Public Safety sees which vehicles are on campus — not where you've been." | Parking only · No faces · Deleted on exit |
 | 1:38–1:50 | **Filmed.** The driver parks, glances at the phone, walks into class relaxed. Clock: 8:14. | Voiceover: "For students, minutes back every day. For NJIT, safer lots and fewer cars idling. For Verizon, a product every commuter campus needs." | **THE VALUE** — Straight to an open spot. A safer, cleaner, cheaper campus. |
 | 1:50–1:55 | Logo and team names. | Presenter or voiceover: "HighlanderSpot. Stop circling." | Team name · NJIT · 2026 Verizon Smart Campus Challenge |
 
@@ -33,6 +33,7 @@ Two ways to do it. Pick one; the first looks more like a commercial, the second 
 **B. Screen recording with a camera bubble.** Record the demo and the presenter's webcam together.
 
 - Loom, Canva ("Record yourself"), Zoom (share screen and record) and OBS all do this for free.
+- If there is time to show guests, press `G`: a guest with an approved one-night permit is recognized and the host's phone is notified. It is optional — cut it before anything else.
 - Press `P` in the demo first: it clears the bottom-left corner so the camera bubble has a clean place to sit and covers nothing.
 - The presenter presses `Space` and `V` themselves.
 
@@ -49,10 +50,10 @@ Either way:
 | **The driver** (a teammate) | 0:00–0:27 and 1:38–1:50 | Acts, no lines. Frustrated at the start, relaxed at the end. The before-and-after is the story. |
 | **The presenter** (most confident speaker) | 0:27–1:38 | Talks to camera with the demo behind. Two presenters can split it: one for the solution, one for Verizon and privacy. |
 | **The narrator** | 0:00–0:27 and 1:38–1:55 | Voiceover only. Can be the presenter. |
-| **Demo operator** | Off camera | Presses `Space` and `V` on cue. |
+| **Demo operator** | Off camera | Presses `Space` and `V` on cue. Open the demo with `?manual` on the end of the address so cars arrive only on a key press. |
 
-- **Never film while actually driving.** The driver's shots are taken parked, or the passenger films out of the windscreen.
-- Only teammates and people who agreed appear recognisably. Blur bystanders' faces and other cars' plates in editing — showing strangers' plates would undercut the privacy message.
+- **Never film while actually driving.** The driver's shots are taken parked, or the passenger films out of the windshield.
+- Only teammates and people who agreed appear recognizably. Blur bystanders' faces and other cars' plates in editing — showing strangers' plates would undercut the privacy message.
 - A real student saying "I've been late twice this month because of parking" is worth five seconds over the challenge title at 0:20, if someone will say it on camera.
 
 ## Shot list
@@ -72,7 +73,7 @@ Everything can be filmed on a phone in about an hour.
 
 | When | What | Who |
 | --- | --- | --- |
-| Morning | Run the 3-question survey in class group chats; confirm the upload link with the organisers | 1 person |
+| Morning | Run the 3-question survey in class group chats; confirm the upload link with the organizers | 1 person |
 | Morning | Film shots 1–5 and 7 on campus while the decks are full | 2 people |
 | Midday | Film the presenter with the demo behind; record the voiceover in a quiet room | 2–3 people |
 | Afternoon | Edit: lay the speech first, cut pictures to it, add titles, then music | 1–2 people |
@@ -95,4 +96,4 @@ Everything can be filmed on a phone in about an hour.
 - Must state the problem and the solution clearly; must include a challenge statement and a value proposition.
 - Prototypes are not required and do not affect judging. The demo is a visual aid, and its on-screen label says it is a concept with simulated data — keep that label visible.
 - AI tools are allowed with transparency. If an AI voice or AI images are used, add a small credit line at the end.
-- Do not use the Verizon logo unless the organisers say it is fine; naming Verizon technologies in text is enough.
+- Do not use the Verizon logo unless the organizers say it is fine; naming Verizon technologies in text is enough.
