@@ -1,6 +1,6 @@
-# HighlanderSpot — smart parking for NJIT
+# Octopark — smart parking for NJIT
 
-Our entry for the **2026 Verizon Smart Campus Innovation Challenge**. "HighlanderSpot" is a working name.
+Our entry for the **2026 Verizon Smart Campus Innovation Challenge**.
 
 This page explains the whole project in plain language. Read it once and you can explain the idea to a judge.
 
@@ -22,7 +22,7 @@ Campus should already know where the open spots are and tell you before you choo
 
 ## How NJIT parking works today, and what changes
 
-| Today | With HighlanderSpot |
+| Today | With Octopark |
 | --- | --- |
 | Students pay for a parking permit by term and show a hang tag | The plate is the permit — nothing to hang, nothing to forget |
 | You drive in and hunt for a space | You are told the level and space before you choose a ramp |
@@ -141,6 +141,8 @@ Script, shot list and the plan for filming day: [docs/04-video-script.md](docs/0
 | `A` | Turns automatic arrivals on or off |
 | `H` | Shows or hides a list of these keys (hidden by default, so it never appears on camera unless you press it) |
 
+To show the team logo in the top-left corner, save it as `demo/logo.png`. It sits on a black tile, so a white logo on a transparent background works best. Until that file exists, the corner shows a plain "O".
+
 Add `?manual` to the end of the address to start with automatic arrivals off, so cars come only when you press a key.
 
 The demo uses made-up plates and numbers. The lot names are NJIT's; the sizes are placeholders, set at the top of the script block in the file.
@@ -157,6 +159,7 @@ The demo uses made-up plates and numbers. The lot names are NJIT's; the sizes ar
 | [docs/04-video-script.md](docs/04-video-script.md) | The two-minute script, shot list and production plan |
 | [docs/05-data-storage-and-security.md](docs/05-data-storage-and-security.md) | What is stored and for how long, and what that does and does not give campus security |
 | [docs/06-new-jersey-law.md](docs/06-new-jersey-law.md) | How the storage and sharing design fits New Jersey law |
+| [docs/07-stitch-prompt.md](docs/07-stitch-prompt.md) | A prompt for Google Stitch, if you want it to try its own design of the demo screen |
 | [demo/index.html](demo/index.html) | The animated concept demo for the video |
 
 ## Before we submit
