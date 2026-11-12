@@ -122,7 +122,7 @@ Full research with sources: [docs/02-rules-and-regulations.md](docs/02-rules-and
 
 ## The video
 
-Two minutes maximum — ours is timed to 1:55. It opens with real footage of circling a full deck, then a teammate talks to camera with the demo running behind them, then it closes on the driver walking into class on time.
+Two minutes maximum — ours is timed to 1:55. Two teammates stand in a full NJIT parking deck and show NJIT's own parking page counting more open spaces than the deck has. Then the demo plays in story mode while they explain it in voiceover, and it closes back in the deck with the value and "Octopark. Stop circling."
 
 Script, shot list and the plan for filming day: [docs/04-video-script.md](docs/04-video-script.md).
 
@@ -158,16 +158,16 @@ The demo uses made-up plates and live counts. The lots and their sizes come from
 
 The script (docs/04-video-script.md) needs three things besides the demo itself:
 
-- **Phone mode, for the 1:38 shot where the driver opens Octopark.** Open `demo/index.html?phone` on a real phone (put the `demo` folder on the phone, or host it). It shows just the app, full screen, on "Level 4 • Space D4, guiding you in". One tap switches to "You're parked". Add `&spot=B7` to show a different space.
+- **Phone mode, for the optional 1:38 shot where Speaker 2 holds up Octopark.** Open `demo/index.html?phone` on a real phone (put the `demo` folder on the phone, or host it). It shows just the app, full screen, on "Level 4 • Space D4, guiding you in". One tap switches to "You're parked". Add `&spot=B7` to show a different space.
 - **Title cards, for 0:18 (THE CHALLENGE) and 1:38 (THE VALUE).** Ready-made 1920×1080 images are in `demo/cards/`. Each comes as a full-screen card (`challenge.png`, `value.png`) and as a transparent overlay to put over the filmed footage (`challenge-overlay.png`, `value-overlay.png`).
 - **End card, for 1:50.** `demo/cards/end.png`. Put your names in `TEAM` at the top of the script block in `demo/cards.html`, open it in Chrome at full screen (`F11`) and take a 1920×1080 screenshot, or ask for a new export. The survey number the script mentions goes in `SURVEY` and then shows on the challenge cards.
 
-`demo/opening.html` is an animated stand-in for the 0:00–0:10 ramp shot (a full garage level, a car circling, the clock going from 8:24 to 8:29), if there is no ramp footage. Reload it to replay.
+`demo/opening.html` is an animated full garage level with a car circling. The two-speaker script no longer uses a driving shot, so it is spare footage now. Reload it to replay.
 
 **Videos** (in `video/`):
 
-- `octopark-rough-cut.mp4`: the whole video so far, 1:55, no audio, timed to the script. The animated opening, NJIT's page, the title cards, the demo in story mode and the end card. Filmed clips replace the opening and the phone scene, and add the presenter.
-- `octopark-phone-app-for-filming.mp4`: the app in phone size, for the 1:38 shot. Play it full screen on the driver's phone: it shows "Level 4 • Space D4" with directions, then "You're parked" after 4 seconds.
+- `octopark-rough-cut.mp4`: the whole video so far, 1:55, no audio, timed to the script. The animated opening, NJIT's page, the title cards, the demo in story mode and the end card. The two speakers' footage in the deck replaces the opening and the 1:38 scene, and their voiceover goes over the demo section.
+- `octopark-phone-app-for-filming.mp4`: the app in phone size, for the optional 1:38 shot. Play it full screen on Speaker 2's phone: it shows "Level 4 • Space D4" with directions, then "You're parked" after 4 seconds.
 
 `demo/cards.html` shows all the cards; `←` and `→` switch between them, and `?overlay` shows the transparent versions.
 

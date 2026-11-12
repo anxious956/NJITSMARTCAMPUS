@@ -2,7 +2,7 @@
 
 **Hard limit: 2:00.** This script is timed to **1:55**, leaving five seconds of margin. The spoken part is about 200 words — roughly 1:25 at a calm pace — and the rest is pictures and music. If the first read-through runs long, cut the lines marked *(optional)*; do not speed up the voice.
 
-**The format:** a filmed opening where a driver checks NJIT's own parking page and it shows something impossible, then a **freeze frame** where a teammate walks in and gives the pitch with the live demo running behind them, then the frame **unfreezes** and the same driver parks with Octopark.
+**The format:** two teammates (**Speaker 1** and **Speaker 2**) stand in a full NJIT parking deck and talk to camera — no driving. Speaker 2 shows NJIT's own parking page on a phone, and it says something impossible. From 0:35 the picture switches to the demo in story mode while their voices carry on as voiceover; the demo footage is dropped in during editing. At 1:38 we are back in the deck with the two speakers for the value and the sign-off.
 
 The competition requires a **challenge statement** and a **value proposition**. Both appear as on-screen titles so a judge cannot miss them.
 
@@ -19,92 +19,94 @@ In this order, and in roughly these proportions:
 
 ## Script
 
+The times match the demo's story mode (`demo/index.html?story`, one press of `→` per step) and the rough cut in `video/octopark-rough-cut.mp4`, so the editor can lay the speakers' audio straight over the demo section of the rough cut.
+
 | Time | Picture | Spoken | On screen |
 | --- | --- | --- | --- |
-| 0:00–0:10 | **Filmed.** From the passenger seat: up a deck ramp, every space full. Dashboard clock 8:24. | *(Engine and turn signal, no voice.)* | `8:24` |
-| 0:10–0:18 | **Filmed, parked.** The driver opens NJIT's parking page on their phone. Cut to the screen recording of the page; zoom in and circle **Available 255** and **Total 155**. Back to the driver's face. | Driver: "...what?" | Circle on `255` and `155` |
-| 0:18 | **Freeze frame** with a record-scratch sound. The presenter walks into frame in front of the frozen shot. | — | — |
-| 0:18–0:35 | **Presenter**, frozen frame behind or beside. | Presenter: "That's NJIT's real parking page. It counts cars at the gate, so one missed car makes every number after it wrong. And with more permits than spaces, nobody knows where the open spot is until they're already inside." | **THE CHALLENGE** — More permits than spaces. No way to know where the open spot is. *(add your survey number)* |
-| 0:35–0:42 | **Presenter, demo behind.** The demo comes up already running. | Presenter: "What if campus actually knew where your spot was? This is Octopark." | **Octopark** |
-| 0:42–1:05 | **Presenter, demo behind.** Press `Space` — a car rolls up, the plate is read, the phone and the gate sign show the level and space. Presenter gestures to it. | Presenter: "Cameras look at every space, not just the gate. An AI computer in each deck marks every space open or taken. At the gate, a plate reader matches your car to your NJIT permit — and before you pick a ramp, your phone tells you your level and your space." | **Hardware:** overview cameras · plate reader · edge AI computer · 5G router · entry sign |
-| 1:05–1:25 | **Presenter, demo behind.** The "How it works" strip at the bottom of the demo lights up left to right. | Presenter: "It runs on Verizon and AWS. 5G carries the video with no cables to dig. Verizon's 5G Edge runs AWS right inside the network, so the decision is made before you reach the gate. And the backend — permits, the live map, the app — runs on AWS." | **AI-Driven Automation & Efficiency** — Verizon 5G · 5G Edge · Backend on AWS |
-| 1:25–1:38 | **Presenter, demo behind.** Press `V` — a car with no permit or pass arrives and the gate officer is alerted on the right-hand panel. | Presenter: "Privacy is built in. Video never leaves the deck, plates become codes, and they're deleted when you drive out. A car with no permit? The gate officer knows right away." | Parking only · No faces · Deleted on exit |
-| 1:38–1:50 | **Filmed — the frame unfreezes.** The same driver opens Octopark, drives straight to the space, parks, walks into class relaxed. Clock: 8:14. | Voiceover: "Students get minutes back. NJIT gets parking numbers it can trust. Verizon gets a product for every campus." | **THE VALUE** — Straight to an open spot. Numbers campus can trust. |
-| 1:50–1:55 | Logo and team names. | Presenter or voiceover: "Octopark. Stop circling." | Team name · NJIT · 2026 Verizon Smart Campus Challenge |
+| 0:00–0:10 | **Filmed in the deck, at night.** Speakers 1 and 2 stand between parked cars under the deck lights. Wide shot, then closer. | **Speaker 1:** "It's 9 p.m. Tomorrow at 8:30, this deck will be full." **Speaker 2:** "And nobody will know where the open spots are." | — |
+| 0:10–0:18 | **Filmed, then screen recording.** Speaker 2 holds up their phone. Cut to the recording of NJIT's parking page made at the same moment; zoom in and circle the ECC Deck's **Available** and **Total**. | **Speaker 2:** "This is NJIT's live parking page, right now. The ECC deck: [Available] spaces open..." **Speaker 1:** "...out of [Total]?" — read the numbers off the page as you film; at 9:00 p.m. on Nov 11 it was **195 of 155**. | Circle on the two numbers |
+| 0:18–0:35 | **Filmed in the deck**, the two speakers to camera. Challenge overlay on top (`demo/cards/challenge-overlay.png`). | **Speaker 1:** "That page counts cars at the gate, so one missed car makes every number after it wrong." **Speaker 2:** "And with more permits than spaces, nobody knows where the open spot is until they're already inside." | **THE CHALLENGE** — More permits than spaces. No way to know where the open spot is. *(add your survey number)* |
+| 0:35–0:42 | **Demo, story step 1 — "Octopark".** The whole screen. | **Speaker 1** *(voiceover)*: "So what if campus actually knew where your spot was? This is Octopark." | **Octopark** |
+| 0:42–0:49 | **Story step 2 — "Every space, seen by cameras".** The live space map comes forward. | **Speaker 2:** "Cameras look at every space, not just the gate. An AI computer in each deck marks every space open or taken." | Cameras mark every space open or taken |
+| 0:49–0:54 | **Story step 3 — "At the gate".** A car arrives by itself; the plate is read and turned into a token. | **Speaker 1:** "At the gate, a plate reader matches your car to your NJIT permit —" | — |
+| 0:54–1:05 | **Story step 4 — "Your level and your space".** The phone and the map: the route to the space. | **Speaker 2:** "— and before you pick a ramp, your phone tells you your level and your space." | — |
+| 1:05–1:25 | **Story step 5 — "Built on Verizon + AWS".** The "How it works" strip lights up, over and over. | **Speaker 1:** "It runs on Verizon and AWS. 5G carries the video with no cables to dig. Verizon's 5G Edge runs AWS right inside the network, so the decision is made before you reach the gate. And the backend — permits, the live map, the app — runs on AWS." | **AI-Driven Automation & Efficiency** — Verizon 5G · 5G Edge · Backend on AWS |
+| 1:25–1:38 | **Story step 6 — "Privacy built in".** About 3.5 seconds in, a car with no permit arrives and the gate officer is alerted. | **Speaker 2:** "Privacy is built in. Video never leaves the deck, plates become codes, and they're deleted when you drive out. A car with no permit? The gate officer knows right away." | Video never leaves the deck • plates become codes • deleted on exit |
+| 1:38–1:50 | **Filmed in the deck**, the same spot as the opening. Value overlay on top (`demo/cards/value-overlay.png`). *(Optional: Speaker 2 holds up a phone showing Octopark — `demo/index.html?phone` — mirroring the NJIT page at 0:10.)* | **Speaker 1:** "Students get minutes back." **Speaker 2:** "NJIT gets parking numbers it can trust." **Speaker 1:** "And Verizon gets a product for every campus." | **THE VALUE** — Straight to an open spot. Numbers campus can trust. |
+| 1:50–1:55 | End card (`demo/cards/end.png`) with team names. | **Both:** "Octopark. Stop circling." | Team name · NJIT · 2026 Verizon Smart Campus Challenge |
+
+About 210 spoken words. If the read-through runs long, shorten the Verizon line by dropping "with no cables to dig" — do not speed up.
 
 ### Notes on the opening
 
-- **Record NJIT's parking page now.** On November 11 at about 12:30 a.m. it showed the ECC Deck with 255 available out of 155. Anyone could reset the counter at any time. Screen-record it on a phone while it is still wrong. If it is fixed by filming day, film the driver's reaction anyway and cut to the recording. The screenshot in [img/njit-parking-page-2026-11-11.jpg](img/njit-parking-page-2026-11-11.jpg) is the last-resort backup.
-- **The driver is parked when they look at the phone.** Never show a driver using a phone while moving — it undercuts a safety pitch, and judges notice.
-- **The numbers must be readable.** A phone screen in a car shot is tiny. Zoom in during editing and circle the two numbers, or the joke does not land.
-- **Keep the reaction clean.** A face and "...what?" lands better than swearing on audio in front of NJIT faculty and Verizon.
-- **Freeze frame without a green screen:** export the frozen frame as a still, put it full screen on a TV or projector, and film the presenter walking in front of it. Or do it in the edit: freeze, then cut to the presenter in front of the demo.
-- **Don't claim numbers for other campuses.** We only have evidence for NJIT. "Campuses count parking this way" is fine; a statistic is not.
+- **Record NJIT's parking page now.** The numbers change: the ECC Deck showed 255 available out of 155 at 12:30 a.m. on November 11, and 195 out of 155 at 9:00 p.m. Screen-record the page at the moment you film the 0:10 lines, and say the numbers it shows. The screenshot in [img/njit-parking-page-2026-11-11.jpg](img/njit-parking-page-2026-11-11.jpg) is the last-resort backup. If the page is fixed by filming day, keep the lines — they describe what the page showed.
+- **Filmed at night.** The lines are written for an evening shoot (the deck is not full at night). Stand under a deck light and face it; hold a phone flashlight or a second phone's white screen just out of frame to light faces. An empty deck echoes, so keep the audio phone close to the speakers. Public Safety patrols at night — if asked, say you are filming a class project.
+- **The numbers must be readable.** A phone screen is tiny. Zoom in during editing and circle the two numbers, or the joke does not land.
+- **Blame the method, not NJIT.** The judges work at NJIT. "It counts cars at the gate" is the point, not "NJIT is broken."
+- **Don't claim numbers for other campuses.** We only have evidence for NJIT.
 
 ## Demo tasks before filming
 
-The demo in [demo/index.html](../demo/index.html) is already finished: phone app, live space map, gate camera, the "How it works" strip and the privacy badges. **Do not add new screens or panels** — anything extra on screen competes with the presenter. Deadline: **noon on filming day**, so there is time to rehearse.
+The demo in [demo/index.html](../demo/index.html) is already finished: phone app, live space map, gate camera, the "How it works" strip and the privacy badges. **Do not add new screens or panels** — anything extra on screen competes with the voiceover. Deadline: **noon on filming day**, so there is time to rehearse.
 
 **Must do**
 
 - [x] Set the real lot sizes at the top of the script block: Parking Deck (Summit St) **1,685**, Science & Tech Garage **922** — from NJIT's live page; the pitch brief says 981, so confirm with Parking Services. Keep Lot 7 (the visitor lot) as it is.
-- [ ] Optional: story mode (`?story` on the end of the address). Each press of `→` (or a clicker) moves to the next moment in this script: Octopark (0:35), every space seen by cameras (0:42), at the gate (0:49), your level and space (0:54), built on Verizon + AWS (1:05), privacy (1:25). The part being talked about comes to the front, a car arrives by itself at the gate and privacy steps, and a subtitle bar names the step. Useful when the demo plays beside the presenter at half size.
-- [ ] Rehearse with `?manual` on the end of the address so cars arrive only on a key press. Time the `Space` and `V` presses against the spoken lines above.
+- [ ] Record the demo in story mode (`?story` on the end of the address) — this is the demo picture for 0:35–1:38. Each press of `→` (or a clicker) moves to the next moment in this script: Octopark (0:35), every space seen by cameras (0:42), at the gate (0:49), your level and space (0:54), built on Verizon + AWS (1:05), privacy (1:25). The part being talked about comes to the front, a car arrives by itself at the gate and privacy steps, and a subtitle bar names the step. The rough cut already uses it.
+- [ ] Rehearse: play the voiceover and press `→` on each line, to check the steps land on the words.
 - [ ] Record a clean 30-second, 1080p screen capture of the demo by itself, as spare footage for the editor.
 
 **Only if all of the above is done**
 
 - [x] One small callback to the opening, such as a line or badge reading "Counted by cameras, not gates." One line — no new panel.
 
-## Filming the presenter with the demo behind
+## Filming the two speakers
 
-Two ways to do it. Pick one; the first looks more like a commercial, the second is faster.
+**In the deck (0:00–0:35 and 1:38–1:50)**
 
-**A. Stand in front of a big screen.** Put the demo full screen on a classroom TV or projector and film the presenter standing beside it.
+- Phone horizontal on a tripod or a stack of books, at chest-to-eye level. Both speakers in frame for the wide shot; a closer shot of each for their lines.
+- Garages echo and car noise carries. Clip a phone or a cheap lapel mic to each speaker, or hold a second phone just out of frame, recording audio only.
+- Stand where the background is rows of parked cars, not an empty ramp.
+- Do each block (0:00, 0:10, 0:18, 1:38) as its own take, three times, and keep the best.
+- Speakers look at the lens, not at each other, except for the "...out of a hundred fifty-five?" beat.
+- Blur other cars' plates in editing — showing strangers' plates would undercut the privacy message.
 
-- Stand to one side so the presenter does not block the gate panel on the right.
-- Dim the room lights a little so the screen is not washed out, and light the presenter's face from the front with a window or a desk lamp. Check on the phone that both the face and the screen are readable before recording the real take.
-- A second teammate sits at the laptop and presses `Space` and `V` on cue.
-- Phone horizontal on a tripod or a stack of books, at eye level.
+**Voiceover for the demo (0:35–1:38)**
 
-**B. Screen recording with a camera bubble.** Record the demo and the presenter's webcam together.
+- Record it indoors in a quiet room with soft furnishings (a dorm room or a car with the engine off works), each speaker reading their own lines from the table above.
+- Read slower than feels natural. Leave a beat at each `—` so the cut between story steps lands.
 
-- Loom, Canva ("Record yourself"), Zoom (share screen and record) and OBS all do this for free.
-- If there is time to show guests, press `G`: a guest with an approved one-night permit is recognized and the host's phone is notified. It is optional — cut it before anything else.
-- Press `P` in the demo first: it clears the bottom-left corner so the camera bubble has a clean place to sit and covers nothing.
-- The presenter presses `Space` and `V` themselves.
+**The demo picture (0:35–1:38)**
 
-Either way:
-
-- Record sound with a phone held close or clipped to the shirt — room echo is what makes student videos sound amateur.
-- Do each section as its own take, three times, and keep the best. Nobody has to get 70 seconds right in one go.
-- Look at the lens, not at the screen, except when pointing at the demo.
+- Easiest: use the demo section of `video/octopark-rough-cut.mp4`, which already follows these times.
+- To record it fresh: open `demo/index.html?story` in Chrome, press `F11`, start a 1080p screen recording (OBS, or Windows `Win+Alt+R`), and press `→` at each time in the table while playing the voiceover in headphones. Step 3 and step 6 bring in their cars by themselves.
+- Keep the "Concept demo • simulated data" label visible.
 
 ## People on camera
 
 | Role | Where they appear | What they do |
 | --- | --- | --- |
-| **The driver** (a teammate) | 0:00–0:18 and 1:38–1:50 | One line ("...what?"). Frustrated at the start, relaxed at the end. The before-and-after is the story. |
-| **The presenter** (most confident speaker) | 0:18–1:38 | Walks into the freeze frame and talks to camera, then with the demo behind. Two presenters can split it: one for the problem and solution, one for Verizon, AWS and privacy. |
-| **The narrator** | 1:38–1:55 | Voiceover only. Can be the presenter. |
-| **Demo operator** | Off camera | Presses `Space` and `V` on cue. Open the demo with `?manual` on the end of the address so cars arrive only on a key press. |
+| **Speaker 1** | In the deck 0:00–0:35 and 1:38–1:55; voiceover for steps 1, 3 and 5 | Opens, explains the gate counter, introduces Octopark, carries the Verizon + AWS line |
+| **Speaker 2** | In the deck 0:00–0:35 and 1:38–1:55; voiceover for steps 2, 4 and 6 | Shows NJIT's page on the phone, the challenge line, cameras, "your level and your space", privacy |
+| **Camera and sound** | Off camera | Films in the deck, holds the second phone for audio |
+| **Editor** | Off camera | Lays the audio, drops in the demo, the NJIT page recording and the cards |
 
-- **Never film while actually driving.** The driver's shots are taken parked, or the passenger films out of the windshield.
-- Only teammates and people who agreed appear recognizably. Blur bystanders' faces and other cars' plates in editing — showing strangers' plates would undercut the privacy message.
-- A real student saying "I've been late twice this month because of parking" is worth five seconds over the challenge title at 0:20, if someone will say it on camera.
+- Pick the two most confident speakers. Clear and calm beats fast and polished.
+- Only teammates and people who agreed appear recognizably. Blur bystanders' faces in editing.
+- A real student saying "I've been late twice this month because of parking" is worth five seconds over the challenge overlay at 0:18, if someone will say it on camera.
 
 ## Shot list
 
-Everything can be filmed on a phone in about an hour.
+Everything can be filmed on a phone in under an hour.
 
 1. **Screen recording of NJIT's parking page showing more available than total** — do this first, tonight if possible.
-2. Deck ramp drive from the passenger seat, 20 seconds, horizontal. Go mid-morning when it is full.
-3. Dashboard clock close-up — or film once and change the time in editing.
-4. Driver, parked, opens the NJIT page and reacts. Film the face and, separately, the phone screen.
-5. **Presenter walking into the freeze frame** — three takes.
-6. **Presenter with the demo behind — four sections, three takes each.**
-7. Driver opens Octopark, parks, walks in — one continuous take. Use the same car, clothes and spot in the deck as shot 4 so the unfreeze reads as the same moment.
-8. Clean screen recording of the demo by itself, 30 seconds, as a spare to cut to.
+2. In the deck: both speakers, the 0:00 lines — three takes.
+3. In the deck: Speaker 2 holding up the phone, plus a close-up of the phone screen — three takes.
+4. In the deck: the 0:18 challenge lines — three takes.
+5. In the deck, same spot: the 1:38 value lines and "Octopark. Stop circling." — three takes.
+6. A few seconds of the full deck with nobody in it (rows of cars), to cover cuts.
+7. Voiceover for the demo section, indoors — three reads per speaker.
+8. Demo in story mode, 1080p screen recording (or use the rough cut's demo section).
 
 ## Production plan for the last day
 
@@ -112,10 +114,10 @@ Everything can be filmed on a phone in about an hour.
 | --- | --- | --- |
 | Tonight | Screen-record NJIT's parking page while it still shows the wrong numbers (shot 1) | 1 person |
 | Morning | Run the 3-question survey in class group chats; confirm the upload link with the organizers | 1 person |
-| Morning, by noon | Demo tasks above: real lot sizes, rehearsal with `?manual`, spare screen capture | 1 person |
-| Morning | Film shots 2–4 and 7 on campus while the decks are full | 2 people |
-| Midday | Film the presenter walking into the freeze frame and with the demo behind; record the voiceover in a quiet room | 2–3 people |
-| Afternoon | Edit: lay the speech first, cut pictures to it, add titles, then music | 1–2 people |
+| Morning, by noon | Demo tasks above; record the demo in story mode (shot 8) | 1 person |
+| Morning | Film shots 2–6 in the deck while it is full | 3 people (two speakers, one on camera) |
+| Midday | Record the voiceover indoors (shot 7) | 2–3 people |
+| Afternoon | Edit: lay the speech first, cut the deck footage and the demo to it, add the overlays and cards, then music | 1–2 people |
 | By 8 p.m. | Export, watch on a phone and a laptop, check it is under 2:00 | Everyone |
 | By 10 p.m. | Upload. Do not wait for 11:59. | 1 person |
 
