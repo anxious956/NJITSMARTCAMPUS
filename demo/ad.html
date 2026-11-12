@@ -25,9 +25,9 @@
 
   /* NJIT's page, zooming in on the impossible numbers */
   #njit { background: #fff; }
-  #njit .pg { position: absolute; left: 0; top: 0; width: 800px; height: 600px; transform-origin: 0 0; }
-  #njit img { width: 800px; height: 600px; display: block; }
-  #njit .ring { position: absolute; width: 60px; height: 30px; margin: -15px 0 0 -30px; border: 3.5px solid #E02020; border-radius: 50%; opacity: 0; transform: scale(1.6); transition: opacity .25s, transform .35s cubic-bezier(.2,.8,.2,1); }
+  #njit .pg { position: absolute; left: 0; top: 0; width: 1100px; height: 760px; transform-origin: 0 0; }
+  #njit img { width: 1100px; height: 760px; display: block; }
+  #njit .ring { position: absolute; width: 64px; height: 32px; margin: -16px 0 0 -32px; border: 3.5px solid #E02020; border-radius: 50%; opacity: 0; transform: scale(1.6); transition: opacity .25s, transform .35s cubic-bezier(.2,.8,.2,1); }
   #njit.ringed .ring { opacity: 1; transform: none; }
   .srcTag { position: absolute; left: 70px; top: 60px; background: var(--ink); color: #fff; border-radius: 16px; padding: 20px 28px 18px; box-shadow: 0 12px 40px rgba(0,0,0,.18); }
   .srcTag b { display: block; font-size: 44px; font-weight: 800; letter-spacing: -.02em; }
@@ -89,9 +89,9 @@
 <body>
 <div id="stage">
   <div class="layer" id="demo"><iframe id="frame" src="index.html?manual" title="Octopark demo"></iframe></div>
-  <div class="layer" id="njit"><div class="pg" id="pg"><img src="../docs/img/njit-parking-page-2026-11-11.jpg" alt="NJIT parking page">
-    <div class="ring" style="left:240px;top:261px"></div><div class="ring" style="left:240px;top:293px"></div></div>
-    <div class="srcTag"><b>NJIT's official live parking page</b><span>mobile.njit.edu/parking • Nov 11, 2026</span></div></div>
+  <div class="layer" id="njit"><div class="pg" id="pg"><img src="../docs/img/njit-parking-page-2026-11-11-2308.png" alt="NJIT parking page">
+    <div class="ring" style="left:346px;top:337px"></div><div class="ring" style="left:346px;top:378px"></div></div>
+    <div class="srcTag"><b>NJIT's official live parking page</b><span>mobile.njit.edu/parking • Nov 11, 2026, 11:08 p.m.</span></div></div>
   <div class="layer" id="card"></div>
   <div class="layer" id="logo"><div class="intro">Introducing</div><div class="burst"></div><div class="flash"></div>
     <div class="lg-in"><img src="cards/octopark-logo-transparent.png" alt="Octopark"><p id="tagline"></p></div></div>
@@ -175,10 +175,10 @@ function logoReveal() {
 function njit() {
   const pg = $("pg"), at = (x, y, w) => { const s = 1920 / w; return `translate(${960 - x * s}px, ${540 - y * s}px) scale(${s})`; };
   $("njit").classList.remove("ringed");
-  pg.style.transition = "none"; pg.style.transform = at(400, 300, 860); void pg.offsetWidth;
-  pg.style.transition = "transform 2.2s cubic-bezier(.6,0,.2,1)"; pg.style.transform = at(150, 285, 330);
+  pg.style.transition = "none"; pg.style.transform = at(550, 380, 1180); void pg.offsetWidth;
+  pg.style.transition = "transform 2.2s cubic-bezier(.6,0,.2,1)"; pg.style.transform = at(226, 352, 430);
   only("njit"); cap(false);
-  setTimeout(() => { $("njit").classList.add("ringed"); cap("255 spaces open… in a deck that only has 155.", "That can't be right."); }, 2300);
+  setTimeout(() => { $("njit").classList.add("ringed"); cap("212 spaces open… in a deck that only has 155.", "That can't be right."); }, 2300);
 }
 
 // ---- the timeline: seconds from the start of this part (it begins at 0:16 in the 1:40 video) ----
