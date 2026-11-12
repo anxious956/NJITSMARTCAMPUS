@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
   /* The demo part of the video (84 s) as a music-only ad in the style of an Apple ad: one short idea per screen,
-     close-ups of the live demo in between. Every cut is on a 2-second grid, one bar of a 120 BPM track.
+     close-ups of the live demo in between. Every cut is on a strong beat of the music (see the timeline below).
      Click (or press Space) to play. Add ?autoplay to start by itself. */
   :root { --bg: #FBFBFD; --ink: #1D1D1F; --grey: #6E6E73; --blue: #0071E3; --navy: #0C2141; --red: #D22630; }
   * { box-sizing: border-box; }
@@ -45,6 +45,8 @@
   #card .accent { color: var(--blue); } #card .warn { color: #E5484D; }
   #card img.lg { height: .62em; vertical-align: -.02em; } #card img.lg.aws { height: .8em; vertical-align: -.3em; }
   @keyframes wordin { to { opacity: 1; transform: none; filter: none; } }
+  #card h1, #card p { animation: drift 4.5s linear forwards; }
+  @keyframes drift { from { transform: scale(1); } to { transform: scale(1.045); } }
 
   /* logo reveal */
   /* logo reveal: "Introducing" on black, a white flash, the logo slams in with a ring of light, then the tagline */
@@ -162,14 +164,17 @@ function shot(parts, secs, mode) {
   if (wasOn) { demo.style.opacity = 0; setTimeout(go, 280); } else go();
 }
 
-function logoReveal() {
+function logoIntro() {     // "Introducing" on black
   const L = $("logo"), q = sel => L.querySelector(sel);
-  L.classList.remove("lit"); ["img", ".burst", ".flash"].forEach(x => q(x).classList.remove("go")); q(".intro").classList.remove("on"); $("tagline").innerHTML = "";
-  only("logo"); cap(false);
-  setTimeout(() => q(".intro").classList.add("on"), 80);
-  setTimeout(() => { q(".intro").classList.remove("on"); L.classList.add("lit"); ["img", ".burst", ".flash"].forEach(x => q(x).classList.add("go")); }, 900);
-  setTimeout(() => { $("tagline").innerHTML = words("Know your parking spot <span class='accent'>before you arrive.</span>"); }, 1700);
+  L.classList.remove("lit"); ["img", ".burst", ".flash"].forEach(x => q(x).classList.remove("go")); $("tagline").innerHTML = "";
+  only("logo"); cap(false); void L.offsetWidth; q(".intro").classList.add("on");
 }
+function logoSlam() {      // the flash, the logo and the burst of light
+  const L = $("logo"), q = sel => L.querySelector(sel);
+  q(".intro").style.transition = "none"; q(".intro").classList.remove("on"); void L.offsetWidth; q(".intro").style.transition = "";
+  L.classList.add("lit"); ["img", ".burst", ".flash"].forEach(x => q(x).classList.add("go"));
+}
+const tagline = () => { $("tagline").innerHTML = words("Know your parking spot <span class='accent'>before you arrive.</span>"); };
 
 // ---- NJIT page: from the whole page to the ECC Deck box ----
 function njit() {
@@ -181,33 +186,39 @@ function njit() {
   setTimeout(() => { $("njit").classList.add("ringed"); cap("212 spaces open… in a deck that only has 155.", "That can't be right."); }, 2300);
 }
 
-// ---- the timeline: seconds from the start of this part (it begins at 0:16 in the 1:40 video) ----
+// ---- the timeline, in beats of the music ----
+// The cuts are timed to the track used in the video (Verizon's hold music, 92.02 BPM). Beat 0 is a downbeat; the bass
+// hits on every even beat, so every cut below is on an even beat, and the logo, "Stop circling." and the end card are
+// on downbeats (multiples of 4). For a different song, change BPM; the layout in beats stays valid.
+// In the video this part starts at 0:16.27, with the music delayed 0.083 s so that a downbeat falls exactly there.
+const BPM = 92.02, BEAT = 60 / BPM;
 const CUES = [
-  [0,  () => njit()],
-  [4,  () => card("It counts cars at the gate.", "Cars in, minus cars out. It never sees a single space.", { m: true })],
-  [8,  () => card("One missed car.", "And every number after it is wrong.")],
-  [12, () => card("More permits than spaces.", "", { dark: true, m: true })],
-  [14, () => card("Nobody knows where the open spot is.", "", { dark: true, m: true })],
-  [16, () => logoReveal()],
-  [20, () => { run('hero("idle")'); shot(["phone"], 4, "side"); cap("Live parking for NJIT.", "See which deck has room before you leave.", "side"); }],
-  [24, () => card("Every space. <span class='accent'>Seen.</span>")],
-  [26, () => { shot(["map"], 6, "bottom"); cap("Cameras mark every space open or taken.", "Counted by cameras, not gates."); }],
-  [32, () => card("Your plate is your permit.", "", { m: true })],
-  [34, () => { run('carArrives("permit")'); shot(["cam", "led", "steps"], 5, "side"); cap("Read at the gate.", "The plate becomes a private code. The permit is checked in a second.", "side"); }],
-  [39, () => { shot(["phone"], 7, "side"); cap("Your level. Your space.", "Before you pick a ramp.", "side"); }],
-  [46, () => card(`Built on ${VZ} 5G Edge + ${AWS}`, "The decision is made before you reach the gate.", { m: true })],
-  [48, () => { shot(["pipe"], 6, "bottom"); cap("Verizon 5G carries the video. AWS runs the rest.", "No cables to dig."); run("pulsePipe()"); }],
-  [51.2, () => run("pulsePipe()")], [53.4, () => run("pulsePipe()")],
-  [54, () => card("Private by design.")],
-  [56, () => { run('carArrives("none")'); shot(["cam", "steps", "privacy"], 8, "side"); cap("Video never leaves the deck.", "Plates become codes. Deleted when you drive out.", "side"); }],
-  [59.6, () => cap("No permit? The officer knows.", "Public Safety sees the car, not where you've been.", "side")],
-  [64, () => card("Students get <span class='accent'>minutes back.</span>", "", { m: true })],
-  [66, () => card("NJIT gets numbers it can <span class='accent'>trust.</span>", "", { m: true })],
-  [68, () => card("Verizon gets a product for <span class='accent'>every campus.</span>", "", { m: true })],
-  [70, () => { run('hero("done", { id: "D4" })'); shot(["phone"], 6, "side"); cap("On time for class.", "No circling.", "side"); }],
-  [76, () => card("Stop circling.", "", { dark: true })],
-  [78, () => { only("end"); cap(false); }],
-];
+  [0,   () => njit()],
+  [8,   () => card("It counts cars at the gate.", "Cars in, minus cars out. It never sees a single space.", { m: true })],
+  [14,  () => card("One missed car.", "And every number after it is wrong.")],
+  [18,  () => card("More permits than spaces.", "", { dark: true, m: true })],
+  [22,  () => card("Nobody knows where the open spot is.", "", { dark: true, m: true })],
+  [26,  () => logoIntro()],
+  [27.9, () => logoSlam()], [29.2, () => tagline()],   // fired 0.1 beat early: the flash takes about two frames to appear
+  [34,  () => { run('hero("idle")'); shot(["phone"], 4, "side"); cap("Live parking for NJIT.", "See which deck has room before you leave.", "side"); }],
+  [40,  () => card("Every space. <span class='accent'>Seen.</span>")],
+  [44,  () => { shot(["map"], 5, "bottom"); cap("Cameras mark every space open or taken.", "Counted by cameras, not gates."); }],
+  [52,  () => card("Your plate is your permit.", "", { m: true })],
+  [56,  () => { run('carArrives("permit")'); shot(["cam", "led", "steps"], 5, "side"); cap("Read at the gate.", "The plate becomes a private code. The permit is checked in a second.", "side"); }],
+  [64,  () => { shot(["phone"], 4, "side"); cap("Your level. Your space.", "Before you pick a ramp.", "side"); }],
+  [70,  () => card(`Built on ${VZ} 5G Edge + ${AWS}`, "The decision is made before you reach the gate.", { m: true })],
+  [74,  () => { shot(["pipe"], 5, "bottom"); cap("Verizon 5G carries the video. AWS runs the rest.", "No cables to dig."); run("pulsePipe()"); }],
+  [78.6, () => run("pulsePipe()")],
+  [82,  () => card("Private by design.")],
+  [86,  () => { run('carArrives("none")'); shot(["cam", "steps", "privacy"], 8, "side"); cap("Video never leaves the deck.", "Plates become codes. Deleted when you drive out.", "side"); }],
+  [92,  () => cap("No permit? The officer knows.", "Public Safety sees the car, not where you've been.", "side")],
+  [98,  () => card("Students get <span class='accent'>minutes back.</span>", "", { m: true })],
+  [102, () => card("NJIT gets numbers it can <span class='accent'>trust.</span>", "", { m: true })],
+  [106, () => card("Verizon gets a product for <span class='accent'>every campus.</span>", "", { m: true })],
+  [110, () => { run('hero("done", { id: "D4" })'); shot(["phone"], 4, "side"); cap("On time for class.", "No circling.", "side"); }],
+  [116, () => card("Stop circling.", "", { dark: true })],
+  [120, () => { only("end"); cap(false); }],
+].map(([beat, fn]) => [beat * BEAT, fn]);
 const LENGTH = 84;
 let t0 = 0, fired = 0;
 function tick() {
@@ -219,6 +230,8 @@ function start() { $("play").remove(); t0 = performance.now(); fired = 0; tick()
 window.adStart = start;
 $("play").addEventListener("click", start);
 addEventListener("keydown", e => { if (e.code === "Space" && $("play")) start(); });
+// Draw the first screen under the "Click to play" cover, so its large image is ready and the first beat is not late.
+(() => { const pg = $("pg"), z = 1920 / 1180; pg.style.transform = `translate(${960 - 550 * z}px, ${540 - 380 * z}px) scale(${z})`; $("njit").classList.add("on"); })();
 $("frame").addEventListener("load", () => { if (location.search.includes("autoplay")) setTimeout(start, 600); });
 </script>
 </body>
