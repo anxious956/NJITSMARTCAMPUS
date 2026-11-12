@@ -20,7 +20,7 @@
   .layer.on { opacity: 1; visibility: visible; }
 
   /* the live demo, zoomed into one part at a time */
-  #demo { background: #EDEBE6; }
+  #demo { background: #EDEBE6; transition: opacity .3s; }
   #demo iframe { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; border: 0; transform-origin: 0 0; }
 
   /* NJIT's page, zooming in on the impossible numbers */
@@ -29,6 +29,9 @@
   #njit img { width: 800px; height: 600px; display: block; }
   #njit .ring { position: absolute; width: 60px; height: 30px; margin: -15px 0 0 -30px; border: 3.5px solid #E02020; border-radius: 50%; opacity: 0; transform: scale(1.6); transition: opacity .25s, transform .35s cubic-bezier(.2,.8,.2,1); }
   #njit.ringed .ring { opacity: 1; transform: none; }
+  .srcTag { position: absolute; left: 70px; top: 60px; background: var(--ink); color: #fff; border-radius: 16px; padding: 20px 28px 18px; box-shadow: 0 12px 40px rgba(0,0,0,.18); }
+  .srcTag b { display: block; font-size: 44px; font-weight: 800; letter-spacing: -.02em; }
+  .srcTag span { display: block; margin-top: 6px; font-size: 26px; font-weight: 600; color: #C7C7CC; }
 
   /* word cards */
   #card { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 160px; background: var(--bg); }
@@ -45,13 +48,18 @@
 
   /* logo reveal */
   #logo { background: var(--navy); display: grid; place-items: center; }
-  #logo img { width: 560px; opacity: 0; transform: scale(.86); transition: opacity 1s, transform 1.6s cubic-bezier(.2,.8,.2,1); }
+  #logo .lg-in { text-align: center; }
+  #logo p { margin: 10px 0 0; font-size: 50px; font-weight: 700; letter-spacing: -.02em; color: #fff; opacity: 0; transition: opacity .8s .9s; }
+  #logo.on p { opacity: 1; }
+  #logo img { width: 470px; opacity: 0; transform: scale(.86); transition: opacity 1s, transform 1.6s cubic-bezier(.2,.8,.2,1); }
   #logo.on img { opacity: 1; transform: none; }
 
   /* caption over a demo close-up */
   #cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 110px 56px; z-index: 5; opacity: 0; transition: opacity .4s;
     background: linear-gradient(transparent, rgba(251, 251, 253, .97) 38%); }
   #cap.on { opacity: 1; }
+  #cap.side { left: 130px; right: auto; width: 720px; top: 0; bottom: 0; padding: 0; background: none; display: flex; flex-direction: column; justify-content: center; }
+  #cap.side b { font-size: 88px; } #cap.side span { font-size: 40px; margin-top: 18px; }
   #cap b { display: block; font-size: 74px; font-weight: 800; letter-spacing: -.035em; line-height: 1.05; }
   #cap span { display: block; margin-top: 10px; font-size: 38px; font-weight: 600; color: var(--grey); letter-spacing: -.01em; }
 
@@ -69,9 +77,10 @@
 <div id="stage">
   <div class="layer" id="demo"><iframe id="frame" src="index.html?manual" title="Octopark demo"></iframe></div>
   <div class="layer" id="njit"><div class="pg" id="pg"><img src="../docs/img/njit-parking-page-2026-11-11.jpg" alt="NJIT parking page">
-    <div class="ring" style="left:240px;top:261px"></div><div class="ring" style="left:240px;top:293px"></div></div></div>
+    <div class="ring" style="left:240px;top:261px"></div><div class="ring" style="left:240px;top:293px"></div></div>
+    <div class="srcTag"><b>NJIT's official live parking page</b><span>mobile.njit.edu/parking • Nov 11, 2026</span></div></div>
   <div class="layer" id="card"></div>
-  <div class="layer" id="logo"><img src="cards/octopark-logo-endcard.png" alt="Octopark"></div>
+  <div class="layer" id="logo"><div class="lg-in"><img src="cards/octopark-logo-endcard.png" alt="Octopark"><p>Know your parking spot before you arrive.</p></div></div>
   <div class="layer" id="end"><img src="cards/end.png" alt="Octopark end card"></div>
   <div id="cap"><b id="capB"></b><span id="capS"></span></div>
   <div id="concept">Concept demo • simulated data</div>
@@ -96,7 +105,8 @@ function card(h1, p = "", opt = {}) {
   c.innerHTML = `<h1 class="${opt.m ? "m" : ""}">${words(h1)}</h1>` + (p ? `<p>${words(p)}</p>` : "");
   only("card"); cap(false);
 }
-function cap(b, s = "") { $("cap").classList.toggle("on", !!b); if (b) { $("capB").textContent = b; $("capS").textContent = s; } }
+function cap(b, s = "", mode = "bottom") { const c = $("cap"); c.classList.toggle("on", !!b); c.classList.toggle("side", mode === "side");
+  if (b) { $("capB").textContent = b; $("capS").textContent = s; } }
 
 // ---- the live demo inside the iframe ----
 const fw = () => $("frame").contentWindow;
@@ -108,14 +118,28 @@ function region(parts) {
       const r = e.getBoundingClientRect(); a = [Math.min(a[0], r.left), Math.min(a[1], r.top), Math.max(a[2], r.right), Math.max(a[3], r.bottom)]; });
     return a; })()`);
 }
-function shot(parts, secs, withCap) {    // a slow push-in on one part of the demo
-  const [x0, y0, x1, y1] = region(parts), pad = 30, w = x1 - x0 + 2 * pad, h = y1 - y0 + 2 * pad;
-  const availH = withCap ? 1080 - 170 : 1080, cy = withCap ? availH / 2 : 540;
-  const z = Math.min(1920 / w, availH / h) * 0.97, mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
-  const f = $("frame"), T = (k) => `translate(${960 - mx * k}px, ${cy - my * k}px) scale(${k})`;
-  f.style.transition = "none"; f.style.transform = T(z); void f.offsetWidth;
-  f.style.transition = `transform ${secs}s linear`; f.style.transform = T(z * 1.06);
-  only("demo");
+// Show one part of the demo on its own: everything else is hidden, so the part is one big, clean panel.
+const SOLO_CSS = "body.solo header, body.solo [data-part]:not(.solo-on), body.solo .gate:not(:has(.solo-on)) { visibility: hidden !important; } body.solo [data-part=log] { display: none !important; }";
+function solo(parts) {
+  run(`(() => { if (!document.getElementById("soloCss")) { const st = document.createElement("style"); st.id = "soloCss";
+    st.textContent = ${JSON.stringify(SOLO_CSS)}; document.head.appendChild(st); }
+    document.body.classList.add("solo");
+    document.querySelectorAll("[data-part]").forEach(e => e.classList.toggle("solo-on", ${JSON.stringify(parts)}.includes(e.dataset.part))); })()`);
+}
+// mode: "side" = tall part on the right, caption on the left; "bottom" = caption under a wide part; omitted = no caption
+function shot(parts, secs, mode) {
+  const demo = $("demo"), f = $("frame"), wasOn = demo.classList.contains("on");
+  const go = () => {
+    solo(parts);
+    const [x0, y0, x1, y1] = region(parts), pad = 24, w = x1 - x0 + 2 * pad, h = y1 - y0 + 2 * pad;
+    const box = mode === "side" ? [960, 60, 1880, 1020] : mode === "bottom" ? [60, 40, 1860, 870] : [60, 50, 1860, 1030];
+    const z = Math.min((box[2] - box[0]) / w, (box[3] - box[1]) / h), cx = (box[0] + box[2]) / 2, cy = (box[1] + box[3]) / 2;
+    const mx = (x0 + x1) / 2, my = (y0 + y1) / 2, T = k => `translate(${cx - mx * k}px, ${cy - my * k}px) scale(${k})`;
+    f.style.transition = "none"; f.style.transform = T(z * 0.9); demo.style.opacity = 0; void f.offsetWidth;
+    f.style.transition = "transform .8s cubic-bezier(.2,.8,.2,1)"; f.style.transform = T(z); demo.style.opacity = 1; only("demo");
+    setTimeout(() => { f.style.transition = `transform ${secs - 0.8}s linear`; f.style.transform = T(z * 1.05); }, 800);
+  };
+  if (wasOn) { demo.style.opacity = 0; setTimeout(go, 280); } else go();
 }
 
 // ---- NJIT page: from the whole page to the ECC Deck box ----
@@ -125,34 +149,33 @@ function njit() {
   pg.style.transition = "none"; pg.style.transform = at(400, 300, 860); void pg.offsetWidth;
   pg.style.transition = "transform 2.2s cubic-bezier(.6,0,.2,1)"; pg.style.transform = at(150, 285, 330);
   only("njit"); cap(false);
-  setTimeout(() => $("njit").classList.add("ringed"), 2300);
+  setTimeout(() => { $("njit").classList.add("ringed"); cap("255 spaces open… in a deck that only has 155.", "That can't be right."); }, 2300);
 }
 
 // ---- the timeline: seconds from the start of this part (it begins at 0:16 in the 1:40 video) ----
 const CUES = [
   [0,  () => njit()],
-  [4,  () => card("255 open.")],
-  [6,  () => card("Out of 155.")],
-  [8,  () => card("Counted at the gate.", "One missed car, and every number after it is wrong.", { m: true })],
+  [4,  () => card("It counts cars at the gate.", "Cars in, minus cars out. It never sees a single space.", { m: true })],
+  [8,  () => card("One missed car.", "And every number after it is wrong.")],
   [12, () => card("More permits than spaces.", "", { dark: true, m: true })],
   [14, () => card("Nobody knows where the open spot is.", "", { dark: true, m: true })],
   [16, () => { only("logo"); cap(false); }],
-  [20, () => { shot("all", 4); cap("Live parking for NJIT.", "Every deck. Every level. Every space."); }],
+  [20, () => { run('hero("idle")'); shot(["phone"], 4, "side"); cap("Live parking for NJIT.", "See which deck has room before you leave.", "side"); }],
   [24, () => card("Every space. <span class='accent'>Seen.</span>")],
-  [26, () => { shot(["map"], 6, true); cap("Cameras mark every space open or taken.", "Counted by cameras, not gates."); }],
+  [26, () => { shot(["map"], 6, "bottom"); cap("Cameras mark every space open or taken.", "Counted by cameras, not gates."); }],
   [32, () => card("Your plate is your permit.", "", { m: true })],
-  [34, () => { run('carArrives("permit")'); shot(["cam", "led", "steps"], 6); cap(false); }],
-  [40, () => { shot(["phone", "map"], 6, true); cap("Your level. Your space.", "Before you pick a ramp."); }],
+  [34, () => { run('carArrives("permit")'); shot(["cam", "led", "steps"], 5, "side"); cap("Read at the gate.", "The plate becomes a private code. The permit is checked in a second.", "side"); }],
+  [39, () => { shot(["phone"], 7, "side"); cap("Your level. Your space.", "Before you pick a ramp.", "side"); }],
   [46, () => card(`Built on ${VZ} 5G Edge + ${AWS}`, "The decision is made before you reach the gate.", { m: true })],
-  [48, () => { shot(["pipe"], 6, true); cap("Verizon 5G carries the video. AWS runs the rest.", "No cables to dig."); run("pulsePipe()"); }],
-  [50.8, () => run("pulsePipe()")], [53.2, () => run("pulsePipe()")],
+  [48, () => { shot(["pipe"], 6, "bottom"); cap("Verizon 5G carries the video. AWS runs the rest.", "No cables to dig."); run("pulsePipe()"); }],
+  [51.2, () => run("pulsePipe()")], [53.4, () => run("pulsePipe()")],
   [54, () => card("Private by design.")],
-  [56, () => { run('carArrives("none")'); shot(["cam", "steps", "privacy"], 8, true); cap("Video never leaves the deck.", "Plates become codes. Deleted when you drive out."); }],
-  [59.4, () => cap("No permit? The officer knows right away.", "Public Safety sees the car, not where you've been.")],
+  [56, () => { run('carArrives("none")'); shot(["cam", "steps", "privacy"], 8, "side"); cap("Video never leaves the deck.", "Plates become codes. Deleted when you drive out.", "side"); }],
+  [59.6, () => cap("No permit? The officer knows.", "Public Safety sees the car, not where you've been.", "side")],
   [64, () => card("Students get <span class='accent'>minutes back.</span>", "", { m: true })],
   [66, () => card("NJIT gets numbers it can <span class='accent'>trust.</span>", "", { m: true })],
   [68, () => card("Verizon gets a product for <span class='accent'>every campus.</span>", "", { m: true })],
-  [70, () => { shot("all", 6); cap(false); }],
+  [70, () => { run('hero("done", { id: "D4" })'); shot(["phone"], 6, "side"); cap("On time for class.", "No circling.", "side"); }],
   [76, () => card("Stop circling.", "", { dark: true })],
   [78, () => { only("end"); cap(false); }],
 ];
