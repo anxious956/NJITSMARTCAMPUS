@@ -420,6 +420,15 @@
     background: #F3F5F9; color: var(--ink); font-family: var(--sans); font-weight: 600;
   }
   .phone .apphead small { font-size: 15px; font-weight: 600; color: var(--ink-3); }
+  /* Octopark's logo in the app header, like a real app */
+  .appbrand { display: flex; align-items: center; gap: 0; margin-bottom: 4px; font: 800 15px/1 Montserrat, var(--sans); letter-spacing: .4px; color: #0C2141; }
+  .appbrand img { width: 26px; height: 26px; border-radius: 7px; margin-right: 8px; }
+  .appbrand .pbox { display: inline-grid; place-items: center; width: 15px; height: 18px; margin: 0 1px; border-radius: 3px; background: #1559A0; color: #fff;
+    box-shadow: inset 0 0 0 1.3px #fff, 0 0 0 1px #0C2141; font-size: 13px; }
+  /* splash screen when the app opens on a phone */
+  #splash { position: fixed; inset: 0; z-index: 200; background: #0C2141; display: grid; place-items: center; animation: splash 2.1s ease-in forwards; pointer-events: none; }
+  #splash img { width: min(72vw, 420px); height: auto; }
+  @keyframes splash { 0%, 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
   .phone .apphead b { font-size: 31px; font-weight: 800; letter-spacing: -.9px; }
   .phone .avatar { background: var(--ink); font-weight: 700; padding-top: 0; }
   .phone .minimap { background: var(--floor); }
@@ -522,7 +531,7 @@
       <div class="phone"><div class="screen">
         <div class="status"><span id="clock">8:12</span><span>5G UW</span></div>
         <div class="view" id="parkView">
-        <div class="apphead"><div><small>Good morning</small><b>Find parking</b></div><div class="avatar">A</div></div>
+        <div class="apphead"><div><div class="appbrand"><img src="logo.png" alt="">OCTO<span class="pbox">P</span>ARK</div><b>Find parking</b></div><div class="avatar">A</div></div>
         <div class="minimap" aria-hidden="true">
           <svg id="minimap" viewBox="0 0 1000 680" preserveAspectRatio="xMidYMid meet"><use href="#mapcontent"/></svg>
           <span class="mm-chip">Science &amp; Tech Garage • L4</span><span class="mm-chip mm-open" id="mmOpen"></span>
@@ -972,7 +981,9 @@ if (location.search.includes("manual")) AUTO_EVERY_MS = 0;
 // (the screen size, not the window: phone browsers widen the window to fit the 1920-px dashboard)
 const PHONE = new URLSearchParams(location.search).has("phone") || (Math.min(screen.width, screen.height) < 600 && !new URLSearchParams(location.search).has("desktop"));
 const PHONE_SPOT = { id: (new URLSearchParams(location.search).get("spot") || "D4").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 4) };
-if (PHONE) { document.body.classList.add("phone-only"); AUTO_EVERY_MS = 0; }
+if (PHONE) { document.body.classList.add("phone-only"); AUTO_EVERY_MS = 0;
+  const sp = document.createElement("div"); sp.id = "splash"; sp.innerHTML = '<img src="cards/octopark-logo-endcard.png" alt="Octopark">'; document.body.appendChild(sp);
+  setTimeout(() => sp.remove(), 2300); }
 drawLots(); hero("idle"); drawMap(); led(`${lot.sign}  ${lot.open} OPEN`); captionIdle();
 let auto = !!AUTO_EVERY_MS, n = 0;
 
