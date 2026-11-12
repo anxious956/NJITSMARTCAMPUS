@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Octopark — music-only ad (demo part)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* The demo part of the video (84 s) as a music-only ad in the style of an Apple ad: one short idea per screen,
+     close-ups of the live demo in between. Every cut is on a 2-second grid, one bar of a 120 BPM track.
+     Click (or press Space) to play. Add ?autoplay to start by itself. */
+  :root { --bg: #FBFBFD; --ink: #1D1D1F; --grey: #6E6E73; --blue: #0071E3; --navy: #0C2141; --red: #D22630; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; overflow: hidden; background: #000; }
+  body { font-family: Inter, -apple-system, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; color: var(--ink); }
+  #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden; background: var(--bg); }
+  .layer { position: absolute; inset: 0; opacity: 0; visibility: hidden; }
+  .layer.on { opacity: 1; visibility: visible; }
+
+  /* the live demo, zoomed into one part at a time */
+  #demo { background: #EDEBE6; }
+  #demo iframe { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; border: 0; transform-origin: 0 0; }
+
+  /* NJIT's page, zooming in on the impossible numbers */
+  #njit { background: #fff; }
+  #njit .pg { position: absolute; left: 0; top: 0; width: 800px; height: 600px; transform-origin: 0 0; }
+  #njit img { width: 800px; height: 600px; display: block; }
+  #njit .ring { position: absolute; width: 60px; height: 30px; margin: -15px 0 0 -30px; border: 3.5px solid #E02020; border-radius: 50%; opacity: 0; transform: scale(1.6); transition: opacity .25s, transform .35s cubic-bezier(.2,.8,.2,1); }
+  #njit.ringed .ring { opacity: 1; transform: none; }
+
+  /* word cards */
+  #card { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 160px; background: var(--bg); }
+  #card.dark { background: #000; color: #F5F5F7; }
+  #card h1 { margin: 0; font-size: 150px; font-weight: 800; letter-spacing: -.045em; line-height: 1.02; }
+  #card h1.m { font-size: 118px; }
+  #card p { margin: 34px 0 0; font-size: 54px; font-weight: 600; letter-spacing: -.02em; color: var(--grey); }
+  #card.dark p { color: #A1A1A6; }
+  #card .w { display: inline-block; opacity: 0; transform: translateY(28px); filter: blur(6px);
+    animation: wordin .7s cubic-bezier(.2,.8,.2,1) forwards; }
+  #card .accent { color: var(--blue); } #card .warn { color: #E5484D; }
+  #card img.lg { height: .62em; vertical-align: -.02em; } #card img.lg.aws { height: .8em; vertical-align: -.3em; }
+  @keyframes wordin { to { opacity: 1; transform: none; filter: none; } }
+
+  /* logo reveal */
+  #logo { background: var(--navy); display: grid; place-items: center; }
+  #logo img { width: 560px; opacity: 0; transform: scale(.86); transition: opacity 1s, transform 1.6s cubic-bezier(.2,.8,.2,1); }
+  #logo.on img { opacity: 1; transform: none; }
+
+  /* caption over a demo close-up */
+  #cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 110px 56px; z-index: 5; opacity: 0; transition: opacity .4s;
+    background: linear-gradient(transparent, rgba(251, 251, 253, .97) 38%); }
+  #cap.on { opacity: 1; }
+  #cap b { display: block; font-size: 74px; font-weight: 800; letter-spacing: -.035em; line-height: 1.05; }
+  #cap span { display: block; margin-top: 10px; font-size: 38px; font-weight: 600; color: var(--grey); letter-spacing: -.01em; }
+
+  #end { background: var(--navy); } #end img { width: 100%; height: 100%; display: block; }
+
+  /* the competition rules ask for this label to stay visible */
+  #concept { position: absolute; right: 30px; bottom: 22px; z-index: 9; font: 600 17px/1 Inter, sans-serif; color: rgba(110,110,115,.9);
+    background: rgba(255,255,255,.75); padding: 7px 11px; border-radius: 6px; }
+  #concept.dark { color: rgba(255,255,255,.65); background: rgba(0,0,0,.25); }
+
+  #play { position: absolute; inset: 0; z-index: 20; display: grid; place-items: center; background: var(--bg); cursor: pointer; font: 700 40px Inter, sans-serif; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="layer" id="demo"><iframe id="frame" src="index.html?manual" title="Octopark demo"></iframe></div>
+  <div class="layer" id="njit"><div class="pg" id="pg"><img src="../docs/img/njit-parking-page-2026-11-11.jpg" alt="NJIT parking page">
+    <div class="ring" style="left:240px;top:261px"></div><div class="ring" style="left:240px;top:293px"></div></div></div>
+  <div class="layer" id="card"></div>
+  <div class="layer" id="logo"><img src="cards/octopark-logo-endcard.png" alt="Octopark"></div>
+  <div class="layer" id="end"><img src="cards/end.png" alt="Octopark end card"></div>
+  <div id="cap"><b id="capB"></b><span id="capS"></span></div>
+  <div id="concept">Concept demo • simulated data</div>
+  <div id="play">Click to play</div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+function fit() { const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+  $("stage").style.transform = `translate(${(innerWidth - 1920 * s) / 2}px, ${(innerHeight - 1080 * s) / 2}px) scale(${s})`; }
+addEventListener("resize", fit); fit();
+
+const VZ = '<img class="lg" src="verizon-logo.svg" alt="Verizon">', AWS = '<img class="lg aws" src="aws-logo.svg" alt="AWS">';
+const layers = ["demo", "njit", "card", "logo", "end"];
+function only(id) { layers.forEach(l => $(l).classList.toggle("on", l === id)); $("concept").classList.toggle("dark", id === "logo" || id === "end" || $("card").classList.contains("dark") && id === "card"); }
+function words(html) {   // wrap each word (or logo) so it can rise in one after another
+  // highlighted phrases (<span>…</span>) and logos (<img>) move as one piece; other text word by word
+  let i = 0; return html.split(/(<img[^>]*>|<span[^>]*>.*?<\/span>|\s+)/).filter(x => x && !/^\s+$/.test(x))
+    .map(w => `<span class="w" style="animation-delay:${(i++) * 70}ms">${w}</span>`).join(" ");
+}
+function card(h1, p = "", opt = {}) {
+  const c = $("card"); c.className = "layer" + (opt.dark ? " dark" : "");
+  c.innerHTML = `<h1 class="${opt.m ? "m" : ""}">${words(h1)}</h1>` + (p ? `<p>${words(p)}</p>` : "");
+  only("card"); cap(false);
+}
+function cap(b, s = "") { $("cap").classList.toggle("on", !!b); if (b) { $("capB").textContent = b; $("capS").textContent = s; } }
+
+// ---- the live demo inside the iframe ----
+const fw = () => $("frame").contentWindow;
+const run = code => fw().eval(code);          // runs in the demo's own global scope
+function region(parts) {
+  if (parts === "all") return [0, 0, 1920, 1080];
+  return run(`(() => { let a = [1e9, 1e9, -1e9, -1e9];
+    document.querySelectorAll("[data-part]").forEach(e => { if (!${JSON.stringify(parts)}.includes(e.dataset.part)) return;
+      const r = e.getBoundingClientRect(); a = [Math.min(a[0], r.left), Math.min(a[1], r.top), Math.max(a[2], r.right), Math.max(a[3], r.bottom)]; });
+    return a; })()`);
+}
+function shot(parts, secs, withCap) {    // a slow push-in on one part of the demo
+  const [x0, y0, x1, y1] = region(parts), pad = 30, w = x1 - x0 + 2 * pad, h = y1 - y0 + 2 * pad;
+  const availH = withCap ? 1080 - 170 : 1080, cy = withCap ? availH / 2 : 540;
+  const z = Math.min(1920 / w, availH / h) * 0.97, mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+  const f = $("frame"), T = (k) => `translate(${960 - mx * k}px, ${cy - my * k}px) scale(${k})`;
+  f.style.transition = "none"; f.style.transform = T(z); void f.offsetWidth;
+  f.style.transition = `transform ${secs}s linear`; f.style.transform = T(z * 1.06);
+  only("demo");
+}
+
+// ---- NJIT page: from the whole page to the ECC Deck box ----
+function njit() {
+  const pg = $("pg"), at = (x, y, w) => { const s = 1920 / w; return `translate(${960 - x * s}px, ${540 - y * s}px) scale(${s})`; };
+  $("njit").classList.remove("ringed");
+  pg.style.transition = "none"; pg.style.transform = at(400, 300, 860); void pg.offsetWidth;
+  pg.style.transition = "transform 2.2s cubic-bezier(.6,0,.2,1)"; pg.style.transform = at(150, 285, 330);
+  only("njit"); cap(false);
+  setTimeout(() => $("njit").classList.add("ringed"), 2300);
+}
+
+// ---- the timeline: seconds from the start of this part (it begins at 0:16 in the 1:40 video) ----
+const CUES = [
+  [0,  () => njit()],
+  [4,  () => card("255 open.")],
+  [6,  () => card("Out of 155.")],
+  [8,  () => card("Counted at the gate.", "One missed car, and every number after it is wrong.", { m: true })],
+  [12, () => card("More permits than spaces.", "", { dark: true, m: true })],
+  [14, () => card("Nobody knows where the open spot is.", "", { dark: true, m: true })],
+  [16, () => { only("logo"); cap(false); }],
+  [20, () => { shot("all", 4); cap("Live parking for NJIT.", "Every deck. Every level. Every space."); }],
+  [24, () => card("Every space. <span class='accent'>Seen.</span>")],
+  [26, () => { shot(["map"], 6, true); cap("Cameras mark every space open or taken.", "Counted by cameras, not gates."); }],
+  [32, () => card("Your plate is your permit.", "", { m: true })],
+  [34, () => { run('carArrives("permit")'); shot(["cam", "led", "steps"], 6); cap(false); }],
+  [40, () => { shot(["phone", "map"], 6, true); cap("Your level. Your space.", "Before you pick a ramp."); }],
+  [46, () => card(`Built on ${VZ} 5G Edge + ${AWS}`, "The decision is made before you reach the gate.", { m: true })],
+  [48, () => { shot(["pipe"], 6, true); cap("Verizon 5G carries the video. AWS runs the rest.", "No cables to dig."); run("pulsePipe()"); }],
+  [50.8, () => run("pulsePipe()")], [53.2, () => run("pulsePipe()")],
+  [54, () => card("Private by design.")],
+  [56, () => { run('carArrives("none")'); shot(["cam", "steps", "privacy"], 8, true); cap("Video never leaves the deck.", "Plates become codes. Deleted when you drive out."); }],
+  [59.4, () => cap("No permit? The officer knows right away.", "Public Safety sees the car, not where you've been.")],
+  [64, () => card("Students get <span class='accent'>minutes back.</span>", "", { m: true })],
+  [66, () => card("NJIT gets numbers it can <span class='accent'>trust.</span>", "", { m: true })],
+  [68, () => card("Verizon gets a product for <span class='accent'>every campus.</span>", "", { m: true })],
+  [70, () => { shot("all", 6); cap(false); }],
+  [76, () => card("Stop circling.", "", { dark: true })],
+  [78, () => { only("end"); cap(false); }],
+];
+const LENGTH = 84;
+let t0 = 0, fired = 0;
+function tick() {
+  const t = (performance.now() - t0) / 1000;
+  while (fired < CUES.length && CUES[fired][0] <= t) CUES[fired++][1]();
+  if (t < LENGTH) requestAnimationFrame(tick);
+}
+function start() { $("play").remove(); t0 = performance.now(); fired = 0; tick(); }
+window.adStart = start;
+$("play").addEventListener("click", start);
+addEventListener("keydown", e => { if (e.code === "Space" && $("play")) start(); });
+$("frame").addEventListener("load", () => { if (location.search.includes("autoplay")) setTimeout(start, 600); });
+</script>
+</body>
+</html>
