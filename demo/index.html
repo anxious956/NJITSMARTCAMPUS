@@ -488,6 +488,7 @@
   body.phone-only .screen::before, body.phone-only .status { display: none; }
   body.phone-only .tabs { height: auto; min-height: 70px; padding-bottom: max(8px, env(safe-area-inset-bottom)); }
   @media (max-height: 880px) { body.phone-only .forecast { display: none; } }
+  body.phone-only #hero, body.phone-only .tabs > div, body.phone-only .btn { cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
   @media (max-height: 760px) { body.phone-only .lotrow, body.phone-only #parkView .sect { display: none; } }
 
   /* Presenter mode (press P): leaves the bottom-left corner empty for a webcam bubble. */
@@ -968,7 +969,8 @@ setLook(look);
 if (location.search.includes("presenter")) document.body.classList.add("presenter");
 if (location.search.includes("manual")) AUTO_EVERY_MS = 0;
 // Phone mode for the 1:38 shot: ?phone (add &spot=B7 to pick the space). Opens on "guiding you in"; a tap shows "You're parked".
-const PHONE = new URLSearchParams(location.search).has("phone");
+// (the screen size, not the window: phone browsers widen the window to fit the 1920-px dashboard)
+const PHONE = new URLSearchParams(location.search).has("phone") || (Math.min(screen.width, screen.height) < 600 && !new URLSearchParams(location.search).has("desktop"));
 const PHONE_SPOT = { id: (new URLSearchParams(location.search).get("spot") || "D4").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 4) };
 if (PHONE) { document.body.classList.add("phone-only"); AUTO_EVERY_MS = 0; }
 drawLots(); hero("idle"); drawMap(); led(`${lot.sign}  ${lot.open} OPEN`); captionIdle();
@@ -1017,11 +1019,31 @@ document.addEventListener("keydown", e => {
 log("Term permit → Level 2 • C4"); log("Guest permit → Level 5 • A9", "g"); log("Term permit → Level 4 • D11");
 fit();
 if (PHONE) {
-  const ps = stalls.find(x => x.id === PHONE_SPOT.id) || stalls[48];
-  PHONE_SPOT.id = ps.id; ps.g.classList.remove("free"); ps.g.classList.add("target"); hero("go", PHONE_SPOT);
-  document.querySelector(".screen").addEventListener("click", () => {
-    const go = heroState !== "go"; ps.g.classList.toggle("target", go); ps.g.classList.toggle("mine", !go); hero(go ? "go" : "done", PHONE_SPOT);
-  });
+  // An app you can tap: "Navigate" -> permit recognized, directions, the car drives to the space -> "You're parked".
+  // Tap the parked card to start again. The Permit tab shows the digital permit; Park goes back.
+  const ps = stalls.find(x => x.id === PHONE_SPOT.id) || stalls[48], plate = "NJ 4KT-82B";
+  PHONE_SPOT.id = ps.id;
+  const reset = () => { ps.g.classList.remove("target", "mine"); ps.g.classList.add("free"); route.classList.remove("show"); hero("idle"); };
+  let running = false;
+  async function park() {
+    if (running) return; running = true;
+    ps.g.classList.remove("free", "mine"); ps.g.classList.add("target"); hero("go", ps);
+    const y = ps.row.lane, turn = ps.cx - 48;
+    route.setAttribute("d", `M4 ${y} H${turn} Q${ps.cx} ${y} ${ps.cx} ${ps.cy}`); route.classList.add("show");
+    await sleep(1800); await driveTo(ps, false);
+    ps.g.classList.remove("target"); ps.g.classList.add("mine"); route.classList.remove("show");
+    await sleep(500); hero("done", ps); running = false;
+  }
+  reset();
+  $("hero").addEventListener("click", () => { if (heroState === "idle") park(); else if (heroState === "done") reset(); });
+  // permit tab: the student's own term permit
+  $("passType").textContent = "Fall term • Commuter";
+  document.querySelector("#permitView .avatar").textContent = "A";
+  const grid = document.querySelectorAll(".pass-grid > div");
+  grid[2].innerHTML = "<small>Holder</small><span>NJIT student</span>"; grid[3].innerHTML = "<small>Valid until</small><span>Dec 22, 2026</span>";
+  $("tabPermit").addEventListener("click", () => permitView(true, ps, plate));
+  $("tabPark").addEventListener("click", () => permitView(false));
+  document.querySelector("#permitView .btn.primary").addEventListener("click", () => { permitView(false); if (heroState !== "go") { reset(); park(); } });
 } else if (new URLSearchParams(location.search).has("story")) goStep(0); else setTimeout(() => carArrives("permit"), 1800);
 setInterval(() => { if (auto) carArrives(["permit", "permit", "guest", "permit", "none"][n++ % 5]); }, AUTO_EVERY_MS || 13000);
 </script>
