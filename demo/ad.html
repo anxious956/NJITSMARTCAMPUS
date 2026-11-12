@@ -47,12 +47,25 @@
   @keyframes wordin { to { opacity: 1; transform: none; filter: none; } }
 
   /* logo reveal */
-  #logo { background: var(--navy); display: grid; place-items: center; }
-  #logo .lg-in { text-align: center; }
-  #logo p { margin: 10px 0 0; font-size: 50px; font-weight: 700; letter-spacing: -.02em; color: #fff; opacity: 0; transition: opacity .8s .9s; }
-  #logo.on p { opacity: 1; }
-  #logo img { width: 470px; opacity: 0; transform: scale(.86); transition: opacity 1s, transform 1.6s cubic-bezier(.2,.8,.2,1); }
-  #logo.on img { opacity: 1; transform: none; }
+  /* logo reveal: "Introducing" on black, a white flash, the logo slams in with a ring of light, then the tagline */
+  #logo { background: #000; display: grid; place-items: center; transition: background-color .5s; }
+  #logo.lit { background: radial-gradient(circle at 50% 45%, #163668, var(--navy) 60%); }
+  #logo .intro { position: absolute; font-size: 64px; font-weight: 600; letter-spacing: -.02em; color: #F5F5F7; opacity: 0; transition: opacity .35s; }
+  #logo .intro.on { opacity: 1; }
+  #logo .flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+  #logo .flash.go { animation: flash .45s ease-out; }
+  @keyframes flash { 0% { opacity: .9; } 100% { opacity: 0; } }
+  #logo .burst { position: absolute; left: 50%; top: 42%; width: 900px; height: 900px; margin: -450px 0 0 -450px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(110, 170, 255, .55), rgba(110, 170, 255, 0) 62%); opacity: 0; transform: scale(.2); }
+  #logo .burst.go { animation: burst 1.3s cubic-bezier(.2,.8,.2,1) forwards; }
+  @keyframes burst { 0% { opacity: 1; transform: scale(.2); } 100% { opacity: 0; transform: scale(1.7); } }
+  #logo .lg-in { text-align: center; position: relative; }
+  #logo img { width: 420px; filter: drop-shadow(0 10px 40px rgba(0,0,0,.35)); opacity: 0; transform: scale(1.7); }
+  #logo img.go { animation: slam .7s cubic-bezier(.2, 1.35, .35, 1) forwards; }
+  @keyframes slam { 0% { opacity: 0; transform: scale(1.7); } 35% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  #logo p { margin: 6px 0 0; min-height: 70px; font-size: 56px; font-weight: 800; letter-spacing: -.03em; color: #fff; }
+  #logo p .accent { color: #6CB2FF; }
+  #logo p .w { display: inline-block; opacity: 0; transform: translateY(24px); filter: blur(6px); animation: wordin .6s cubic-bezier(.2,.8,.2,1) forwards; }
 
   /* caption over a demo close-up */
   #cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 110px 56px; z-index: 5; opacity: 0; transition: opacity .4s;
@@ -80,7 +93,8 @@
     <div class="ring" style="left:240px;top:261px"></div><div class="ring" style="left:240px;top:293px"></div></div>
     <div class="srcTag"><b>NJIT's official live parking page</b><span>mobile.njit.edu/parking • Nov 11, 2026</span></div></div>
   <div class="layer" id="card"></div>
-  <div class="layer" id="logo"><div class="lg-in"><img src="cards/octopark-logo-endcard.png" alt="Octopark"><p>Know your parking spot before you arrive.</p></div></div>
+  <div class="layer" id="logo"><div class="intro">Introducing</div><div class="burst"></div><div class="flash"></div>
+    <div class="lg-in"><img src="cards/octopark-logo-transparent.png" alt="Octopark"><p id="tagline"></p></div></div>
   <div class="layer" id="end"><img src="cards/end.png" alt="Octopark end card"></div>
   <div id="cap"><b id="capB"></b><span id="capS"></span></div>
   <div id="concept">Concept demo • simulated data</div>
@@ -88,8 +102,10 @@
 </div>
 <script>
 const $ = id => document.getElementById(id);
-function fit() { const s = Math.min(innerWidth / 1920, innerHeight / 1080);
-  $("stage").style.transform = `translate(${(innerWidth - 1920 * s) / 2}px, ${(innerHeight - 1080 * s) / 2}px) scale(${s})`; }
+function fit() {
+  let s = Math.min(innerWidth / 1920, innerHeight / 1080);
+  if (Math.abs(s - 1) < 0.01) s = 1;   // draw at exactly 100% when the window is (nearly) 1920x1080: any resampling blurs small text
+  $("stage").style.transform = `translate(${Math.round((innerWidth - 1920 * s) / 2)}px, ${Math.round((innerHeight - 1080 * s) / 2)}px) scale(${s})`; }
 addEventListener("resize", fit); fit();
 
 const VZ = '<img class="lg" src="verizon-logo.svg" alt="Verizon">', AWS = '<img class="lg aws" src="aws-logo.svg" alt="AWS">';
@@ -105,8 +121,13 @@ function card(h1, p = "", opt = {}) {
   c.innerHTML = `<h1 class="${opt.m ? "m" : ""}">${words(h1)}</h1>` + (p ? `<p>${words(p)}</p>` : "");
   only("card"); cap(false);
 }
-function cap(b, s = "", mode = "bottom") { const c = $("cap"); c.classList.toggle("on", !!b); c.classList.toggle("side", mode === "side");
-  if (b) { $("capB").textContent = b; $("capS").textContent = s; } }
+function cap(b, s = "", mode = "bottom") {
+  const c = $("cap");
+  if (!b) {   // hide at once and in place, so the old caption never lingers over the next screen
+    c.style.transition = "none"; c.classList.remove("on"); void c.offsetWidth; c.style.transition = ""; return;
+  }
+  c.classList.toggle("side", mode === "side"); $("capB").textContent = b; $("capS").textContent = s; c.classList.add("on");
+}
 
 // ---- the live demo inside the iframe ----
 const fw = () => $("frame").contentWindow;
@@ -137,9 +158,17 @@ function shot(parts, secs, mode) {
     const mx = (x0 + x1) / 2, my = (y0 + y1) / 2, T = k => `translate(${cx - mx * k}px, ${cy - my * k}px) scale(${k})`;
     f.style.transition = "none"; f.style.transform = T(z * 0.9); demo.style.opacity = 0; void f.offsetWidth;
     f.style.transition = "transform .8s cubic-bezier(.2,.8,.2,1)"; f.style.transform = T(z); demo.style.opacity = 1; only("demo");
-    setTimeout(() => { f.style.transition = `transform ${secs - 0.8}s linear`; f.style.transform = T(z * 1.05); }, 800);
   };
   if (wasOn) { demo.style.opacity = 0; setTimeout(go, 280); } else go();
+}
+
+function logoReveal() {
+  const L = $("logo"), q = sel => L.querySelector(sel);
+  L.classList.remove("lit"); ["img", ".burst", ".flash"].forEach(x => q(x).classList.remove("go")); q(".intro").classList.remove("on"); $("tagline").innerHTML = "";
+  only("logo"); cap(false);
+  setTimeout(() => q(".intro").classList.add("on"), 80);
+  setTimeout(() => { q(".intro").classList.remove("on"); L.classList.add("lit"); ["img", ".burst", ".flash"].forEach(x => q(x).classList.add("go")); }, 900);
+  setTimeout(() => { $("tagline").innerHTML = words("Know your parking spot <span class='accent'>before you arrive.</span>"); }, 1700);
 }
 
 // ---- NJIT page: from the whole page to the ECC Deck box ----
@@ -159,7 +188,7 @@ const CUES = [
   [8,  () => card("One missed car.", "And every number after it is wrong.")],
   [12, () => card("More permits than spaces.", "", { dark: true, m: true })],
   [14, () => card("Nobody knows where the open spot is.", "", { dark: true, m: true })],
-  [16, () => { only("logo"); cap(false); }],
+  [16, () => logoReveal()],
   [20, () => { run('hero("idle")'); shot(["phone"], 4, "side"); cap("Live parking for NJIT.", "See which deck has room before you leave.", "side"); }],
   [24, () => card("Every space. <span class='accent'>Seen.</span>")],
   [26, () => { shot(["map"], 6, "bottom"); cap("Cameras mark every space open or taken.", "Counted by cameras, not gates."); }],
