@@ -6,6 +6,8 @@ Everything here was checked on **November 11, 2026 at about 12:30 a.m. ET** by o
 
 ![NJIT Parking Status page, Nov 11 2026, showing ECC Deck with 255 available out of 155 total](img/njit-parking-page-2026-11-11.jpg)
 
+A second, high-resolution capture from **11:08 p.m. the same night** shows the ECC Deck at **212 available out of 155**: [img/njit-parking-page-2026-11-11-2308.png](img/njit-parking-page-2026-11-11-2308.png). The music-only ad (`demo/ad.html`) uses this one, because it stays sharp when zoomed in.
+
 ## How the page gets its numbers
 
 The page is a small AngularJS web app. It calls two endpoints on NJIT's server:
