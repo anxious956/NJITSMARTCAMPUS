@@ -167,6 +167,7 @@ The script (docs/04-video-script.md) needs three things besides the demo itself:
 **Videos** (in `video/`):
 
 - `octopark-rough-cut.mp4`: the whole video so far, 1:55, no audio, timed to the script. The animated opening, NJIT's page, the title cards, the demo in story mode and the end card. The two speakers' footage in the deck replaces the opening and the 1:38 scene, and their voiceover goes over the demo section.
+- `octopark-phone-app-full-flow.mp4`: the app's whole story at phone size, 15 seconds, for the speaker to hold and play on camera: "Best right now", then "Permit recognized: Level 4 • Space D4" with directions while the car drives to the space on the map, then "You're parked".
 - `octopark-phone-app-for-filming.mp4`: the app in phone size, for the optional 1:38 shot. Play it full screen on Speaker 2's phone: it shows "Level 4 • Space D4" with directions, then "You're parked" after 4 seconds.
 
 `demo/cards.html` shows all the cards; `←` and `→` switch between them, and `?overlay` shows the transparent versions.
