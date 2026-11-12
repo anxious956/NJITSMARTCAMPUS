@@ -47,7 +47,8 @@
   .end { background: var(--navy); color: #fff; display: flex; align-items: center; padding: 0 150px; gap: 110px; }
   .end .logo { height: 640px; width: auto; flex: none; }
   .end h1 { margin: 0; font: 900 124px/1 var(--sans); letter-spacing: -3px; }
-  .end .team { margin-top: 44px; font: 800 40px/1.35 var(--sans); color: #fff; }
+  .end .team { margin-top: 40px; font: 800 34px/1.3 var(--sans); color: #fff; display: grid; grid-template-columns: repeat(2, max-content); column-gap: 56px; row-gap: 4px; }
+  .end .team.placeholder { display: block; }
   .end .team.placeholder { color: var(--yellow); }
   .end .event { margin-top: 44px; display: flex; align-items: center; gap: 22px; font: 800 34px/1.2 var(--sans); color: #C9D4E8; }
   .end .event img { height: 74px; width: auto; }
@@ -91,7 +92,7 @@
 
 <script>
 // ---- Edit these. ----
-const TEAM = [];          // e.g. ["Name One", "Name Two", "Name Three"]; until filled in, a yellow placeholder shows
+const TEAM = ["Dorukhan C.", "Ruchir P.", "Asmar H.", "Serli C.", "Mitch S.", "Josselyne J.", "Zeynep C."];   // until filled in, a yellow placeholder shows
 const SURVEY = "";        // the script's "(add your survey number)", e.g. "8 in 10 of us have been late because of parking"
 const CREDIT = "Concept demo with simulated data. Demo built with help from an AI coding assistant.";
 // Keys: ← → switch cards. Address options: ?card=challenge | value | end, and ?overlay for the transparent versions.
@@ -106,7 +107,7 @@ let i = Math.max(0, order.findIndex(c => c.startsWith(q.get("card") || "challeng
 const show = () => document.querySelectorAll(".card").forEach(c => c.classList.toggle("on", c.dataset.card === order[i]));
 
 const team = document.getElementById("team");
-if (TEAM.length) team.innerHTML = TEAM.map(n => n.replace(/[&<>]/g, "")).join("<br>");
+if (TEAM.length) team.innerHTML = TEAM.map(n => `<span>${n.replace(/[&<>]/g, "")}</span>`).join("");
 else { team.textContent = "[Team member names]"; team.classList.add("placeholder"); }
 document.getElementById("credit").textContent = CREDIT;
 document.querySelectorAll("[data-stat]").forEach(e => { e.textContent = SURVEY; e.style.display = SURVEY ? "" : "none"; });
