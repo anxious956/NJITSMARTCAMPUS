@@ -164,6 +164,11 @@ The script (docs/04-video-script.md) needs three things besides the demo itself:
 
 `demo/opening.html` is an animated stand-in for the 0:00–0:10 ramp shot (a full garage level, a car circling, the clock going from 8:24 to 8:29), if there is no ramp footage. Reload it to replay.
 
+**Videos** (in `video/`):
+
+- `octopark-rough-cut.mp4`: the whole video so far, 1:55, no audio, timed to the script. The animated opening, NJIT's page, the title cards, the demo in story mode and the end card. Filmed clips replace the opening and the phone scene, and add the presenter.
+- `octopark-phone-app-for-filming.mp4`: the app in phone size, for the 1:38 shot. Play it full screen on the driver's phone: it shows "Level 4 • Space D4" with directions, then "You're parked" after 4 seconds.
+
 `demo/cards.html` shows all the cards; `←` and `→` switch between them, and `?overlay` shows the transparent versions.
 
 ## What is in this repo
